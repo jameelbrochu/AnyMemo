@@ -8,11 +8,6 @@ buildscript {
 
     }
 	
-	lintOptions {
-		checkReleaseBuilds false
-            	abortOnError false
-            	ignoreWarnings true //false
-	}
 }
 
 allprojects {
