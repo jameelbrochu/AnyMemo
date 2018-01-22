@@ -1,4 +1,4 @@
-AnyMemo Readme
+Team Hyperion (SOEN 390): AnyMemo
 ==============
 
 What is AnyMemo
