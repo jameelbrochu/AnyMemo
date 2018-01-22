@@ -9,7 +9,9 @@ buildscript {
     }
 	
 	lintOptions {
-		abortOnError false
+		checkReleaseBuilds false
+            	abortOnError false
+            	ignoreWarnings true //false
 	}
 }
 
