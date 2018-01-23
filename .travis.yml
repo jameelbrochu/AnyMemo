@@ -39,6 +39,7 @@ android:
  - android-sdk-preview-license-.+
  - android-sdk-license-.+
  - google-gdk-license-.+
+ - echo yes | sudo sdkmanager --licenses
 
 before_install:
 - mkdir "$ANDROID_HOME/licenses" || true
