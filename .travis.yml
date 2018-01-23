@@ -39,7 +39,8 @@ android:
  - android-sdk-preview-license-.+
  - android-sdk-license-.+
  - google-gdk-license-.+
- - echo yes | sudo sdkmanager --licenses
+ override:
+- echo y | android update sdk --no-ui --all --filter build-tools-26.0.2,android-26
 
 before_install:
 - mkdir "$ANDROID_HOME/licenses" || true
