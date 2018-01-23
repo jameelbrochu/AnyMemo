@@ -8,6 +8,7 @@ env:
   - 
 before install:
     # newest android SDK
+  - yes | sudo sdkmanager --licenses
   - wget http://dl.google.com/android/android-sdk_${ANDROID_SDK_VERSION}-linux.tgz
   - tar -zxf android-sdk_${ANDROID_SDK_VERSION}-linux.tgz
   - export ANDROID_HOME=`pwd`/android-sdk-linux
