@@ -28,7 +28,7 @@ order to build:
 * JDK: http://www.oracle.com/technetwork/java/javase/downloads/index.html
 
 In Android SDK tools' "Android SDK Manager", you need the following items:
-* Android 7.0 SDK platform
+* Android 8.0 SDK platform
 * Android SDK tools
 * Andoird SDK Build-tools version 24
 * Android support repository
