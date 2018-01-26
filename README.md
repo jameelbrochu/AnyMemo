@@ -1,6 +1,11 @@
 Team Hyperion (SOEN 390): AnyMemo
 ==============
 
+Travis
+---------------
+
+https://travis-ci.com/jameelbrochu/AnyMemo/
+
 What is AnyMemo
 ---------------
 
