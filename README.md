@@ -6,7 +6,7 @@ Travis
 
 https://travis-ci.com/jameelbrochu/AnyMemo/
 
-What is AnyMemo
+What is AnyMemo?
 ---------------
 
 AnyMemo is a free open-sourced spaced repetition flashcard learning software similar to SuperMemo for Android mobile phones.
