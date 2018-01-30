@@ -17,4 +17,10 @@ public class DummyTests {
     public void CoreyDummyTest(){
         Assert.assertTrue(true);
     }
+
+    @SmallTest
+    @Test
+    public void MukuDummyTest(){
+        Assert.assertTrue(true);
+    }
 }
