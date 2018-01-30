@@ -1,43 +1,45 @@
 language: android
-sudo: true
-
-jdk:
-  - oraclejdk8
+jdk: oraclejdk8
+sudo: false
+dist: precise
 
 env:
-  - 
-before install:
-    # newest android SDK
-  - yes | sudo sdkmanager --licenses
-  - wget http://dl.google.com/android/android-sdk_${ANDROID_SDK_VERSION}-linux.tgz
-  - tar -zxf android-sdk_${ANDROID_SDK_VERSION}-linux.tgz
-  - export ANDROID_HOME=`pwd`/android-sdk-linux
-  - export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
-
-  # manually set sdk.dir variable, according to local paths
-  - echo "sdk.dir=~/Android/Sdk" > local.properties
-  
-  - chmod +x gradlew
+  global:
+    - ADB_INSTALL_TIMEOUT=16 # minutes (2 minutes by default)
 
 android:
   components:
     - tools
     - platform-tools
+    - tools
     - build-tools-26.0.2
-    - android-26
-    - build-tools-27.0.1
+    - android-22
     - android-27
+    - extra-google-google_play_services
     - extra-google-m2repository
     - extra-android-m2repository
+    - sys-img-armeabi-v7a-android-22
+
+before_install:
+    - yes | sdkmanager "platforms;android-27"
+
+before_script:
+#  - echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a
+#  - emulator -avd test -no-audio -no-window &
+#  - android-wait-for-emulator
+#  - adb shell input keyevent 82 &
 
 script:
   - ./gradlew assemble
   - ./gradlew check
+#  - ./gradlew connectedAndroidTest
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
 cache:
   directories:
     - $HOME/.gradle/caches/
-
+    - $HOME/.gradle/wrapper/
+    - $HOME/.android/build-cache
