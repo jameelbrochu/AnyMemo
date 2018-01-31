@@ -41,6 +41,12 @@ public class DummyTests {
     public void JBDummyTest() {
         Assert.assertTrue(true);
     }
+
+    @SmallTest
+    @Test
+    public void ReginaDummyTest() {
+        Assert.assertTrue(true);
+    }
 }
 
 
