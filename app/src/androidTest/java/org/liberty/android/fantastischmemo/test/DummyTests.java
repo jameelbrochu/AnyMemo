@@ -35,6 +35,12 @@ public class DummyTests {
     public void MukuDummyTest() {
         Assert.assertTrue(true);
     }
+
+    @SmallTest
+    @Test
+    public void JBDummyTest() {
+        Assert.assertTrue(true);
+    }
 }
 
 
