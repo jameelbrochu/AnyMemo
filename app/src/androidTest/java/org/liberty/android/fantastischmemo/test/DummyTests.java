@@ -29,6 +29,12 @@ public class DummyTests {
     public void JonathanDummyTest() {
         Assert.assertTrue(true);
     }
+
+    @SmallTest
+    @Test
+    public void MukuDummyTest() {
+        Assert.assertTrue(true);
+    }
 }
 
 
