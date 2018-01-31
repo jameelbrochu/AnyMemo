@@ -23,6 +23,12 @@ public class DummyTests {
     public void SenagaDummyTest(){
         Assert.assertTrue(true);
     }
+
+    @SmallTest
+    @Test
+    public void JonathanDummyTest() {
+        Assert.assertTrue(true);
+    }
 }
 
 
