@@ -24,36 +24,47 @@
             android:layout_marginEnd="6dp"
             android:layout_gravity="center_vertical"
             app:srcCompat="@drawable/database" />
+
         <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="155dp"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical" >
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
             <TextView
                 android:id="@+id/recent_item_filename"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
                 android:layout_marginBottom="3dp"
-                android:maxLines="1"
                 android:ellipsize="marquee"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:maxLines="1"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/recent_item_info"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="1"
                 android:ellipsize="marquee"
-                android:textColor="?android:attr/textColorSecondary"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:maxLines="1"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="?android:attr/textColorSecondary" />
         </LinearLayout>
+
         <Button
             android:id="@+id/recent_item_more_button"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/more_text"
-            style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
+            android:text="@string/more_text" />
+
+        <ImageButton
+            android:layout_width="8dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/media_shuffle" />
+
     </LinearLayout>
     <View
         android:id="@+id/selected_overlay"
@@ -61,4 +72,5 @@
         android:layout_height="match_parent"
         android:background="@color/selected_item"
         android:visibility="gone" />
+
 </FrameLayout>
