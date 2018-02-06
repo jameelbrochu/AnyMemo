@@ -16,6 +16,7 @@ import org.liberty.android.fantastischmemo.entity.ReviewOrdering;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -875,26 +876,23 @@ public class CardDaoImpl extends AbstractHelperDaoImpl<Card, Integer> implements
         cardQb.setWhere(where);
         List<Card> cs = cardQb.query();
 
-        Card[] cards = new Card[cs.size()];
+        Card[] cards = cs.toArray(new Card[cs.size()]);
         Random randomNum = new Random();
-        randomNum.nextInt(cs.size()-1);
         Card temp;
         int newNum;
-        int cardsInDeck = cards.length;
 
         for(int i=0; i<cards.length; i++){
 
             //pick a random number between 0 and cardsInDeck - 1
-            newNum = randomNum.nextInt(cardsInDeck);
+            newNum = randomNum.nextInt(cs.size()-1);
 
             //swap cards[i] and cards[newIndex]
             temp = cards[i];
             cards[i] = cards[newNum];
             cards[newNum] = temp;
-
-            learningDataDao.refresh(cards[i].getLearningData());
         }
-        return cs;
+        List<Card> cardList = Arrays.asList(cards);
+        return cardList;
     }
-}
+};
 

@@ -665,7 +665,7 @@ public class CardDaoTest extends AbstractExistingDBTest {
      */
     @SmallTest
     @Test
-    private void setupThreeCategories() throws SQLException {
+    public void setupThreeCategories() throws SQLException {
         CardDao cardDao = helper.getCardDao();
         CategoryDao categoryDao = helper.getCategoryDao();
         Card c = cardDao.queryForId(2);
@@ -685,7 +685,6 @@ public class CardDaoTest extends AbstractExistingDBTest {
     /*
     * Test shuffling cards
     */
-    @SmallTest
     @Test
     public void testShuffling() throws SQLException {
         CardDao cardDao = helper.getCardDao();
