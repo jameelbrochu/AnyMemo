@@ -4,8 +4,10 @@ import org.liberty.android.fantastischmemo.entity.Card;
 import org.liberty.android.fantastischmemo.entity.Category;
 import org.liberty.android.fantastischmemo.entity.ReviewOrdering;
 
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public interface CardDao extends HelperDao<Card, Integer> {
     Card queryFirstOrdinal();
@@ -110,4 +112,6 @@ public interface CardDao extends HelperDao<Card, Integer> {
      * @return all cards.
      */
     List<Card> getAllCards(Category filterCategory);
+
+    List<Card> shuffleCards(Category filterCategory) throws SQLException;
 }

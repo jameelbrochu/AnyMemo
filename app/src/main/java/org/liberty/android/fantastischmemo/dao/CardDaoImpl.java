@@ -877,6 +877,7 @@ public class CardDaoImpl extends AbstractHelperDaoImpl<Card, Integer> implements
 
         Card[] cards = new Card[cs.size()];
         Random randomNum = new Random();
+        randomNum.nextInt(cs.size()-1);
         Card temp;
         int newNum;
         int cardsInDeck = cards.length;

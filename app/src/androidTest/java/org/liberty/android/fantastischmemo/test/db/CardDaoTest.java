@@ -18,6 +18,8 @@ import java.util.Date;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
@@ -661,6 +663,8 @@ public class CardDaoTest extends AbstractExistingDBTest {
     /*
      * Card with "My Category" in ID 2, 5, 8
      */
+    @SmallTest
+    @Test
     private void setupThreeCategories() throws SQLException {
         CardDao cardDao = helper.getCardDao();
         CategoryDao categoryDao = helper.getCategoryDao();
@@ -676,6 +680,56 @@ public class CardDaoTest extends AbstractExistingDBTest {
         c = cardDao.queryForId(8);
         c.setCategory(ct);
         cardDao.update(c);
+    }
+
+    /*
+    * Test shuffling cards
+    */
+    @SmallTest
+    @Test
+    private void testShuffling() throws SQLException {
+        CardDao cardDao = helper.getCardDao();
+        LearningDataDao learningDataDao = helper.getLearningDataDao();
+        CategoryDao categoryDao = helper.getCategoryDao();
+
+        Category category = new Category();
+        category.setName("TestShuffling");
+        categoryDao.create(category);
+
+        Card c1 = cardDao.queryForId(1);
+        c1.setCategory(category);
+        cardDao.update(c1);
+
+        Card c2 = cardDao.queryForId(2);
+        c2.setCategory(category);
+        cardDao.update(c2);
+
+        Card c3 = cardDao.queryForId(3);
+        c3.setCategory(category);
+        cardDao.update(c3);
+
+        Card c4 = cardDao.queryForId(4);
+        c4.setCategory(category);
+        cardDao.update(c4);
+
+        Card c5 = cardDao.queryForId(5);
+        c5.setCategory(category);
+        cardDao.update(c5);
+
+        List<Category> categories = categoryDao.queryForEq("name", "TestShuffling");
+        Category testCategory = categories.get(0);
+
+        List<Card> cards = cardDao.getAllCards(category);
+
+        assertEquals(5, cards.size());
+
+        List<Card> shuffledCards = cardDao.shuffleCards(category);
+
+        assertEquals(5, shuffledCards.size());
+        assertFalse(cards.equals(shuffledCards));
+
+
+
     }
 }
 
