@@ -26,9 +26,6 @@ public class Deck {
     @DatabaseField(version = true, format="yyyy-MM-dd HH:mm:ss.SSSSSS", dataType=DataType.DATE_STRING)
     private Date updateDate;
 
-    //An array of cards
-    private Card[] cards;
-
     public Deck() {}
 
     public Integer getId() {
@@ -69,23 +66,5 @@ public class Deck {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
-    }
-
-    public void shuffleCards(){
-        Random randomNum = new Random();
-        Card temp;
-        int newNum;
-        int cardsInDeck = cards.length;
-
-        for(int i=0; i<cards.length; i++){
-
-            //pick a random number between 0 and cardsInDeck - 1
-            newNum = randomNum.nextInt(cardsInDeck);
-
-            //swap cards[i] and cards[newIndex]
-            temp = cards[i];
-            cards[i] = cards[newNum];
-            cards[newNum] = temp;
-        }
     }
 }
