@@ -687,9 +687,8 @@ public class CardDaoTest extends AbstractExistingDBTest {
     */
     @SmallTest
     @Test
-    private void testShuffling() throws SQLException {
+    public void testShuffling() throws SQLException {
         CardDao cardDao = helper.getCardDao();
-        LearningDataDao learningDataDao = helper.getLearningDataDao();
         CategoryDao categoryDao = helper.getCategoryDao();
 
         Category category = new Category();
@@ -719,11 +718,11 @@ public class CardDaoTest extends AbstractExistingDBTest {
         List<Category> categories = categoryDao.queryForEq("name", "TestShuffling");
         Category testCategory = categories.get(0);
 
-        List<Card> cards = cardDao.getAllCards(category);
+        List<Card> cards = cardDao.getAllCards(testCategory);
 
         assertEquals(5, cards.size());
 
-        List<Card> shuffledCards = cardDao.shuffleCards(category);
+        List<Card> shuffledCards = cardDao.shuffleCards(testCategory);
 
         assertEquals(5, shuffledCards.size());
         assertFalse(cards.equals(shuffledCards));
