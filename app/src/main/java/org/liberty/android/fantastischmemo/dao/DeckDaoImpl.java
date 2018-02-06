@@ -23,31 +23,5 @@ public class DeckDaoImpl extends BaseDaoImpl<Deck, Integer> implements DeckDao {
         super(connectionSource, clazz);
     }
 
-    public void shuffleCards(String name) throws SQLException {
-
-        QueryBuilder<Deck, Integer> qb = queryBuilder();
-        PreparedQuery<Deck> pq = qb.where().eq("name", name).prepare();
-        Deck deck = queryForFirst(pq);
-
-
-
-        Card[] cards = new Card[10];
-        Random randomNum = new Random();
-        Card temp;
-        int newNum;
-        int cardsInDeck = cards.length;
-
-        for(int i=0; i<cards.length; i++){
-
-            //pick a random number between 0 and cardsInDeck - 1
-            newNum = randomNum.nextInt(cardsInDeck);
-
-            //swap cards[i] and cards[newIndex]
-            temp = cards[i];
-            cards[i] = cards[newNum];
-            cards[newNum] = temp;
-        }
-    }
-
 }
 

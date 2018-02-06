@@ -10,6 +10,7 @@ import com.j256.ormlite.table.DatabaseTableConfig;
 
 import org.liberty.android.fantastischmemo.entity.Card;
 import org.liberty.android.fantastischmemo.entity.Category;
+import org.liberty.android.fantastischmemo.entity.Deck;
 import org.liberty.android.fantastischmemo.entity.LearningData;
 import org.liberty.android.fantastischmemo.entity.ReviewOrdering;
 
@@ -22,6 +23,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.Callable;
 
 public class CardDaoImpl extends AbstractHelperDaoImpl<Card, Integer> implements CardDao {
@@ -857,6 +859,41 @@ public class CardDaoImpl extends AbstractHelperDaoImpl<Card, Integer> implements
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public List<Card> shuffleCards(Category c) throws SQLException {
+
+        LearningDataDao learningDataDao = getHelper().getLearningDataDao();
+        QueryBuilder<LearningData, Integer> learnQb = learningDataDao.queryBuilder();
+        learnQb.selectColumns("id");
+        QueryBuilder<Card, Integer> cardQb = this.queryBuilder();
+        Where<Card, Integer> where = cardQb.where().in("learningData_id", learnQb);
+        if (c != null) {
+            where.and().eq("category_id", c.getId());
+        }
+
+        cardQb.setWhere(where);
+        List<Card> cs = cardQb.query();
+
+        Card[] cards = new Card[cs.size()];
+        Random randomNum = new Random();
+        Card temp;
+        int newNum;
+        int cardsInDeck = cards.length;
+
+        for(int i=0; i<cards.length; i++){
+
+            //pick a random number between 0 and cardsInDeck - 1
+            newNum = randomNum.nextInt(cardsInDeck);
+
+            //swap cards[i] and cards[newIndex]
+            temp = cards[i];
+            cards[i] = cards[newNum];
+            cards[newNum] = temp;
+
+            learningDataDao.refresh(cards[i].getLearningData());
+        }
+        return cs;
     }
 }
 
