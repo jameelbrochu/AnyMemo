@@ -870,39 +870,6 @@ public class CardDaoImpl extends AbstractHelperDaoImpl<Card, Integer> implements
         }
     }
 
-    public List<Card> shuffleCards(Category c) throws SQLException {
-
-        LearningDataDao learningDataDao = getHelper().getLearningDataDao();
-        QueryBuilder<LearningData, Integer> learnQb = learningDataDao.queryBuilder();
-        learnQb.selectColumns("id");
-        QueryBuilder<Card, Integer> cardQb = this.queryBuilder();
-        Where<Card, Integer> where = cardQb.where().in("learningData_id", learnQb);
-        if (c != null) {
-            where.and().eq("category_id", c.getId());
-        }
-
-        cardQb.setWhere(where);
-        List<Card> cs = cardQb.query();
-
-        Card[] cards = cs.toArray(new Card[cs.size()]);
-        Random randomNum = new Random();
-        Card temp;
-        int newNum;
-
-        for(int i=0; i<cards.length; i++){
-
-            //pick a random number between 0 and cardsInDeck - 1
-            newNum = randomNum.nextInt(cs.size()-1);
-
-            //swap cards[i] and cards[newIndex]
-            temp = cards[i];
-            cards[i] = cards[newNum];
-            cards[newNum] = temp;
-        }
-        List<Card> cardList = Arrays.asList(cards);
-        return cardList;
-    }
-
     public void shuffleCards(){
         List<Card> cards = queryForAll();
 
@@ -932,6 +899,31 @@ public class CardDaoImpl extends AbstractHelperDaoImpl<Card, Integer> implements
                     card.setOrdinal(finalCards.get(index).getOrdinal());
                     update(card);
                     index++;
+                }
+                return null;
+            });
+        } catch (Exception e) {
+            throw new RuntimeException("An error occured while shuffling cards.", e);
+        }
+    }
+
+    public void unshuffleCards(){
+        List<Card> cards = queryForAll();
+        Card[] orderedCards = new Card[cards.size()];
+
+        for(int i = 0; i < cards.size(); i++){
+            Card c = CardDaoImpl.this.queryForId(i+1);
+            orderedCards[i] = c;
+        }
+
+        cards = Arrays.asList(orderedCards);
+
+        try {
+            List<Card> finalCards = cards;
+            callBatchTasks((Callable<Void>) () -> {
+                for (Card card : finalCards) {
+                    card.setOrdinal(card.getId());
+                    update(card);
                 }
                 return null;
             });
