@@ -682,52 +682,34 @@ public class CardDaoTest extends AbstractExistingDBTest {
         cardDao.update(c);
     }
 
-    /*
-    * Test shuffling cards
-    */
     @Test
-    public void testShuffling() throws SQLException {
+    @SmallTest
+    public void testShuffling(){
         CardDao cardDao = helper.getCardDao();
-        CategoryDao categoryDao = helper.getCategoryDao();
 
-        Category category = new Category();
-        category.setName("TestShuffling");
-        categoryDao.create(category);
+        Card card1 = cardDao.getByOrdinal(1);
+        cardDao.shuffleCards();
+        Card card2 = cardDao.getByOrdinal(1);
 
-        Card c1 = cardDao.queryForId(1);
-        c1.setCategory(category);
-        cardDao.update(c1);
+        assertNotEquals(card1.getId(), card2.getId());
+        assertEquals(28, cardDao.countOf());
+    }
 
-        Card c2 = cardDao.queryForId(2);
-        c2.setCategory(category);
-        cardDao.update(c2);
+    @Test
+    @SmallTest
+    public void testUnshuffle(){
+        CardDao cardDao = helper.getCardDao();
 
-        Card c3 = cardDao.queryForId(3);
-        c3.setCategory(category);
-        cardDao.update(c3);
+        Card card1 = cardDao.getByOrdinal(1);
+        cardDao.shuffleCards();
+        Card card2 = cardDao.getByOrdinal(1);
 
-        Card c4 = cardDao.queryForId(4);
-        c4.setCategory(category);
-        cardDao.update(c4);
+        assertNotEquals(card1.getId(), card2.getId());
+        assertEquals(28, cardDao.countOf());
 
-        Card c5 = cardDao.queryForId(5);
-        c5.setCategory(category);
-        cardDao.update(c5);
-
-        List<Category> categories = categoryDao.queryForEq("name", "TestShuffling");
-        Category testCategory = categories.get(0);
-
-        List<Card> cards = cardDao.getAllCards(testCategory);
-
-        assertEquals(5, cards.size());
-
-        List<Card> shuffledCards = cardDao.shuffleCards(testCategory);
-
-        assertEquals(5, shuffledCards.size());
-        assertFalse(cards.equals(shuffledCards));
-
-
-
+        cardDao.unshuffleCards();
+        Card card3 = cardDao.getByOrdinal(1);
+        assertEquals(card1, card3);
     }
 }
 
