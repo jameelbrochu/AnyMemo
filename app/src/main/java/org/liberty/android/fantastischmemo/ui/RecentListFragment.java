@@ -69,6 +69,7 @@ public class RecentListFragment extends BaseFragment {
 
     private RecyclerView recentListRecyclerView;
     private RecentListAdapter recentListAdapter;
+    public static String SHUFFLE_Cards = "shufflecards";
 
 
     // The version of recent list to synchronize multiple loader who writes the adapter
@@ -353,11 +354,13 @@ public class RecentListFragment extends BaseFragment {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    String shuffle = "false";
                     if (getSelectedItemCount() == 0) {
                         Intent myIntent = new Intent();
                         myIntent.setClass(context, StudyActivity.class);
                         String dbPath = currentItem.dbPath;
                         myIntent.putExtra(StudyActivity.EXTRA_DBPATH, dbPath);
+                        myIntent.putExtra(SHUFFLE_Cards, shuffle);
                         recentListUtil.addToRecentList(dbPath);
                         context.startActivity(myIntent);
                     } else {
@@ -382,11 +385,14 @@ public class RecentListFragment extends BaseFragment {
             holder.shuffleButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    String shuffle = "true";
+
                     if (getSelectedItemCount() == 0) {
                         Intent myIntent = new Intent();
                         myIntent.setClass(context, StudyActivity.class);
                         String dbPath = currentItem.dbPath;
                         myIntent.putExtra(StudyActivity.EXTRA_DBPATH, dbPath);
+                        myIntent.putExtra(SHUFFLE_Cards, shuffle);
                         recentListUtil.addToRecentList(dbPath);
                         context.startActivity(myIntent);
                     } else {
@@ -402,6 +408,7 @@ public class RecentListFragment extends BaseFragment {
                     if (getSelectedItemCount() == 0) {
                         recentListActionModeUtil.startActionMode();
                     }
+
                     toggleSelection(position);
                     recentListActionModeUtil.updateActionMode(getSelectedItemCount());
                     return true;

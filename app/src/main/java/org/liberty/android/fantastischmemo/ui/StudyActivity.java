@@ -115,8 +115,11 @@ public class StudyActivity extends QACardActivity {
         }
 
         getMultipleLoaderManager().registerLoaderCallbacks(LEARN_QUEUE_MANAGER_LOADER_ID, new LearnQueueManagerLoaderCallbacks(), false);
-
         startInit();
+        String shuffle = getIntent().getStringExtra("shufflecards");
+        if(shuffle.equals("true")){
+            getDbOpenHelper().getCardDao().shuffleOrdinals();
+        }
     }
     
     @Override
