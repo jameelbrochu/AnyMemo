@@ -113,7 +113,7 @@ public interface CardDao extends HelperDao<Card, Integer> {
      */
     List<Card> getAllCards(Category filterCategory);
 
-    List<Card> shuffleCards();
+    void shuffleCards();
 
     void unshuffleCards();
 }
