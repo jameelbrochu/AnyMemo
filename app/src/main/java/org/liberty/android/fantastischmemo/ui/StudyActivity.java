@@ -54,6 +54,7 @@ import org.liberty.android.fantastischmemo.utils.DictionaryUtil;
 import org.liberty.android.fantastischmemo.utils.ShareUtil;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -118,8 +119,12 @@ public class StudyActivity extends QACardActivity {
         startInit();
         String shuffle = getIntent().getStringExtra("shufflecards");
         if(shuffle.equals("true")){
-            getDbOpenHelper().getCardDao().shuffleOrdinals();
+            List<Card> cards= getDbOpenHelper().getCardDao().shuffleCards();
         }
+        else {
+            List<Card> cards= getDbOpenHelper().getCardDao().getAllCards(null);
+        }
+        
     }
     
     @Override

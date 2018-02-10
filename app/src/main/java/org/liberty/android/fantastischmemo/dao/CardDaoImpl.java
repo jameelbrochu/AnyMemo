@@ -870,7 +870,7 @@ public class CardDaoImpl extends AbstractHelperDaoImpl<Card, Integer> implements
         }
     }
 
-    public void shuffleCards(){
+    public List<Card> shuffleCards(){
         List<Card> cards = queryForAll();
 
         Card[] cs = cards.toArray(new Card[cards.size()]);
@@ -890,21 +890,8 @@ public class CardDaoImpl extends AbstractHelperDaoImpl<Card, Integer> implements
         }
 
         cards = Arrays.asList(cs);
+        return cards;
 
-        try {
-            List<Card> finalCards = cards;
-            callBatchTasks((Callable<Void>) () -> {
-                int index = 0;
-                for (Card card : CardDaoImpl.this) {
-                    card.setOrdinal(finalCards.get(index).getOrdinal());
-                    update(card);
-                    index++;
-                }
-                return null;
-            });
-        } catch (Exception e) {
-            throw new RuntimeException("An error occured while shuffling cards.", e);
-        }
     }
 
     public void unshuffleCards(){
