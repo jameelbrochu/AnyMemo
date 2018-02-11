@@ -1,12 +1,7 @@
-Team Hyperion (SOEN 390): AnyMemo
+AnyMemo Readme
 ==============
 
-Travis
----------------
-
-https://travis-ci.com/jameelbrochu/AnyMemo/
-
-What is AnyMemo?
+What is AnyMemo
 ---------------
 
 AnyMemo is a free open-sourced spaced repetition flashcard learning software similar to SuperMemo for Android mobile phones.
@@ -33,7 +28,7 @@ order to build:
 * JDK: http://www.oracle.com/technetwork/java/javase/downloads/index.html
 
 In Android SDK tools' "Android SDK Manager", you need the following items:
-* Android 8.0 SDK platform
+* Android 7.0 SDK platform
 * Android SDK tools
 * Andoird SDK Build-tools version 24
 * Android support repository
