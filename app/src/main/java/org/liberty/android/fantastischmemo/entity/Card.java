@@ -1,6 +1,6 @@
 package org.liberty.android.fantastischmemo.entity;
 
-import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -151,7 +151,7 @@ public class Card implements VersionableDomainObject {
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this)
+        return Objects.toStringHelper(this)
             .add("id", id)
             .add("question", question)
             .add("answer", answer)
