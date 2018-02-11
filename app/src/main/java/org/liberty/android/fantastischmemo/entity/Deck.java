@@ -3,11 +3,10 @@ package org.liberty.android.fantastischmemo.entity;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-import java.util.*;
 
 import org.liberty.android.fantastischmemo.dao.DeckDaoImpl;
 
-import java.util.Date;
+import java.util.*;
 
 @DatabaseTable(tableName = "decks", daoClass = DeckDaoImpl.class)
 public class Deck {

@@ -69,7 +69,7 @@ public class RecentListFragment extends BaseFragment {
 
     private RecyclerView recentListRecyclerView;
     private RecentListAdapter recentListAdapter;
-    public static String SHUFFLE_Cards = "shufflecards";
+    public static String SHUFFLE_CARDS = "shufflecards";
 
 
     // The version of recent list to synchronize multiple loader who writes the adapter
@@ -360,7 +360,7 @@ public class RecentListFragment extends BaseFragment {
                         myIntent.setClass(context, StudyActivity.class);
                         String dbPath = currentItem.dbPath;
                         myIntent.putExtra(StudyActivity.EXTRA_DBPATH, dbPath);
-                        myIntent.putExtra(SHUFFLE_Cards, shuffle);
+                        myIntent.putExtra(SHUFFLE_CARDS, shuffle);
                         recentListUtil.addToRecentList(dbPath);
                         context.startActivity(myIntent);
                     } else {
@@ -392,7 +392,7 @@ public class RecentListFragment extends BaseFragment {
                         myIntent.setClass(context, StudyActivity.class);
                         String dbPath = currentItem.dbPath;
                         myIntent.putExtra(StudyActivity.EXTRA_DBPATH, dbPath);
-                        myIntent.putExtra(SHUFFLE_Cards, shuffle);
+                        myIntent.putExtra(SHUFFLE_CARDS, shuffle);
                         recentListUtil.addToRecentList(dbPath);
                         context.startActivity(myIntent);
                     } else {
