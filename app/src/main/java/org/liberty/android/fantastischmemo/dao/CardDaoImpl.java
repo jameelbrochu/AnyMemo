@@ -875,16 +875,14 @@ public class CardDaoImpl extends AbstractHelperDaoImpl<Card, Integer> implements
 
         Card[] cs = cards.toArray(new Card[cards.size()]);
         Random randomNum = new Random();
-        Card temp;
-        int newNum;
 
         for(int i=0; i<cs.length; i++){
 
             //pick a random number between 0 and cardsInDeck - 1
-            newNum = randomNum.nextInt(cards.size()-1);
+            int newNum = randomNum.nextInt(cards.size()-1);
 
             //swap cards[i] and cards[newIndex]
-            temp = cs[i];
+            Card temp = cs[i];
             cs[i] = cs[newNum];
             cs[newNum] = temp;
         }
