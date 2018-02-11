@@ -120,19 +120,9 @@ public class StudyActivity extends QACardActivity {
         String shuffle = getIntent().getStringExtra("shufflecards");
         if(shuffle.equals("true")){
            getDbOpenHelper().getCardDao().shuffleCards();
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
         else {
             getDbOpenHelper().getCardDao().unshuffleCards();
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
 
 
