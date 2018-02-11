@@ -1,5 +1,7 @@
 package org.liberty.android.fantastischmemo.dao;
 
+import android.content.Context;
+
 import com.google.common.base.Strings;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
@@ -8,13 +10,21 @@ import com.j256.ormlite.stmt.Where;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.DatabaseTableConfig;
 
+import org.apache.commons.io.FileUtils;
+import org.liberty.android.fantastischmemo.common.AMEnv;
+import org.liberty.android.fantastischmemo.common.AnyMemoDBOpenHelper;
+import org.liberty.android.fantastischmemo.common.AnyMemoDBOpenHelperManager;
 import org.liberty.android.fantastischmemo.entity.Card;
 import org.liberty.android.fantastischmemo.entity.Category;
+import org.liberty.android.fantastischmemo.entity.Deck;
 import org.liberty.android.fantastischmemo.entity.LearningData;
 import org.liberty.android.fantastischmemo.entity.ReviewOrdering;
 
+import java.io.File;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -22,6 +32,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.Callable;
 
 public class CardDaoImpl extends AbstractHelperDaoImpl<Card, Integer> implements CardDao {
@@ -858,5 +869,67 @@ public class CardDaoImpl extends AbstractHelperDaoImpl<Card, Integer> implements
             throw new RuntimeException(e);
         }
     }
-}
+
+    public void shuffleCards(){
+        List<Card> cards = queryForAll();
+
+        Card[] cs = cards.toArray(new Card[cards.size()]);
+        Random randomNum = new Random();
+
+        for(int i=0; i<cs.length; i++){
+
+            //pick a random number between 0 and cardsInDeck - 1
+            int newNum = randomNum.nextInt(cards.size()-1);
+
+            //swap cards[i] and cards[newIndex]
+            Card temp = cs[i];
+            cs[i] = cs[newNum];
+            cs[newNum] = temp;
+        }
+
+        cards = Arrays.asList(cs);
+        try {
+            List<Card> finalCards = cards;
+            callBatchTasks((Callable<Void>) () -> {
+                int index = 0;
+                for (Card card : CardDaoImpl.this) {
+                    card.setOrdinal(finalCards.get(index).getOrdinal());
+                    update(card);
+                    index++;
+                }
+                return null;
+            });
+        } catch (Exception e) {
+            throw new RuntimeException("An error occured while shuffling cards.", e);
+        }
+
+    }
+
+    public void unshuffleCards(){
+        List<Card> cards = queryForAll();
+        Card[] orderedCards = new Card[cards.size()];
+
+        for(int i = 0; i < cards.size(); i++){
+            Card c = CardDaoImpl.this.queryForId(i+1);
+            orderedCards[i] = c;
+        }
+
+        cards = Arrays.asList(orderedCards);
+
+        try {
+            List<Card> finalCards = cards;
+            callBatchTasks((Callable<Void>) () -> {
+                for (Card card : finalCards) {
+                    card.setOrdinal(card.getId());
+                    update(card);
+                }
+                return null;
+            });
+        } catch (Exception e) {
+            throw new RuntimeException("An error occured while shuffling cards.", e);
+        }
+    }
+
+
+};
 

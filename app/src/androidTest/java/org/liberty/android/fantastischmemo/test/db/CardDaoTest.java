@@ -17,7 +17,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
@@ -661,7 +663,9 @@ public class CardDaoTest extends AbstractExistingDBTest {
     /*
      * Card with "My Category" in ID 2, 5, 8
      */
-    private void setupThreeCategories() throws SQLException {
+    @SmallTest
+    @Test
+    public void setupThreeCategories() throws SQLException {
         CardDao cardDao = helper.getCardDao();
         CategoryDao categoryDao = helper.getCategoryDao();
         Card c = cardDao.queryForId(2);
@@ -676,6 +680,36 @@ public class CardDaoTest extends AbstractExistingDBTest {
         c = cardDao.queryForId(8);
         c.setCategory(ct);
         cardDao.update(c);
+    }
+
+    @Test
+    @SmallTest
+    public void testShuffling(){
+        CardDao cardDao = helper.getCardDao();
+
+        Card card1 = cardDao.getByOrdinal(1);
+        cardDao.shuffleCards();
+        Card card2 = cardDao.getByOrdinal(1);
+
+        assertNotEquals(card1.getId(), card2.getId());
+        assertEquals(28, cardDao.countOf());
+    }
+
+    @Test
+    @SmallTest
+    public void testUnshuffle(){
+        CardDao cardDao = helper.getCardDao();
+
+        Card card1 = cardDao.getByOrdinal(1);
+        cardDao.shuffleCards();
+        Card card2 = cardDao.getByOrdinal(1);
+
+        assertNotEquals(card1.getId(), card2.getId());
+        assertEquals(28, cardDao.countOf());
+
+        cardDao.unshuffleCards();
+        Card card3 = cardDao.getByOrdinal(1);
+        assertEquals(card1, card3);
     }
 }
 

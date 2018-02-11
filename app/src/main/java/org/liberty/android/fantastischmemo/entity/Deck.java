@@ -6,7 +6,7 @@ import com.j256.ormlite.table.DatabaseTable;
 
 import org.liberty.android.fantastischmemo.dao.DeckDaoImpl;
 
-import java.util.Date;
+import java.util.*;
 
 @DatabaseTable(tableName = "decks", daoClass = DeckDaoImpl.class)
 public class Deck {

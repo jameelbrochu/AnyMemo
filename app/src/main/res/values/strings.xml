@@ -463,6 +463,7 @@
     <string name="change_directory_permission_denied_message">AnyMemo could not get permission to change to the directory.</string>
     <string name="directory_empty_text">(Empty directory)</string>
     <string name="more_text">MORE</string>
+    <string name="shuffle_main">Shuffle</string>
     <string name="dropbox_item_description">Date: %1$s&lt;br&gt;Size: %2$d bytes</string>
     <string name="locale_esperanto_text">Esperanto</string>
     <string name="google_sign_in_not_successful_error_text">Google sign in is not successful</string>

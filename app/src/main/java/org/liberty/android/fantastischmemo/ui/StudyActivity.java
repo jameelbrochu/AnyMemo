@@ -54,6 +54,7 @@ import org.liberty.android.fantastischmemo.utils.DictionaryUtil;
 import org.liberty.android.fantastischmemo.utils.ShareUtil;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -114,11 +115,19 @@ public class StudyActivity extends QACardActivity {
             startCardId = savedInstanceState.getInt(EXTRA_START_CARD_ID, -1);
         }
 
-        getMultipleLoaderManager().registerLoaderCallbacks(LEARN_QUEUE_MANAGER_LOADER_ID, new LearnQueueManagerLoaderCallbacks(), false);
-
+        getMultipleLoaderManager().registerLoaderCallbacks(LEARN_QUEUE_MANAGER_LOADER_ID, new LearnQueueManagerLoaderCallbacks(), true);
         startInit();
+        String shuffle = getIntent().getStringExtra("shufflecards");
+        if(shuffle.equals("true")){
+           getDbOpenHelper().getCardDao().shuffleCards();
+        }
+        else {
+            getDbOpenHelper().getCardDao().unshuffleCards();
+        }
+
+
     }
-    
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
