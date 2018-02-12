@@ -889,7 +889,7 @@ public class CardDaoImpl extends AbstractHelperDaoImpl<Card, Integer> implements
 
         cards = Arrays.asList(cardsArray);
         try {
-            List<Card> finalCards = cards;
+            final List<Card> finalCards = cards;
             callBatchTasks(new Callable<Void>() {
                 @Override
                 public Void call() throws Exception {
@@ -919,7 +919,7 @@ public class CardDaoImpl extends AbstractHelperDaoImpl<Card, Integer> implements
         cards = Arrays.asList(orderedCards);
 
         try {
-            List<Card> finalCards = cards;
+            final List<Card> finalCards = cards;
             callBatchTasks(new Callable<Void>() {
                 @Override
                 public Void call() throws Exception {
