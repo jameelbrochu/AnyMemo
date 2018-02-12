@@ -45,6 +45,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import org.apache.commons.io.FilenameUtils;
@@ -68,6 +69,7 @@ public class RecentListFragment extends BaseFragment {
 
     private RecyclerView recentListRecyclerView;
     private RecentListAdapter recentListAdapter;
+    public static String SHUFFLE_CARDS = "shufflecards";
 
 
     // The version of recent list to synchronize multiple loader who writes the adapter
@@ -309,12 +311,14 @@ public class RecentListFragment extends BaseFragment {
             private TextView filenameView;
             private TextView infoView;
             private Button moreButton;
+            private ImageButton shuffleButton;
             private View selectedOverlay;
 
             public ViewHolder(View view) {
                 super(view);
                 filenameView = (TextView)view.findViewById(R.id.recent_item_filename);
                 infoView = (TextView)view.findViewById(R.id.recent_item_info);
+                shuffleButton = (ImageButton)view.findViewById(R.id.test_shuffle);
                 moreButton = (Button)view.findViewById(R.id.recent_item_more_button);
                 selectedOverlay = (View) view.findViewById(R.id.selected_overlay);
             }
@@ -350,11 +354,13 @@ public class RecentListFragment extends BaseFragment {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    String shuffle = "false";
                     if (getSelectedItemCount() == 0) {
                         Intent myIntent = new Intent();
                         myIntent.setClass(context, StudyActivity.class);
                         String dbPath = currentItem.dbPath;
                         myIntent.putExtra(StudyActivity.EXTRA_DBPATH, dbPath);
+                        myIntent.putExtra(SHUFFLE_CARDS, shuffle);
                         recentListUtil.addToRecentList(dbPath);
                         context.startActivity(myIntent);
                     } else {
@@ -376,6 +382,38 @@ public class RecentListFragment extends BaseFragment {
                 }
             });
 
+            holder.shuffleButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String shuffle = "true";
+
+                    if (getSelectedItemCount() == 0) {
+                        Intent myIntent = new Intent();
+                        myIntent.setClass(context, StudyActivity.class);
+                        String dbPath = currentItem.dbPath;
+                        myIntent.putExtra(StudyActivity.EXTRA_DBPATH, dbPath);
+                        myIntent.putExtra(SHUFFLE_CARDS, shuffle);
+                        recentListUtil.addToRecentList(dbPath);
+                        context.startActivity(myIntent);
+                    } else {
+                        toggleSelection(position);
+                    }
+                    recentListActionModeUtil.updateActionMode(getSelectedItemCount());
+                }
+            });
+
+            holder.shuffleButton.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if (getSelectedItemCount() == 0) {
+                        recentListActionModeUtil.startActionMode();
+                    }
+
+                    toggleSelection(position);
+                    recentListActionModeUtil.updateActionMode(getSelectedItemCount());
+                    return true;
+                }
+            });
             holder.moreButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
