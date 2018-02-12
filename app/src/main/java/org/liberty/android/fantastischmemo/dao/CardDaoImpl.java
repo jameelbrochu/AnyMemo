@@ -873,36 +873,38 @@ public class CardDaoImpl extends AbstractHelperDaoImpl<Card, Integer> implements
     public void shuffleCards(){
         List<Card> cards = queryForAll();
 
-        Card[] cs = cards.toArray(new Card[cards.size()]);
+        Card[] cardsArray = cards.toArray(new Card[cards.size()]);
         Random randomNum = new Random();
 
-        for(int i=0; i<cs.length; i++){
+        for(int i=0; i<cardsArray.length; i++){
 
             //pick a random number between 0 and cardsInDeck - 1
             int newNum = randomNum.nextInt(cards.size()-1);
 
             //swap cards[i] and cards[newIndex]
-            Card temp = cs[i];
-            cs[i] = cs[newNum];
-            cs[newNum] = temp;
+            Card temp = cardsArray[i];
+            cardsArray[i] = cardsArray[newNum];
+            cardsArray[newNum] = temp;
         }
 
-        cards = Arrays.asList(cs);
+        cards = Arrays.asList(cardsArray);
         try {
             List<Card> finalCards = cards;
-            callBatchTasks((Callable<Void>) () -> {
-                int index = 0;
-                for (Card card : CardDaoImpl.this) {
-                    card.setOrdinal(finalCards.get(index).getOrdinal());
-                    update(card);
-                    index++;
+            callBatchTasks(new Callable<Void>() {
+                @Override
+                public Void call() throws Exception {
+                    int index = 0;
+                    for (Card card : CardDaoImpl.this) {
+                        card.setOrdinal(finalCards.get(index).getOrdinal());
+                        CardDaoImpl.this.update(card);
+                        index++;
+                    }
+                    return null;
                 }
-                return null;
             });
         } catch (Exception e) {
             throw new RuntimeException("An error occured while shuffling cards.", e);
         }
-
     }
 
     public void unshuffleCards(){
@@ -918,12 +920,15 @@ public class CardDaoImpl extends AbstractHelperDaoImpl<Card, Integer> implements
 
         try {
             List<Card> finalCards = cards;
-            callBatchTasks((Callable<Void>) () -> {
-                for (Card card : finalCards) {
-                    card.setOrdinal(card.getId());
-                    update(card);
+            callBatchTasks(new Callable<Void>() {
+                @Override
+                public Void call() throws Exception {
+                    for (Card card : finalCards) {
+                        card.setOrdinal(card.getId());
+                        CardDaoImpl.this.update(card);
+                    }
+                    return null;
                 }
-                return null;
             });
         } catch (Exception e) {
             throw new RuntimeException("An error occured while shuffling cards.", e);
