@@ -43,6 +43,9 @@ public class Card implements VersionableDomainObject {
     @DatabaseField(format="yyyy-MM-dd HH:mm:ss.SSSSSS", dataType=DataType.DATE_STRING)
     private Date updateDate;
 
+    @DatabaseField(defaultValue = "N/A", width = 8192)
+    private String hint;
+
     public Card() {}
 
 
@@ -149,12 +152,21 @@ public class Card implements VersionableDomainObject {
 		this.learningData = learningData;
 	}
 
+	public String getHint() {
+        return hint;
+    }
+
+    public void setHint(String hint){
+        this.hint = hint;
+    }
+
     @Override
     public String toString() {
         return Objects.toStringHelper(this)
             .add("id", id)
             .add("question", question)
             .add("answer", answer)
+            .add("hint", hint)
             .toString();
     }
 
