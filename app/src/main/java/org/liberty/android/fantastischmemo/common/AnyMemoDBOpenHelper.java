@@ -76,11 +76,12 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
         Cursor res = database.rawQuery("select name from sqlite_master where type = 'table' and name = 'dict_tbl'", null);
         boolean isOldDatabase = res.getCount() > 0;
         res.close();
+
         // This is old database
         if (isOldDatabase) {
             // copy all cards
-            database.execSQL("insert into cards (ordinal, question, answer, note)" +
-                    " select _id as ordinal, question, answer, note from dict_tbl");
+            database.execSQL("insert into cards (ordinal, question, answer, note, hint)" +
+                    " select _id as ordinal, question, answer, note, hint from dict_tbl");
 
 
             // Make sure the count matches in old database;
@@ -143,6 +144,12 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
         Log.v(TAG, "Old version" + oldVersion + " new version: " + newVersion);
+
+        Cursor cursor = database.rawQuery("select * from cards", null);
+        if(cursor.getColumnCount() != 11){
+            database.execSQL("alter table cards ADD hint String");
+        }
+
         // Update possible card with null category field
         if (oldVersion <= 2) {
             database.execSQL("update cards "
