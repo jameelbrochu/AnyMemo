@@ -67,6 +67,7 @@
     <string name="settings_ratio">Q/A display ratio</string>
     <string name="settings_wipe">Wipe all learning progress</string>
     <string name="settings_shuffle">Shuffle all cards</string>
+    <string name="add_screen_hint">Hint</string>
     <string name="settings_inverse">Swap the Q/A of all cards</string>
     <string name="settings_save">Save</string>
     <string name="warning_text">Warning</string>

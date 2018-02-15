@@ -114,16 +114,17 @@ public class StudyActivity extends QACardActivity {
         if (savedInstanceState != null) {
             startCardId = savedInstanceState.getInt(EXTRA_START_CARD_ID, -1);
         }
-
         getMultipleLoaderManager().registerLoaderCallbacks(LEARN_QUEUE_MANAGER_LOADER_ID, new LearnQueueManagerLoaderCallbacks(), true);
         startInit();
+
         String shuffle = getIntent().getStringExtra("shufflecards");
         if(shuffle.equals("true")){
-           getDbOpenHelper().getCardDao().shuffleCards();
+            getDbOpenHelper().getCardDao().shuffleCards();
         }
         else {
             getDbOpenHelper().getCardDao().unshuffleCards();
         }
+
 
 
     }
