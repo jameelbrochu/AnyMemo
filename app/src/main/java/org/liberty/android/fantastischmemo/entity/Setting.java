@@ -66,23 +66,30 @@ public class Setting implements Serializable, VersionableDomainObject {
     @DatabaseField
     private Integer answerBackgroundColor = null;
 
+    @DatabaseField
+    private Integer hintBackgroundColor = null;
+
     @DatabaseField(defaultValue = "-7303024")
     private Integer separatorColor = DEFAULT_SEPARATOR_COLOR;
 
     /* 1 = question, 2 = answer, 4 = note */
-    @DatabaseField(defaultValue = "QUESTION,ANSWER,NOTE")
-    private String displayInHTML = "QUESTION,ANSWER,NOTE";
+    @DatabaseField(defaultValue = "QUESTION,ANSWER,NOTE,HINT")
+    private String displayInHTML = "QUESTION,ANSWER,NOTE,HINT";
 
     @DatabaseField(defaultValue = "false")
     private Boolean htmlLineBreakConversion = false;
 
-    /* 1 = question, 2 = answer, 4 = note */
+    /* 1 = question, 2 = answer, 4 = note, 5 = hint */
     @DatabaseField(defaultValue = "QUESTION")
     private String questionField = CardField.QUESTION.toString();
 
-    /* 1 = question, 2 = answer, 4 = note */
+    /* 1 = question, 2 = answer, 4 = note, 5 = hint */
     @DatabaseField(defaultValue = "ANSWER")
     private String answerField = CardField.ANSWER.toString();
+
+    /* 1 = question, 2 = answer, 4 = note, 5 = hint */
+    @DatabaseField(defaultValue = "HINT")
+    private String hintField = CardField.HINT.toString();
 
     /* Empty = no font*/
     @DatabaseField(defaultValue = "")
@@ -122,7 +129,8 @@ public class Setting implements Serializable, VersionableDomainObject {
     public static enum CardField {
         QUESTION,
         ANSWER,
-        NOTE
+        NOTE,
+        HINT
     }
 
 
@@ -322,6 +330,22 @@ public class Setting implements Serializable, VersionableDomainObject {
         answerField = AMStringUtils.getStringFromEnumSet(answerFieldEnum);
     }
 
+    public String getHintField() {
+        return hintField;
+    }
+
+    public void setHintField(String hintField) {
+        this.hintField = hintField;
+    }
+
+    public EnumSet<CardField> getHintFieldEnum() {
+        return AMStringUtils.getEnumSetFromString(CardField.class, hintField);
+    }
+
+    public void setHintFieldEnum(EnumSet<CardField> hintFieldEnum) {
+        hintField = AMStringUtils.getStringFromEnumSet(hintFieldEnum);
+    }
+
     public String getQuestionFont() {
         return questionFont;
     }
@@ -376,6 +400,7 @@ public class Setting implements Serializable, VersionableDomainObject {
                answerTextColor == null &&
                questionBackgroundColor == null &&
                answerBackgroundColor == null &&
+                hintBackgroundColor == null &&
                separatorColor.equals(DEFAULT_SEPARATOR_COLOR);
     }
 }
