@@ -33,4 +33,13 @@
         android:textSize="16sp"
         android:maxLines="9"
     />
+    <TextView
+        android:id="@+id/item_hint"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginTop="3dip"
+        android:textSize="16sp"
+        android:maxLines="9"
+        />
 </LinearLayout>

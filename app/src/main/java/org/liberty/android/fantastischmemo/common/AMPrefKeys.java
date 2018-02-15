@@ -151,4 +151,6 @@ public class AMPrefKeys {
     public static final String LIST_SORT_BY_METHOD_PREFIX = "list_sort_by_method_prefix";
 
     public static final String LIST_ANSWER_VISIBLE_PREFIX  = "list_answer_visible";
+
+    public static final String LIST_HINT_VISIBLE_PREFIX  = "list_hint_visible";
 }
