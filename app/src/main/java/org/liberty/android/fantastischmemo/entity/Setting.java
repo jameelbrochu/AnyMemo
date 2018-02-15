@@ -36,11 +36,17 @@ public class Setting implements Serializable, VersionableDomainObject {
     @DatabaseField(defaultValue = "24")
     private Integer answerFontSize = 24;
 
+    @DatabaseField(defaultValue = "24")
+    private Integer hintFontSize = 24;
+
     @DatabaseField(defaultValue = "CENTER")
     private Align questionTextAlign = Align.CENTER;
 
     @DatabaseField(defaultValue = "CENTER")
     private Align answerTextAlign = Align.CENTER;
+
+    @DatabaseField(defaultValue = "CENTER")
+    private Align hintTextAlign = Align.CENTER;
 
     @DatabaseField(defaultValue = "SINGLE_SIDED")
     private CardStyle cardStyle = CardStyle.SINGLE_SIDED;
@@ -59,6 +65,9 @@ public class Setting implements Serializable, VersionableDomainObject {
 
     @DatabaseField
     private Integer answerTextColor = null;
+
+    @DatabaseField
+    private Integer hintTextColor = null;
 
     @DatabaseField
     private Integer questionBackgroundColor = null;
@@ -98,6 +107,10 @@ public class Setting implements Serializable, VersionableDomainObject {
     /* Empty = no font*/
     @DatabaseField(defaultValue = "")
     private String answerFont = "";
+
+    /* Empty = no font*/
+    @DatabaseField(defaultValue = "")
+    private String hintFont = "";
 
     @DatabaseField(defaultValue = "")
     private String questionAudioLocation = "";
@@ -174,6 +187,14 @@ public class Setting implements Serializable, VersionableDomainObject {
         this.answerFontSize = answerFontSize;
     }
 
+    public Integer getHintFontSize() {
+        return hintFontSize;
+    }
+
+    public void setHintFontSize(Integer hintFontSize) {
+        this.hintFontSize = hintFontSize;
+    }
+
     public Align getQuestionTextAlign() {
         return questionTextAlign;
     }
@@ -188,6 +209,14 @@ public class Setting implements Serializable, VersionableDomainObject {
 
     public void setAnswerTextAlign(Align answerTextAlign) {
         this.answerTextAlign = answerTextAlign;
+    }
+
+    public Align getHintTextAlign() {
+        return hintTextAlign;
+    }
+
+    public void setHintTextAlign(Align hintTextAlign) {
+        this.hintTextAlign = hintTextAlign;
     }
 
     public CardStyle getCardStyle() {
@@ -246,6 +275,14 @@ public class Setting implements Serializable, VersionableDomainObject {
         this.answerTextColor = answerTextColor;
     }
 
+    public Integer getHintTextColor() {
+        return hintTextColor;
+    }
+
+    public void setHintTextColor(Integer hintTextColor) {
+        this.hintTextColor = hintTextColor;
+    }
+
     public Integer getQuestionBackgroundColor() {
         return questionBackgroundColor;
     }
@@ -260,6 +297,14 @@ public class Setting implements Serializable, VersionableDomainObject {
 
     public void setAnswerBackgroundColor(Integer answerBackgroundColor) {
         this.answerBackgroundColor = answerBackgroundColor;
+    }
+
+    public Integer getHintBackgroundColor() {
+        return hintBackgroundColor;
+    }
+
+    public void setHintBackgroundColor(Integer hintBackgroundColor) {
+        this.hintBackgroundColor = hintBackgroundColor;
     }
 
     public Integer getSeparatorColor() {
@@ -360,6 +405,14 @@ public class Setting implements Serializable, VersionableDomainObject {
 
     public void setAnswerFont(String answerFont) {
         this.answerFont = answerFont;
+    }
+
+    public String getHintFont() {
+        return hintFont;
+    }
+
+    public void setHintFont(String hintFont) {
+        this.hintFont = hintFont;
     }
 
 
