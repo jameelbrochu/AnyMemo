@@ -110,7 +110,7 @@ public class QuizActivity extends QACardActivity {
             return;
         }
         setupGradeButtons();
-        displayCard(false);
+        displayCard(false, false);
         setSmallTitle(getActivityTitleString());
         setTitle(getDbName());
     }
@@ -201,7 +201,7 @@ public class QuizActivity extends QACardActivity {
     @Override
     protected boolean onClickQuestionView() {
         if (!isAnswerShown()) {
-            displayCard(true);
+            displayCard(true, true);
         }
         return true;
     }
@@ -209,9 +209,9 @@ public class QuizActivity extends QACardActivity {
     @Override
     protected boolean onClickAnswerView() {
         if (!isAnswerShown()) {
-            displayCard(true);
+            displayCard(true, true);
         } else if (setting.getCardStyle() == Setting.CardStyle.DOUBLE_SIDED && isAnswerShown()) {
-            displayCard(false);
+            displayCard(false, false);
         }
         return true;
     }
@@ -222,7 +222,7 @@ public class QuizActivity extends QACardActivity {
             gradeButtonsFragment.gradeCurrentCard(0);
             Toast.makeText(this, getString(R.string.grade_text) + " 0", Toast.LENGTH_SHORT).show();
         } else {
-            displayCard(true);
+            displayCard(true, true);
         }
 
         return true;
@@ -234,7 +234,7 @@ public class QuizActivity extends QACardActivity {
             gradeButtonsFragment.gradeCurrentCard(3);
             Toast.makeText(this, getString(R.string.grade_text) + " 3", Toast.LENGTH_SHORT).show();
         } else {
-            displayCard(true);
+            displayCard(true, true);
         }
         return true;
     }
@@ -455,7 +455,7 @@ public class QuizActivity extends QACardActivity {
 
             // Stat data
             setCurrentCard(result);
-            displayCard(false);
+            displayCard(false, false);
             setSmallTitle(getActivityTitleString());
         }
     }
