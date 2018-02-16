@@ -349,7 +349,7 @@ public class StudyActivity extends QACardActivity {
             return;
         }
         setupGradeButtons();
-        displayCard(false, false);
+        displayCard(false);
         initialized = true;
         setTitle(getDbName());
     }
@@ -422,7 +422,7 @@ public class StudyActivity extends QACardActivity {
     @Override
     protected boolean onClickQuestionView() {
         if (!isAnswerShown()) {
-            displayCard(true, true);
+            displayCard(true);
         }
         return true;
     }
@@ -430,9 +430,9 @@ public class StudyActivity extends QACardActivity {
     @Override
     protected boolean onClickAnswerView() {
         if (!isAnswerShown()) {
-            displayCard(true, true);
+            displayCard(true);
         } else if (getSetting().getCardStyle() == Setting.CardStyle.DOUBLE_SIDED && isAnswerShown()) {
-            displayCard(false, false);
+            displayCard(false);
         }
         return true;
     }
@@ -443,7 +443,7 @@ public class StudyActivity extends QACardActivity {
             gradeButtonsFragment.gradeCurrentCard(0);
             Toast.makeText(this, getString(R.string.grade_text) + " 0", Toast.LENGTH_SHORT).show();
         } else {
-            displayCard(true, true);
+            displayCard(true);
         }
 
         return true;
@@ -455,7 +455,7 @@ public class StudyActivity extends QACardActivity {
             gradeButtonsFragment.gradeCurrentCard(3);
             Toast.makeText(this, getString(R.string.grade_text) + " 3", Toast.LENGTH_SHORT).show();
         } else {
-            displayCard(true, true);
+            displayCard(true);
         }
         return true;
     }
@@ -661,7 +661,7 @@ public class StudyActivity extends QACardActivity {
                     showNoItemDialog();
                 } else {
                     setCurrentCard(nextCard);
-                    displayCard(false, true);
+                    displayCard(false);
                 }
             }
         };

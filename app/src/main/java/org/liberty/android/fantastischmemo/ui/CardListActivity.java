@@ -94,7 +94,6 @@ public class CardListActivity extends BaseActivity {
 
     private boolean initialAnswerVisible = true;
 
-    private boolean initialHintVisible = true;
 
     /**
      * This needs to be defined before onCreate so in onCreate, all loaders will
@@ -124,8 +123,6 @@ public class CardListActivity extends BaseActivity {
         initialAnswerVisible = amPrefUtil.getSavedBoolean(
                 AMPrefKeys.LIST_ANSWER_VISIBLE_PREFIX, dbPath, true);
 
-        initialHintVisible = amPrefUtil.getSavedBoolean(
-                AMPrefKeys.LIST_HINT_VISIBLE_PREFIX, dbPath, true);
 
         listView = (ListView) findViewById(R.id.item_list);
 
@@ -317,21 +314,13 @@ public class CardListActivity extends BaseActivity {
                 wrapper.setAnswerVisible(false);
             }
             initialAnswerVisible = false;
-        } else if(initialHintVisible){
-            for (CardWrapper wrapper : cardListAdapter) {
-                wrapper.setHintVisible(false);
-            }
-            initialHintVisible = false;
-        }else {
+        } else {
             for (CardWrapper wrapper : cardListAdapter) {
                 wrapper.setAnswerVisible(true);
-                wrapper.setHintVisible(true);
             }
             initialAnswerVisible = true;
-            initialHintVisible = true;
         }
         amPrefUtil.putSavedBoolean(AMPrefKeys.LIST_ANSWER_VISIBLE_PREFIX, dbPath, initialAnswerVisible);
-        amPrefUtil.putSavedBoolean(AMPrefKeys.LIST_HINT_VISIBLE_PREFIX, dbPath, initialHintVisible);
         cardListAdapter.notifyDataSetChanged();
     }
 
@@ -388,15 +377,6 @@ public class CardListActivity extends BaseActivity {
                 };
             });
             break;
-            case HINT:
-                cardListAdapter.sort(new Comparator<CardWrapper>() {
-                    @Override
-                    public int compare(CardWrapper c1, CardWrapper c2) {
-                        return c1.getCard().getHint()
-                                .compareTo(c2.getCard().getHint());
-                    };
-                });
-                break;
         default:
             throw new AssertionError(
                     "This case will not happen! Or the system has carshed.");
@@ -445,10 +425,7 @@ public class CardListActivity extends BaseActivity {
             if (!cardWrapper.isAnswerVisible()) {
                 cardWrapper.setAnswerVisible(true);
                 cardListAdapter.notifyDataSetChanged();
-            } else if(!cardWrapper.isHintVisible()){
-                cardWrapper.setHintVisible(true);
-                cardListAdapter.notifyDataSetChanged();
-            }else {
+            } else {
                 showListItemPopup(childView, cardListAdapter.getCardItem(position));
             }
         }
@@ -502,8 +479,6 @@ public class CardListActivity extends BaseActivity {
                     .findViewById(R.id.item_question);
             TextView answerView = (TextView) convertView
                     .findViewById(R.id.item_answer);
-            TextView hintView = (TextView) convertView
-                    .findViewById(R.id.item_hint);
 
             idView.setText("" + card.getOrdinal());
 
@@ -617,8 +592,6 @@ public class CardListActivity extends BaseActivity {
 
         private boolean answerVisible;
 
-        private boolean hintVisible;
-
         public CardWrapper(Card card, boolean visible) {
             this.card = card;
             this.answerVisible = visible;
@@ -632,16 +605,8 @@ public class CardListActivity extends BaseActivity {
             return answerVisible;
         }
 
-        public boolean isHintVisible() {
-            return hintVisible;
-        }
-
         public void setAnswerVisible(boolean visible) {
             this.answerVisible = visible;
-        }
-
-        public void setHintVisible(boolean visible) {
-            this.hintVisible = visible;
         }
 
     }
@@ -690,6 +655,6 @@ public class CardListActivity extends BaseActivity {
     private enum SortMethod {
         ORDINAL,
         QUESTION,
-        ANSWER,
-        HINT};
+        ANSWER
+    };
 }

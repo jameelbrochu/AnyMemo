@@ -95,21 +95,10 @@ public class CardTTSUtil {
         speakCardAnswer(card, null);
     }
 
-    public void speakCardHint(Card card) {
-        Preconditions.checkNotNull(card);
-        speakCardHint(card, null);
-    }
-
     public void speakCardAnswer(Card card, AnyMemoTTS.OnTextToSpeechCompletedListener onTextToSpeechCompletedListener) {
         Preconditions.checkNotNull(card);
         stopSpeak();
         answerTTS.sayText(card.getAnswer(), onTextToSpeechCompletedListener);
-    }
-
-    public void speakCardHint(Card card, AnyMemoTTS.OnTextToSpeechCompletedListener onTextToSpeechCompletedListener) {
-        Preconditions.checkNotNull(card);
-        stopSpeak();
-        answerTTS.sayText(card.getHint(), onTextToSpeechCompletedListener);
     }
 
     public void stopSpeak() {

@@ -598,10 +598,10 @@ public class PreviewEditActivity extends QACardActivity {
         if(getCurrentCard() != null){
             if(getSetting().getCardStyle() == Setting.CardStyle.DOUBLE_SIDED){
                 /* Double sided card, show front */
-                displayCard(false, false);
+                displayCard(false);
             } else {
                 /* Single sided, show both answer and questjion. */
-                displayCard(true, true);
+                displayCard(true);
             }
         }
     }

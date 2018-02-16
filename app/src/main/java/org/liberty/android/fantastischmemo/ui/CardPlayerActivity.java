@@ -199,10 +199,10 @@ public class CardPlayerActivity extends QACardActivity {
         if(getCurrentCard() != null){
             if(setting.getCardStyle() == Setting.CardStyle.DOUBLE_SIDED){
                 /* Double sided card, show front */
-                displayCard(false, false);
+                displayCard(false);
             } else {
                 /* Single sided, show both answer and questjion. */
-                displayCard(true, false);
+                displayCard(true);
             }
         }
     }

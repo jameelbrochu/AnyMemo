@@ -193,18 +193,15 @@ public abstract class QACardActivity extends BaseActivity {
     // Important class that display the card using fragment
     // the showAnswer parameter is handled differently on single
     // sided card and double sided card.
-    protected void displayCard(boolean showAnswer, boolean showHint) {
+    protected void displayCard(boolean showAnswer) {
 
         // First prepare the text to display
 
         String questionTypeface = setting.getQuestionFont();
         String answerTypeface = setting.getAnswerFont();
-        String hintTypeface = setting.getHintFont();
 
         Setting.Align questionAlign = setting.getQuestionTextAlign();
         Setting.Align answerAlign = setting.getAnswerTextAlign();
-        Setting.Align hintAlign = setting.getHintTextAlign();
-
 
         String questionTypefaceValue = null;
         String answerTypefaceValue = null;
@@ -217,9 +214,6 @@ public abstract class QACardActivity extends BaseActivity {
         }
         if (!Strings.isNullOrEmpty(answerTypeface)) {
             answerTypefaceValue = answerTypeface;
-        }
-        if (!Strings.isNullOrEmpty(hintTypeface)) {
-            hintTypefaceValue = hintTypeface;
         }
 
         final String[] imageSearchPaths = {
@@ -250,13 +244,11 @@ public abstract class QACardActivity extends BaseActivity {
             // It could be the question if it is the double sided card with only question shown
             // or answer view's color.
             if (!setting.isDefaultColor()) {
-                if (setting.getCardStyle() == Setting.CardStyle.DOUBLE_SIDED && !showAnswer && !showHint &&
+                if (setting.getCardStyle() == Setting.CardStyle.DOUBLE_SIDED && !showAnswer &&
                         setting.getQuestionBackgroundColor() != null) {
                     buttonsView.setBackgroundColor(setting.getQuestionBackgroundColor());
                 } else if (setting.getAnswerBackgroundColor() != null) {
                     buttonsView.setBackgroundColor(setting.getAnswerBackgroundColor());
-                } else if (setting.getHintBackgroundColor() != null){
-                    buttonsView.setBackgroundColor(setting.getHintBackgroundColor());
                 }
             }
         }
@@ -303,34 +295,6 @@ public abstract class QACardActivity extends BaseActivity {
             showAnswerFragmentBuilder
                     .setTextColor(setting.getAnswerTextColor())
                     .setBackgroundColor(setting.getAnswerBackgroundColor());
-
-        CardFragment.Builder hintFragmentBuilder = new CardFragment.Builder(getCurrentCard().getHint())
-                .setTextAlignment(hintAlign)
-                .setTypefaceFromFile(hintTypefaceValue)
-                .setTextOnClickListener(onHintTextClickListener)
-                .setCardOnClickListener(onHintViewClickListener)
-                .setTextFontSize(setting.getHintFontSize())
-                .setTypefaceFromFile(setting.getHintFont())
-                .setDisplayInHtml(setting.getDisplayInHTMLEnum().contains(Setting.CardField.HINT))
-                .setHtmlLinebreakConversion(setting.getHtmlLineBreakConversion())
-                .setImageSearchPaths(imageSearchPaths);
-
-        CardFragment.Builder showHintFragmentBuilder = new CardFragment.Builder("Hint")
-                .setTextAlignment(Setting.Align.CENTER)
-                .setTypefaceFromFile(hintTypefaceValue)
-                .setTextOnClickListener(onHintTextClickListener)
-                .setCardOnClickListener(onHintViewClickListener)
-                .setTextFontSize(setting.getHintFontSize())
-                .setTypefaceFromFile(setting.getHintFont());
-
-        hintFragmentBuilder
-                .setBackgroundColor(setting.getHintBackgroundColor())
-                .setTextColor(setting.getHintTextColor());
-
-        showHintFragmentBuilder
-                .setTextColor(setting.getHintTextColor())
-                .setBackgroundColor(setting.getHintBackgroundColor());
-
 
         // Note is currently shared some settings with Answer
         CardFragment.Builder noteFragmentBuilder = new CardFragment.Builder(getCurrentCard().getNote())
@@ -555,11 +519,6 @@ public abstract class QACardActivity extends BaseActivity {
         return true;
     }
 
-    protected boolean speakHint() {
-        cardTTSUtil.speakCardHint(getCurrentCard());
-        return true;
-    }
-
     private void loadGestures() {
         gestureLibrary = GestureLibraries.fromRawResource(this, R.raw.gestures);
         if (!gestureLibrary.load()) {
@@ -578,7 +537,7 @@ public abstract class QACardActivity extends BaseActivity {
     // Return true if the event is handled, else return false
     protected boolean onClickQuestionView() {
         if (setting.getCardStyle() == Setting.CardStyle.DOUBLE_SIDED) {
-            displayCard(true, false);
+            displayCard(true);
             return true;
         }
         return false;
@@ -586,7 +545,7 @@ public abstract class QACardActivity extends BaseActivity {
 
     protected boolean onClickAnswerView() {
         if (setting.getCardStyle() == Setting.CardStyle.DOUBLE_SIDED) {
-            displayCard(false, false);
+            displayCard(false);
             return true;
         }
         return false;
@@ -594,7 +553,7 @@ public abstract class QACardActivity extends BaseActivity {
 
     protected boolean onClickHintView() {
         if (setting.getCardStyle() == Setting.CardStyle.DOUBLE_SIDED) {
-            displayCard(false, false);
+            displayCard(false);
             return true;
         }
         return false;
@@ -613,14 +572,6 @@ public abstract class QACardActivity extends BaseActivity {
         }
         return true;
     }
-
-    protected boolean onClickHintText() {
-        if (!onClickHintView()) {
-            speakHint();
-        }
-        return true;
-    }
-
 
     protected void onGestureDetected(GestureName gestureName) {
         // Nothing
@@ -779,14 +730,6 @@ public abstract class QACardActivity extends BaseActivity {
         @Override
         public void onClick(View v) {
             onClickAnswerText();
-        }
-    };
-
-    private CardFragment.OnClickListener onHintTextClickListener = new CardFragment.OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-            onClickHintText();
         }
     };
 
