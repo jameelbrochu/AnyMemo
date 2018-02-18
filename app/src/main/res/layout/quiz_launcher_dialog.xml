@@ -1,157 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:scrollbars="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_width="match_parent">
-<LinearLayout
+    android:scrollbars="vertical">
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-    <RadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <RadioButton
-            android:id="@+id/quiz_by_group_radio"
-            android:checked="true"
-            android:text="@string/quiz_by_group_text" />
-
-        <LinearLayout
-            android:id="@+id/quiz_by_group_settings"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="visible">
-
-            <TextView
-                android:id="@+id/quiz_group_size_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/quiz_group_size_text" />
-
-            <EditText
-                android:id="@+id/quiz_group_size"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number" />
-
-            <TextView
-                android:id="@+id/quiz_group_number_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/quiz_group_number_text" />
-
-            <EditText
-                android:id="@+id/quiz_group_number"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number" />
-        </LinearLayout>
-
-        <RadioButton
-            android:id="@+id/quiz_by_category_radio"
-            android:checked="false"
-            android:text="@string/quiz_by_category_text" />
-
-        <LinearLayout
-            android:id="@+id/quiz_by_category_settings"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:padding="3dip"
-                android:text="@string/edit_dialog_category" />
-
-            <Button
-                android:id="@+id/category_button"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/select_category_text" />
-        </LinearLayout>
-
-        <RadioButton
-            android:id="@+id/quiz_by_range_radio"
-            android:checked="false"
-            android:text="@string/quiz_by_range_text" />
-
-        <LinearLayout
-            android:id="@+id/quiz_by_range_settings"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/quiz_range_start_size_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/start_ordinal_text" />
-
-            <EditText
-                android:id="@+id/quiz_range_strat_ordinal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number" />
-
-            <TextView
-                android:id="@+id/quiz_range_end_size_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/end_ordinal_text" />
-
-            <EditText
-                android:id="@+id/quiz_range_end_ordinal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number" />
-
-        </LinearLayout>
-
-        <RadioButton
-            android:id="@+id/timer_mode"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Timer mode" />
-
-        <LinearLayout
+        <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/timer_mode_set_time_title"
-                android:layout_width="match_parent"
+            <RadioButton
+                android:id="@+id/quiz_by_group_radio"
+                android:checked="true"
+                android:text="@string/quiz_by_group_text" />
+
+            <LinearLayout
+                android:id="@+id/quiz_by_group_settings"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Set time for deck" />
+                android:orientation="vertical"
+                android:visibility="visible">
 
-            <EditText
-                android:id="@+id/timer_mode_set_time"
-                android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/quiz_group_size_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/quiz_group_size_text" />
+
+                <EditText
+                    android:id="@+id/quiz_group_size"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+
+                <TextView
+                    android:id="@+id/quiz_group_number_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/quiz_group_number_text" />
+
+                <EditText
+                    android:id="@+id/quiz_group_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+            </LinearLayout>
+
+            <RadioButton
+                android:id="@+id/quiz_by_category_radio"
+                android:checked="false"
+                android:text="@string/quiz_by_category_text" />
+
+            <LinearLayout
+                android:id="@+id/quiz_by_category_settings"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number" />
-        </LinearLayout>
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="3dip"
+                    android:text="@string/edit_dialog_category" />
+
+                <Button
+                    android:id="@+id/category_button"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/select_category_text" />
+            </LinearLayout>
+
+            <RadioButton
+                android:id="@+id/quiz_by_range_radio"
+                android:checked="false"
+                android:text="@string/quiz_by_range_text" />
+
+            <LinearLayout
+                android:id="@+id/quiz_by_range_settings"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/quiz_range_start_size_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/start_ordinal_text" />
+
+                <EditText
+                    android:id="@+id/quiz_range_strat_ordinal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+
+                <TextView
+                    android:id="@+id/quiz_range_end_size_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/end_ordinal_text" />
+
+                <EditText
+                    android:id="@+id/quiz_range_end_ordinal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+
+            </LinearLayout>
+
+            <RadioButton
+                android:id="@+id/timer_mode"
+                android:layout_width="match_parent"
+                android:text="Timer mode" />
+
+            <LinearLayout
+                android:id="@+id/timer_mode_settings"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/timer_mode_set_time_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Set time for deck (seconds)" />
+
+                <EditText
+                    android:id="@+id/timer_mode_set_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+            </LinearLayout>
 
 
-    </RadioGroup>
+        </RadioGroup>
 
-    <CheckBox
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/shuffle_checkbox"
-        android:text="@string/shuffling_cards_title" />
+        <CheckBox
+            android:id="@+id/shuffle_checkbox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/shuffling_cards_title" />
 
-    <Button
-        android:id="@+id/start_quiz_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/start_quiz_text" />
-</LinearLayout>
+        <Button
+            android:id="@+id/start_quiz_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/start_quiz_text" />
+    </LinearLayout>
 </ScrollView>
