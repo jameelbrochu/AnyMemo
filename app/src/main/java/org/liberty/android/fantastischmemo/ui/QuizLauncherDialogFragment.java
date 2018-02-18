@@ -76,6 +76,8 @@ public class QuizLauncherDialogFragment extends BaseDialogFragment {
     
     private RadioButton quizByRangeRadio;
 
+    private RadioButton timerMode;
+
     private TextView quizGroupSizeTitle;
 
     private EditText quizGroupSizeEdit;
@@ -91,6 +93,10 @@ public class QuizLauncherDialogFragment extends BaseDialogFragment {
     private TextView quizRangeEndTitle;
     
     private EditText quizRangeEndOrdinalEdit;
+
+    private TextView timerModeSetTimeTitle;
+
+    private EditText timerModeSetTime;
 
     private CheckBox shuffleCheckbox;
 
@@ -186,6 +192,16 @@ public class QuizLauncherDialogFragment extends BaseDialogFragment {
         quizRangeEndOrdinalEdit = (EditText) v.findViewById(R.id.quiz_range_end_ordinal);
         quizRangeEndOrdinalEdit.addTextChangedListener(quizByRangeEndTextWatcher);
         quizRangeEndOrdinalEdit.setOnFocusChangeListener(rangeInputListener);
+
+        //For timer mode
+        timerMode = (RadioButton) v.findViewById(R.id.timer_mode);
+        timerMode.setOnCheckedChangeListener(onCheckedChangeListener);
+
+        timerModeSetTimeTitle = (TextView) v.findViewById(R.id.timer_mode_set_time_title);
+
+        timerModeSetTime = (EditText) v.findViewById(R.id.timer_mode_set_time);
+        timerModeSetTime.addTextChangedListener(timerModeSetTimeWatcher);
+        timerModeSetTime.setOnFocusChangeListener(rangeInputListener);
 
         categoryButton = (Button) v.findViewById(R.id.category_button);
         categoryButton.setOnClickListener(categoryButtonListener);
@@ -480,7 +496,24 @@ public class QuizLauncherDialogFragment extends BaseDialogFragment {
                 + " (" + 1 + "-" + rangeEndOrdinal + ")");
         }
     };
-    
+
+    private TextWatcher timerModeSetTimeWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
+    };
+
     View.OnFocusChangeListener rangeInputListener =
             new View.OnFocusChangeListener() {
     	
