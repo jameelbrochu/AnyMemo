@@ -106,7 +106,9 @@ public class SettingsScreen extends BaseActivity {
     private CheckBox linebreakCheckbox;
     private CheckBox field1Checkbox;
     private CheckBox field2Checkbox;
+    private CheckBox field3Checkbox;
     private EnumSet<CardField> questionFields;
+    private EnumSet<CardField> hintFields;
     private EnumSet<CardField> answerFields;
 
 
@@ -318,8 +320,10 @@ public class SettingsScreen extends BaseActivity {
             colorButton.setOnClickListener(settingFieldOnClickListener);
             colors = new ArrayList<Integer>(5);
             colors.add(setting.getQuestionTextColor());
+            colors.add(setting.getHintTextColor());
             colors.add(setting.getAnswerTextColor());
             colors.add(setting.getQuestionBackgroundColor());
+            colors.add(setting.getHintBackgroundColor());
             colors.add(setting.getAnswerBackgroundColor());
             colors.add(setting.getSeparatorColor());
 
@@ -348,6 +352,10 @@ public class SettingsScreen extends BaseActivity {
             field2Checkbox = (CheckBox) findViewById(R.id.checkbox_field2);
             field2Checkbox.setOnClickListener(settingFieldOnClickListener);
             answerFields = setting.getAnswerFieldEnum();
+
+            field3Checkbox = (CheckBox) findViewById(R.id.checkbox_field3);
+            field3Checkbox.setOnClickListener(settingFieldOnClickListener);
+            hintFields = setting.getHintFieldEnum();
 
             updateViews();
 
@@ -488,6 +496,8 @@ public class SettingsScreen extends BaseActivity {
         linebreakCheckbox.setChecked(setting.getHtmlLineBreakConversion());
         field1Checkbox.setChecked(!(questionFields.size() == 1 && questionFields.contains(CardField.QUESTION)));
         field2Checkbox.setChecked(!(answerFields.size() == 1 && answerFields.contains(CardField.ANSWER)));
+        field3Checkbox.setChecked(!(hintFields.size() == 1 && hintFields.contains(CardField.HINT)));
+
     }
 
     /*
@@ -541,10 +551,12 @@ public class SettingsScreen extends BaseActivity {
 
 
             setting.setQuestionTextColor(colors.get(0));
-            setting.setAnswerTextColor(colors.get(1));
-            setting.setQuestionBackgroundColor(colors.get(2));
-            setting.setAnswerBackgroundColor(colors.get(3));
-            setting.setSeparatorColor(colors.get(4));
+            setting.setHintTextColor(colors.get(1));
+            setting.setAnswerTextColor(colors.get(2));
+            setting.setQuestionBackgroundColor(colors.get(3));
+            setting.setHintBackgroundColor(colors.get(4));
+            setting.setAnswerBackgroundColor(colors.get(5));
+            setting.setSeparatorColor(colors.get(6));
 
             if (!qTypefaceCheckbox.isChecked()) {
                 setting.setQuestionFont("");
@@ -713,6 +725,19 @@ public class SettingsScreen extends BaseActivity {
                     field2Checkbox.setChecked(false);
                 }
             }
+
+            if (v == field3Checkbox) {
+                if (field3Checkbox.isChecked()) {
+                    hintFields = setting.getHintFieldEnum();
+                    showCardFieldMultipleChoiceAlertDialog(hintFields, R.string.settings_field3);
+                } else {
+                    hintFields = EnumSet.of(CardField.HINT);
+                }
+                if (hintFields.size() == 0) {
+                    field3Checkbox.setChecked(false);
+                }
+            }
+
             if (v == qTypefaceEdit) {
                 FileBrowserFragment df = new FileBrowserFragment();
                 Bundle b = new Bundle();
