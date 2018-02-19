@@ -21,6 +21,7 @@ public class Setting implements Serializable, VersionableDomainObject {
     public static final Integer DEFAULT_SEPARATOR_COLOR = 0xFF909090;
 
     public static final Integer DEFAULT_QA_RATIO = 50;
+
     @DatabaseField(generatedId = true)
     private Integer id = 1;
 
@@ -34,10 +35,16 @@ public class Setting implements Serializable, VersionableDomainObject {
     private Integer questionFontSize = 24;
 
     @DatabaseField(defaultValue = "24")
+    private Integer hintFontSize = 24;
+
+    @DatabaseField(defaultValue = "24")
     private Integer answerFontSize = 24;
 
     @DatabaseField(defaultValue = "CENTER")
     private Align questionTextAlign = Align.CENTER;
+
+    @DatabaseField(defaultValue = "CENTER")
+    private Align hintTextAlign = Align.CENTER;
 
     @DatabaseField(defaultValue = "CENTER")
     private Align answerTextAlign = Align.CENTER;
@@ -58,10 +65,16 @@ public class Setting implements Serializable, VersionableDomainObject {
     private Integer questionTextColor = null;
 
     @DatabaseField
+    private Integer hintTextColor = null;
+
+    @DatabaseField
     private Integer answerTextColor = null;
 
     @DatabaseField
     private Integer questionBackgroundColor = null;
+
+    @DatabaseField
+    private Integer hintBackgroundColor = null;
 
     @DatabaseField
     private Integer answerBackgroundColor = null;
@@ -70,8 +83,8 @@ public class Setting implements Serializable, VersionableDomainObject {
     private Integer separatorColor = DEFAULT_SEPARATOR_COLOR;
 
     /* 1 = question, 2 = answer, 4 = note */
-    @DatabaseField(defaultValue = "QUESTION,ANSWER,NOTE")
-    private String displayInHTML = "QUESTION,ANSWER,NOTE";
+    @DatabaseField(defaultValue = "QUESTION,HINT,ANSWER,NOTE")
+    private String displayInHTML = "QUESTION,HINT,ANSWER,NOTE";
 
     @DatabaseField(defaultValue = "false")
     private Boolean htmlLineBreakConversion = false;
@@ -82,11 +95,19 @@ public class Setting implements Serializable, VersionableDomainObject {
 
     /* 1 = question, 2 = answer, 4 = note*/
     @DatabaseField(defaultValue = "ANSWER")
+    private String hintField = CardField.HINT.toString();
+
+    /* 1 = question, 2 = answer, 4 = note*/
+    @DatabaseField(defaultValue = "ANSWER")
     private String answerField = CardField.ANSWER.toString();
 
     /* Empty = no font*/
     @DatabaseField(defaultValue = "")
     private String questionFont = "";
+
+    /* Empty = no font*/
+    @DatabaseField(defaultValue = "")
+    private String hintFont = "";
 
     /* Empty = no font*/
     @DatabaseField(defaultValue = "")
@@ -121,6 +142,7 @@ public class Setting implements Serializable, VersionableDomainObject {
 
     public static enum CardField {
         QUESTION,
+        HINT,
         ANSWER,
         NOTE
     }
@@ -158,6 +180,14 @@ public class Setting implements Serializable, VersionableDomainObject {
         this.questionFontSize = questionFontSize;
     }
 
+    public Integer getHintFontSize() {
+        return hintFontSize;
+    }
+
+    public void setHintFontSize(Integer hintFontSize) {
+        this.hintFontSize = hintFontSize;
+    }
+
     public Integer getAnswerFontSize() {
         return answerFontSize;
     }
@@ -172,6 +202,14 @@ public class Setting implements Serializable, VersionableDomainObject {
 
     public void setQuestionTextAlign(Align questionTextAlign) {
         this.questionTextAlign = questionTextAlign;
+    }
+
+    public Align getHintTextAlign() {
+        return hintTextAlign;
+    }
+
+    public void setHintTextAlign(Align hintTextAlign) {
+        this.answerTextAlign = hintTextAlign;
     }
 
     public Align getAnswerTextAlign() {
@@ -230,6 +268,14 @@ public class Setting implements Serializable, VersionableDomainObject {
         this.questionTextColor = questionTextColor;
     }
 
+    public Integer getHintTextColor() {
+        return hintTextColor;
+    }
+
+    public void setHintTextColor(Integer hintTextColor) {
+        this.hintTextColor = hintTextColor;
+    }
+
     public Integer getAnswerTextColor() {
         return answerTextColor;
     }
@@ -244,6 +290,14 @@ public class Setting implements Serializable, VersionableDomainObject {
 
     public void setQuestionBackgroundColor(Integer questionBackgroundColor) {
         this.questionBackgroundColor = questionBackgroundColor;
+    }
+
+    public Integer getHintBackgroundColor() {
+        return hintBackgroundColor;
+    }
+
+    public void setHintBackgroundColor(Integer hintBackgroundColor) {
+        this.hintBackgroundColor = hintBackgroundColor;
     }
 
     public Integer getAnswerBackgroundColor() {
@@ -302,12 +356,28 @@ public class Setting implements Serializable, VersionableDomainObject {
         questionField = AMStringUtils.getStringFromEnumSet(questionFieldEnum);
     }
 
+    public String getHintField() {
+        return hintField;
+    }
+
+    public void setHintField(String hintField) {
+        this.hintField = hintField;
+    }
+
+    public void setHintFieldEnum(EnumSet<CardField> hintFieldEnum) {
+        hintField = AMStringUtils.getStringFromEnumSet(hintFieldEnum);
+    }
+
     public String getAnswerField() {
         return answerField;
     }
 
     public void setAnswerField(String answerField) {
         this.answerField = answerField;
+    }
+
+    public EnumSet<CardField> getHintFieldEnum() {
+        return AMStringUtils.getEnumSetFromString(CardField.class, hintField);
     }
 
     public void setAnswerFieldEnum(EnumSet<CardField> answerFieldEnum) {
@@ -328,6 +398,14 @@ public class Setting implements Serializable, VersionableDomainObject {
 
     public void setQuestionFont(String questionFont) {
         this.questionFont = questionFont;
+    }
+
+    public String getHintFont() {
+        return hintFont;
+    }
+
+    public void setHintFont(String hintFont) {
+        this.hintFont = hintFont;
     }
 
     public String getAnswerFont() {
@@ -372,9 +450,10 @@ public class Setting implements Serializable, VersionableDomainObject {
 
     public boolean isDefaultColor() {
         return questionTextColor == null &&
-               answerTextColor == null &&
-               questionBackgroundColor == null &&
-               answerBackgroundColor == null &&
-               separatorColor.equals(DEFAULT_SEPARATOR_COLOR);
+                hintTextColor == null &&
+                answerTextColor == null &&
+                questionBackgroundColor == null &&
+                hintBackgroundColor == null &&
+                answerBackgroundColor == null && separatorColor.equals(DEFAULT_SEPARATOR_COLOR);
     }
 }
