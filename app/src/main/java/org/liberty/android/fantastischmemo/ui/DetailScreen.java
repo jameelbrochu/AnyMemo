@@ -51,6 +51,7 @@ public class DetailScreen extends BaseActivity {
 
     private EditText idEntry;
     private EditText questionEntry;
+    private EditText hintEntry;
     private EditText answerEntry;
     private EditText noteEntry;
     private EditText categoryEntry;
@@ -86,6 +87,7 @@ public class DetailScreen extends BaseActivity {
 
         idEntry = (EditText)findViewById(R.id.entry__id);
         questionEntry = (EditText)findViewById(R.id.entry_question);
+        hintEntry = (EditText)findViewById(R.id.entry_hint);
         answerEntry = (EditText)findViewById(R.id.entry_answer);
         noteEntry = (EditText)findViewById(R.id.entry_note);
         categoryEntry = (EditText)findViewById(R.id.entry_category);
@@ -159,6 +161,7 @@ public class DetailScreen extends BaseActivity {
 
         idEntry.setText("" + currentCard.getId());
         questionEntry.setText(currentCard.getQuestion());
+        hintEntry.setText(currentCard.getHint());
         answerEntry.setText(currentCard.getAnswer());
         noteEntry.setText(currentCard.getNote());
         categoryEntry.setText(currentCard.getCategory().getName());
@@ -177,6 +180,7 @@ public class DetailScreen extends BaseActivity {
     private void refreshEntries() throws ParseException {
         currentCard.setId(Integer.parseInt(idEntry.getText().toString()));
         currentCard.setQuestion(questionEntry.getText().toString());
+        currentCard.setHint(hintEntry.getText().toString());
         currentCard.setAnswer(answerEntry.getText().toString());
         currentCard.setNote(noteEntry.getText().toString());
 

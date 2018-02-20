@@ -29,6 +29,16 @@
             android:layout_width="fill_parent"
             android:inputType="textMultiLine" />
         <TextView
+            android:text="hint"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:padding="3dip"/>
+        <EditText
+            android:id="@+id/entry_hint"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:inputType="textMultiLine" />
+        <TextView
             android:text="answer"
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
