@@ -114,10 +114,11 @@
 
             </LinearLayout>
 
-            <RadioButton
+            <CheckBox
                 android:id="@+id/timer_mode"
                 android:layout_width="match_parent"
-                android:text="Timer mode" />
+                android:layout_height="wrap_content"
+                android:text="Timer Mode" />
 
             <LinearLayout
                 android:id="@+id/timer_mode_settings"
@@ -130,7 +131,7 @@
                     android:id="@+id/timer_mode_set_time_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Set time for deck (seconds)" />
+                    android:text="0" />
 
                 <EditText
                     android:id="@+id/timer_mode_set_time"

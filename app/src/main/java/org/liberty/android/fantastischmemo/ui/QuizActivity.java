@@ -23,7 +23,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Paint;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -59,6 +58,9 @@ public class QuizActivity extends QACardActivity {
     public static String EXTRA_QUIZ_SIZE = "quiz_size";
     public static String EXTRA_SHUFFLE_CARDS = "shuffle_cards";
     public static String EXTRA_START_CARD_ID = "start_card_id";
+    public static String EXTRA_TIMER_MODE = "timer_id";
+    public static String EXTRA_COUNTDOWN = "countdown_value";
+
 
     /* UI elements */
     private GradeButtonsFragment gradeButtonsFragment;
@@ -80,6 +82,7 @@ public class QuizActivity extends QACardActivity {
     private boolean isNewCardsCompleted = false;
 
     private boolean shuffleCards = false;
+    private boolean timerMode = false;
 
     private int totalQuizSize = -1;
 
@@ -123,6 +126,8 @@ public class QuizActivity extends QACardActivity {
         startCardOrd = extras.getInt(EXTRA_START_CARD_ORD, -1);
         quizSize = extras.getInt(EXTRA_QUIZ_SIZE, -1);
         shuffleCards = extras.getBoolean(EXTRA_SHUFFLE_CARDS, false);
+        timerMode = extras.getBoolean(EXTRA_TIMER_MODE, false);
+
         if (savedInstanceState != null) {
             startCardId = savedInstanceState.getInt(EXTRA_START_CARD_ID, -1);
         }

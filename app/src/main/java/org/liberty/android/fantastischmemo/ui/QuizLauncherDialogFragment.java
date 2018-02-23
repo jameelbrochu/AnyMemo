@@ -76,8 +76,6 @@ public class QuizLauncherDialogFragment extends BaseDialogFragment {
     
     private RadioButton quizByRangeRadio;
 
-    private RadioButton timerMode;
-
     private TextView quizGroupSizeTitle;
 
     private EditText quizGroupSizeEdit;
@@ -96,7 +94,9 @@ public class QuizLauncherDialogFragment extends BaseDialogFragment {
 
     private TextView timerModeSetTimeTitle;
 
-    private EditText timerModeSetTime;
+    private EditText timerModeSetTimeEdit;
+
+    private CheckBox timerModeCheckbox;
 
     private CheckBox shuffleCheckbox;
 
@@ -111,6 +111,8 @@ public class QuizLauncherDialogFragment extends BaseDialogFragment {
     private int rangeStartOrdinal;
     
     private int rangeEndOrdinal;
+
+    private int chosenTime;
 
     // Default category id is "uncategorized".
     private int categoryId = 0;
@@ -194,14 +196,14 @@ public class QuizLauncherDialogFragment extends BaseDialogFragment {
         quizRangeEndOrdinalEdit.setOnFocusChangeListener(rangeInputListener);
 
         //For timer mode
-        timerMode = (RadioButton) v.findViewById(R.id.timer_mode);
-        timerMode.setOnCheckedChangeListener(onCheckedChangeListener);
+        timerModeCheckbox = (CheckBox) v.findViewById(R.id.timer_mode);
+        timerModeCheckbox.setOnCheckedChangeListener(onCheckedChangeListener);
 
         timerModeSetTimeTitle = (TextView) v.findViewById(R.id.timer_mode_set_time_title);
 
-        timerModeSetTime = (EditText) v.findViewById(R.id.timer_mode_set_time);
-        timerModeSetTime.addTextChangedListener(timerModeSetTimeWatcher);
-        timerModeSetTime.setOnFocusChangeListener(rangeInputListener);
+        timerModeSetTimeEdit = (EditText) v.findViewById(R.id.timer_mode_set_time);
+        timerModeSetTimeEdit.addTextChangedListener(timerModeSetTimeWatcher);
+        timerModeSetTimeEdit.setOnFocusChangeListener(rangeInputListener);
 
         categoryButton = (Button) v.findViewById(R.id.category_button);
         categoryButton.setOnClickListener(categoryButtonListener);
@@ -252,6 +254,8 @@ public class QuizLauncherDialogFragment extends BaseDialogFragment {
                 intent.putExtra(QuizActivity.EXTRA_DBPATH, dbPath);
                 intent.putExtra(QuizActivity.EXTRA_CATEGORY_ID, categoryId);
                 intent.putExtra(QuizActivity.EXTRA_SHUFFLE_CARDS, shuffleCheckbox.isChecked());
+                intent.putExtra(QuizActivity.EXTRA_TIMER_MODE, timerModeCheckbox.isChecked());
+                intent.putExtra(QuizActivity.EXTRA_COUNTDOWN, timerModeSetTimeEdit.getText());
                 startActivity(intent);
             } else if(quizByRangeRadio.isChecked()) {
             	Intent intent = new Intent(mActivity, QuizActivity.class);
@@ -266,9 +270,10 @@ public class QuizLauncherDialogFragment extends BaseDialogFragment {
                 intent.putExtra(QuizActivity.EXTRA_START_CARD_ORD, startOrd);
                 intent.putExtra(QuizActivity.EXTRA_QUIZ_SIZE, size);
                 intent.putExtra(QuizActivity.EXTRA_SHUFFLE_CARDS, shuffleCheckbox.isChecked());
-                
+                intent.putExtra(QuizActivity.EXTRA_TIMER_MODE, timerModeCheckbox.isChecked());
+
                 startActivity(intent);
-            } else{
+            } else {
                 Intent intent = new Intent(mActivity, QuizActivity.class);
                 amPrefUtil.putSavedInt(AMPrefKeys.QUIZ_GROUP_SIZE_KEY, dbPath, groupSize);
                 amPrefUtil.putSavedInt(AMPrefKeys.QUIZ_GROUP_NUMBER_KEY, dbPath, groupNumber);
@@ -278,6 +283,8 @@ public class QuizLauncherDialogFragment extends BaseDialogFragment {
                 intent.putExtra(QuizActivity.EXTRA_START_CARD_ORD, startOrd);
                 intent.putExtra(QuizActivity.EXTRA_QUIZ_SIZE, groupSize);
                 intent.putExtra(QuizActivity.EXTRA_SHUFFLE_CARDS, shuffleCheckbox.isChecked());
+                intent.putExtra(QuizActivity.EXTRA_TIMER_MODE, timerModeCheckbox.isChecked());
+
                 startActivity(intent);
             }
         }
@@ -499,18 +506,31 @@ public class QuizLauncherDialogFragment extends BaseDialogFragment {
 
     private TextWatcher timerModeSetTimeWatcher = new TextWatcher() {
         @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+        public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
+        //nothing happened
         }
 
         @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+        public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+        //nothing happened
         }
 
         @Override
-        public void afterTextChanged(Editable editable) {
+        public void afterTextChanged(Editable value) {
+            if (value == null || Strings.isNullOrEmpty(value.toString())) {
+                return;
+            }
+            try {
+                chosenTime = Integer.valueOf(timerModeSetTimeEdit.getText().toString());
+                if (chosenTime <= 0) {
+                    chosenTime = 1; // if user enters negative value then by default set to 1 second
+                }
 
+            } catch(NumberFormatException e) {
+                chosenTime = 120; //sets default time to 120 seconds
+            }
+
+            timerModeSetTimeTitle.setText(chosenTime); //displays the chosen time
         }
     };
 
