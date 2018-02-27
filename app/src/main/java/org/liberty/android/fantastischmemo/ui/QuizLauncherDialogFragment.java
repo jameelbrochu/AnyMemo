@@ -197,13 +197,13 @@ public class QuizLauncherDialogFragment extends BaseDialogFragment {
 
         //For timer mode
         timerModeCheckbox = (CheckBox) v.findViewById(R.id.timer_mode);
-        timerModeCheckbox.setOnCheckedChangeListener(onCheckedChangeListener);
+        timerModeCheckbox.setOnCheckedChangeListener(onCheckedChangeListenerForTimer);
 
         timerModeSetTimeTitle = (TextView) v.findViewById(R.id.timer_mode_set_time_title);
 
         timerModeSetTimeEdit = (EditText) v.findViewById(R.id.timer_mode_set_time);
         timerModeSetTimeEdit.addTextChangedListener(timerModeSetTimeWatcher);
-        timerModeSetTimeEdit.setOnFocusChangeListener(rangeInputListener);
+        timerModeSetTimeEdit.setOnFocusChangeListener(timerInputListener);
 
         categoryButton = (Button) v.findViewById(R.id.category_button);
         categoryButton.setOnClickListener(categoryButtonListener);
@@ -230,6 +230,22 @@ public class QuizLauncherDialogFragment extends BaseDialogFragment {
         task.execute((Void)null);
     }
 
+    private CompoundButton.OnCheckedChangeListener onCheckedChangeListenerForTimer
+            = new CompoundButton.OnCheckedChangeListener() {
+
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView,
+                                     boolean isChecked) {
+            if (isChecked) {
+                timerModeSetTimeEdit.setVisibility(View.VISIBLE);
+                timerModeSetTimeTitle.setVisibility(View.VISIBLE);
+            } else {
+                timerModeSetTimeEdit.setVisibility(View.GONE);
+                timerModeSetTimeTitle.setVisibility(View.GONE);
+            }
+        }
+    };
+
     private CompoundButton.OnCheckedChangeListener onCheckedChangeListener
         = new CompoundButton.OnCheckedChangeListener() {
 
@@ -237,6 +253,7 @@ public class QuizLauncherDialogFragment extends BaseDialogFragment {
         public void onCheckedChanged(CompoundButton buttonView,
                 boolean isChecked) {
                 View settingsView = radioButtonSettingsMapping.get(buttonView);
+
                 if (isChecked) {
                     settingsView.setVisibility(View.VISIBLE);
                 } else {
@@ -255,7 +272,8 @@ public class QuizLauncherDialogFragment extends BaseDialogFragment {
                 intent.putExtra(QuizActivity.EXTRA_CATEGORY_ID, categoryId);
                 intent.putExtra(QuizActivity.EXTRA_SHUFFLE_CARDS, shuffleCheckbox.isChecked());
                 intent.putExtra(QuizActivity.EXTRA_TIMER_MODE, timerModeCheckbox.isChecked());
-                intent.putExtra(QuizActivity.EXTRA_COUNTDOWN, timerModeSetTimeEdit.getText());
+                intent.putExtra(QuizActivity.EXTRA_COUNTDOWN, chosenTime);
+
                 startActivity(intent);
             } else if(quizByRangeRadio.isChecked()) {
             	Intent intent = new Intent(mActivity, QuizActivity.class);
@@ -271,6 +289,7 @@ public class QuizLauncherDialogFragment extends BaseDialogFragment {
                 intent.putExtra(QuizActivity.EXTRA_QUIZ_SIZE, size);
                 intent.putExtra(QuizActivity.EXTRA_SHUFFLE_CARDS, shuffleCheckbox.isChecked());
                 intent.putExtra(QuizActivity.EXTRA_TIMER_MODE, timerModeCheckbox.isChecked());
+                intent.putExtra(QuizActivity.EXTRA_COUNTDOWN, chosenTime);
 
                 startActivity(intent);
             } else {
@@ -284,6 +303,7 @@ public class QuizLauncherDialogFragment extends BaseDialogFragment {
                 intent.putExtra(QuizActivity.EXTRA_QUIZ_SIZE, groupSize);
                 intent.putExtra(QuizActivity.EXTRA_SHUFFLE_CARDS, shuffleCheckbox.isChecked());
                 intent.putExtra(QuizActivity.EXTRA_TIMER_MODE, timerModeCheckbox.isChecked());
+                intent.putExtra(QuizActivity.EXTRA_COUNTDOWN, chosenTime);
 
                 startActivity(intent);
             }
@@ -507,7 +527,6 @@ public class QuizLauncherDialogFragment extends BaseDialogFragment {
     private TextWatcher timerModeSetTimeWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
-        //nothing happened
         }
 
         @Override
@@ -517,20 +536,19 @@ public class QuizLauncherDialogFragment extends BaseDialogFragment {
 
         @Override
         public void afterTextChanged(Editable value) {
-            if (value == null || Strings.isNullOrEmpty(value.toString())) {
-                return;
-            }
-            try {
-                chosenTime = Integer.valueOf(timerModeSetTimeEdit.getText().toString());
-                if (chosenTime <= 0) {
-                    chosenTime = 1; // if user enters negative value then by default set to 1 second
+                if (value == null || Strings.isNullOrEmpty(value.toString())) {
+                    return;
+                }
+                try {
+                    chosenTime = Integer.valueOf(timerModeSetTimeEdit.getText().toString());
+                    if (chosenTime <= 0) {
+                        chosenTime = 120; // if user enters negative value then by default set to 120 seconds
+                    }
+
+                } catch (NumberFormatException e) {
+                    chosenTime = 120; //sets default time to 120 seconds
                 }
 
-            } catch(NumberFormatException e) {
-                chosenTime = 120; //sets default time to 120 seconds
-            }
-
-            timerModeSetTimeTitle.setText(chosenTime); //displays the chosen time
         }
     };
 
@@ -557,6 +575,18 @@ public class QuizLauncherDialogFragment extends BaseDialogFragment {
                 }
             }
         };
+
+    View.OnFocusChangeListener timerInputListener =
+            new View.OnFocusChangeListener() {
+
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if (hasFocus == false) {
+                        timerModeSetTimeEdit.setText("" + chosenTime);
+                    }
+                }
+            };
+
 
     private void showCategoriesDialog() {
         CategoryEditorFragment df = new CategoryEditorFragment();

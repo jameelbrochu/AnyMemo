@@ -25,6 +25,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -82,9 +83,14 @@ public class QuizActivity extends QACardActivity {
     private boolean isNewCardsCompleted = false;
 
     private boolean shuffleCards = false;
+    private int totalQuizSize = -1;
+
+    private TextView countdownText;
+    private CountDownTimer countDownTimer;
+    private int timeLeftInSeconds;
+    private long timeLeftInMilliseconds;
     private boolean timerMode = false;
 
-    private int totalQuizSize = -1;
 
     @Override
     public int getContentView() {
@@ -127,6 +133,9 @@ public class QuizActivity extends QACardActivity {
         quizSize = extras.getInt(EXTRA_QUIZ_SIZE, -1);
         shuffleCards = extras.getBoolean(EXTRA_SHUFFLE_CARDS, false);
         timerMode = extras.getBoolean(EXTRA_TIMER_MODE, false);
+        timeLeftInSeconds = extras.getInt(EXTRA_COUNTDOWN, 120);
+        timeLeftInMilliseconds = timeLeftInSeconds * 1000;
+        countdownText = (TextView)findViewById(R.id.countdown_text);
 
         if (savedInstanceState != null) {
             startCardId = savedInstanceState.getInt(EXTRA_START_CARD_ID, -1);
@@ -135,6 +144,48 @@ public class QuizActivity extends QACardActivity {
         getMultipleLoaderManager().registerLoaderCallbacks(3, new QuizQueueManagerLoaderCallbacks(), false);
 
         startInit();
+        if (timerMode) { startTimer(); }
+
+    }
+
+    public void startTimer() {
+        this.countDownTimer = new CountDownTimer(timeLeftInMilliseconds, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                timeLeftInMilliseconds =  millisUntilFinished;
+                updateTimerText();
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        }.start();
+
+        timerMode = true;
+    }
+
+    public void stopTimer() {
+        countDownTimer.cancel();
+        timerMode = false;
+    }
+
+    public void updateTimerText() {
+        int minutesLeft = (int)timeLeftInMilliseconds / 60000;
+        int secondsLeft = (int)timeLeftInMilliseconds % 60000 / 1000;
+
+        String totalTimeLeftText;
+
+        totalTimeLeftText = "" + minutesLeft;
+        totalTimeLeftText += ":";
+        if(secondsLeft < 10) {
+            totalTimeLeftText += "0";
+        }
+
+        totalTimeLeftText += secondsLeft;
+
+        countdownText.setText(totalTimeLeftText);
+
     }
 
     @Override

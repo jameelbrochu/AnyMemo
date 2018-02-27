@@ -11,7 +11,7 @@
 
         <RadioGroup
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="246dp"
             android:orientation="vertical">
 
             <RadioButton
@@ -110,38 +110,37 @@
                     android:id="@+id/quiz_range_end_ordinal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="120"
                     android:inputType="number" />
 
             </LinearLayout>
+        </RadioGroup>
 
-            <CheckBox
-                android:id="@+id/timer_mode"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Timer Mode" />
+        <CheckBox
+            android:id="@+id/timer_mode"
+            android:layout_width="match_parent"
+            android:layout_height="61dp"
+            android:checked="true"
+            android:text="Timer Mode" />
 
             <LinearLayout
-                android:id="@+id/timer_mode_settings"
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone">
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/timer_mode_set_time_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="0" />
+            <TextView
+                android:id="@+id/timer_mode_set_time_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Set Time (in seconds):" />
 
-                <EditText
-                    android:id="@+id/timer_mode_set_time"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number" />
+            <EditText
+                android:id="@+id/timer_mode_set_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+
             </LinearLayout>
-
-
-        </RadioGroup>
 
         <CheckBox
             android:id="@+id/shuffle_checkbox"
