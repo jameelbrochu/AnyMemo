@@ -118,11 +118,12 @@ public class StudyActivity extends QACardActivity {
         startInit();
 
         String shuffle = getIntent().getStringExtra("shufflecards");
-        if(shuffle.equals("true")){
-            getDbOpenHelper().getCardDao().shuffleCards();
-        }
-        else {
-            getDbOpenHelper().getCardDao().unshuffleCards();
+        if(shuffle!=null) {
+            if (shuffle.equals("true")) {
+                getDbOpenHelper().getCardDao().shuffleCards();
+            } else {
+                getDbOpenHelper().getCardDao().unshuffleCards();
+            }
         }
 
 
