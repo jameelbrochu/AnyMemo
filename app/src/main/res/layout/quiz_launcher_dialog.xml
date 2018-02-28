@@ -110,7 +110,6 @@
                     android:id="@+id/quiz_range_end_ordinal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="120"
                     android:inputType="number" />
 
             </LinearLayout>
@@ -138,6 +137,7 @@
                 android:id="@+id/timer_mode_set_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="120"
                 android:inputType="number" />
 
             </LinearLayout>

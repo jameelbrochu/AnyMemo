@@ -112,7 +112,7 @@ public class QuizLauncherDialogFragment extends BaseDialogFragment {
     
     private int rangeEndOrdinal;
 
-    private int chosenTime;
+    private int chosenTime = 120; //default time in seconds
 
     // Default category id is "uncategorized".
     private int categoryId = 0;
