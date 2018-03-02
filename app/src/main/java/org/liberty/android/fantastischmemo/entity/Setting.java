@@ -35,16 +35,10 @@ public class Setting implements Serializable, VersionableDomainObject {
     private Integer questionFontSize = 24;
 
     @DatabaseField(defaultValue = "24")
-    private Integer hintFontSize = 24;
-
-    @DatabaseField(defaultValue = "24")
     private Integer answerFontSize = 24;
 
     @DatabaseField(defaultValue = "CENTER")
     private Align questionTextAlign = Align.CENTER;
-
-    @DatabaseField(defaultValue = "CENTER")
-    private Align hintTextAlign = Align.CENTER;
 
     @DatabaseField(defaultValue = "CENTER")
     private Align answerTextAlign = Align.CENTER;
@@ -65,16 +59,10 @@ public class Setting implements Serializable, VersionableDomainObject {
     private Integer questionTextColor = null;
 
     @DatabaseField
-    private Integer hintTextColor = null;
-
-    @DatabaseField
     private Integer answerTextColor = null;
 
     @DatabaseField
     private Integer questionBackgroundColor = null;
-
-    @DatabaseField
-    private Integer hintBackgroundColor = null;
 
     @DatabaseField
     private Integer answerBackgroundColor = null;
@@ -94,7 +82,6 @@ public class Setting implements Serializable, VersionableDomainObject {
     private String questionField = CardField.QUESTION.toString();
 
     /* 1 = question, 2 = answer, 4 = note*/
-    @DatabaseField(defaultValue = "ANSWER")
     private String hintField = CardField.HINT.toString();
 
     /* 1 = question, 2 = answer, 4 = note*/
@@ -106,7 +93,6 @@ public class Setting implements Serializable, VersionableDomainObject {
     private String questionFont = "";
 
     /* Empty = no font*/
-    @DatabaseField(defaultValue = "")
     private String hintFont = "";
 
     /* Empty = no font*/
@@ -181,11 +167,11 @@ public class Setting implements Serializable, VersionableDomainObject {
     }
 
     public Integer getHintFontSize() {
-        return hintFontSize;
+        return answerFontSize;
     }
 
-    public void setHintFontSize(Integer hintFontSize) {
-        this.hintFontSize = hintFontSize;
+    public void setHintFontSize(Integer answerFontSize) {
+        this.answerFontSize = answerFontSize;
     }
 
     public Integer getAnswerFontSize() {
@@ -205,11 +191,11 @@ public class Setting implements Serializable, VersionableDomainObject {
     }
 
     public Align getHintTextAlign() {
-        return hintTextAlign;
+        return answerTextAlign;
     }
 
-    public void setHintTextAlign(Align hintTextAlign) {
-        this.answerTextAlign = hintTextAlign;
+    public void setHintTextAlign(Align answerTextAlign) {
+        this.answerTextAlign = answerTextAlign;
     }
 
     public Align getAnswerTextAlign() {
@@ -269,11 +255,11 @@ public class Setting implements Serializable, VersionableDomainObject {
     }
 
     public Integer getHintTextColor() {
-        return hintTextColor;
+        return answerTextColor;
     }
 
-    public void setHintTextColor(Integer hintTextColor) {
-        this.hintTextColor = hintTextColor;
+    public void setHintTextColor(Integer answerTextColor) {
+        this.answerTextColor = answerTextColor;
     }
 
     public Integer getAnswerTextColor() {
@@ -293,11 +279,11 @@ public class Setting implements Serializable, VersionableDomainObject {
     }
 
     public Integer getHintBackgroundColor() {
-        return hintBackgroundColor;
+        return answerBackgroundColor;
     }
 
-    public void setHintBackgroundColor(Integer hintBackgroundColor) {
-        this.hintBackgroundColor = hintBackgroundColor;
+    public void setHintBackgroundColor(Integer answerBackgroundColor) {
+        this.answerBackgroundColor = answerBackgroundColor;
     }
 
     public Integer getAnswerBackgroundColor() {
@@ -401,11 +387,11 @@ public class Setting implements Serializable, VersionableDomainObject {
     }
 
     public String getHintFont() {
-        return hintFont;
+        return answerFont;
     }
 
-    public void setHintFont(String hintFont) {
-        this.hintFont = hintFont;
+    public void setHintFont(String answerFont) {
+        this.answerFont = answerFont;
     }
 
     public String getAnswerFont() {
@@ -450,10 +436,10 @@ public class Setting implements Serializable, VersionableDomainObject {
 
     public boolean isDefaultColor() {
         return questionTextColor == null &&
-                hintTextColor == null &&
+                //hintTextColor == null &&
                 answerTextColor == null &&
                 questionBackgroundColor == null &&
-                hintBackgroundColor == null &&
+                //hintBackgroundColor == null &&
                 answerBackgroundColor == null && separatorColor.equals(DEFAULT_SEPARATOR_COLOR);
     }
 }

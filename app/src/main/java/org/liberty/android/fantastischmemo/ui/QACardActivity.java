@@ -191,7 +191,7 @@ public abstract class QACardActivity extends BaseActivity {
     }
 
     protected void displayCard(boolean showAnswer) {
-        displayCard(showAnswer, showAnswer);
+        displayCard(showAnswer, isHintShown);
     }
 
     // Important class that display the card using fragment
@@ -237,7 +237,10 @@ public abstract class QACardActivity extends BaseActivity {
         };
 
         // Buttons view can be null if it is not decleared in the layout XML
+
+        /**
         View buttonsView = findViewById(R.id.buttons_root);
+        View hintButtonsView = findViewById(R.id.buttons_hint);
 
         if (buttonsView != null) {
             // Make sure the buttons view are also handling the event for the answer view
@@ -264,6 +267,32 @@ public abstract class QACardActivity extends BaseActivity {
             }
         }
 
+        if (hintButtonsView != null) {
+            // Make sure the buttons view are also handling the event for the answer view
+            // e. g. clicking on the blank area of the buttons layout to reveal the answer
+            // or flip the card.
+            hintButtonsView.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    onQuestionViewClickListener.onClick(v);
+                }
+            });
+
+            // Also the buttons should match the color of the view above.
+            // It could be the question if it is the double sided card with only question shown
+            // or answer view's color.
+            if (!setting.isDefaultColor()) {
+                if (setting.getCardStyle() == Setting.CardStyle.DOUBLE_SIDED && !showAnswer && !showHint &&
+                        setting.getQuestionBackgroundColor() != null) {
+                    hintButtonsView.setBackgroundColor(setting.getQuestionBackgroundColor());
+                } else if (setting.getHintBackgroundColor() != null && !showAnswer && showHint) {
+                    hintButtonsView.setBackgroundColor(setting.getHintBackgroundColor());
+                } else if (setting.getAnswerBackgroundColor() != null) {
+                    hintButtonsView.setBackgroundColor(setting.getAnswerBackgroundColor());
+                }
+            }
+        }
+**/
+
         CardFragment.Builder questionFragmentBuilder = new CardFragment.Builder(getCurrentCard().getQuestion())
             .setTextAlignment(questionAlign)
             .setTypefaceFromFile(questionTypefaceValue)
@@ -288,7 +317,7 @@ public abstract class QACardActivity extends BaseActivity {
 
         CardFragment.Builder showHintFragmentBuilder = new CardFragment.Builder(getString(R.string.memo_show_hint))
                 .setTextAlignment(Setting.Align.CENTER)
-                .setTypefaceFromFile(answerTypefaceValue)
+                .setTypefaceFromFile(hintTypefaceValue)
                 .setTextOnClickListener(onHintTextClickListener)
                 .setCardOnClickListener(onHintViewClickListener)
                 .setTextFontSize(setting.getHintFontSize())
@@ -373,6 +402,7 @@ public abstract class QACardActivity extends BaseActivity {
             }
 
             List<CardFragment.Builder> builders2List = new ArrayList<CardFragment.Builder>(4);
+
             if (!showAnswer) {
                 builders2List.add(showAnswerFragmentBuilder);
             }
@@ -393,7 +423,7 @@ public abstract class QACardActivity extends BaseActivity {
             }
 
             List<CardFragment.Builder> builders3List = new ArrayList<CardFragment.Builder>(4);
-            if (!showAnswer) {
+            if (showAnswer) {
                 builders3List.add(showAnswerFragmentBuilder);
             }
             if (!showHint) {
@@ -491,6 +521,10 @@ public abstract class QACardActivity extends BaseActivity {
 
     protected boolean isAnswerShown() {
         return isAnswerShown;
+    }
+
+    protected boolean isHintShown() {
+        return isHintShown;
     }
 
     protected AnyMemoDBOpenHelper getDbOpenHelper() {
@@ -660,7 +694,7 @@ public abstract class QACardActivity extends BaseActivity {
         /**if (!onClickHintView()) {
             speakAnswer();
         }**/
-        return true;
+        return false;
     }
 
     protected void onGestureDetected(GestureName gestureName) {
