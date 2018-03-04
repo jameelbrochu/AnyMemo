@@ -23,6 +23,7 @@
     <string name="copyclipboard">Copy to clipboard</string>
     <string name="copyclipboard_summary">Automatically copy card content to clipboard.</string>
     <string name="memo_show_answer">Show answer</string>
+    <string name="memo_show_hint">Hint</string>
     <string name="memo_no_item_title">No item</string>
     <string name="memo_no_item_message">There is no item to learn for now. If you want to cram, you can do quizzes by long clicking a db in the &quot;Recent&quot; tab.</string>
     <string name="memo_btn0_text">0 Forgot</string>
@@ -246,6 +247,7 @@
     <string name="card_style_single">Single sided</string>
     <string name="settings_field1">Customize card field1</string>
     <string name="settings_field2">Customize card field2</string>
+    <string name="settings_field3">Customize card field3</string>
     <string name="left_text">Left</string>
     <string name="center_text">Center</string>
     <string name="right_text">Right</string>

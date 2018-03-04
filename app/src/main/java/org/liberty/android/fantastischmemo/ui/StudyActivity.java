@@ -125,9 +125,7 @@ public class StudyActivity extends QACardActivity {
                 getDbOpenHelper().getCardDao().unshuffleCards();
             }
         }
-
-
-
+        
     }
 
     @Override
@@ -421,6 +419,16 @@ public class StudyActivity extends QACardActivity {
     }
 
     @Override
+    protected boolean onClickHintText() {
+        if (!isHintShown()) {
+            onClickHintView();
+        } else {
+            onClickHintView();
+        }
+        return true;
+    }
+
+    @Override
     protected boolean onClickQuestionView() {
         if (!isAnswerShown()) {
             displayCard(true);
@@ -437,6 +445,18 @@ public class StudyActivity extends QACardActivity {
         }
         return true;
     }
+
+    @Override
+    protected boolean onClickHintView() {
+        if (!isHintShown()) {
+            setIsHintShown(true);
+            displayCard(false);
+        } else if (getSetting().getCardStyle() == Setting.CardStyle.DOUBLE_SIDED && isHintShown()) {
+            displayCard(false);
+        }
+        return true;
+    }
+
 
     @Override
     protected boolean onVolumeUpKeyPressed() {

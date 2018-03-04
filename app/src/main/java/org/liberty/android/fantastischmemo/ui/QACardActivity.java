@@ -99,7 +99,7 @@ public abstract class QACardActivity extends BaseActivity {
 
     private boolean isAnswerShown = true;
 
-    private boolean isHintShown = true;
+    private boolean isHintShown = false;
 
     private TextView smallTitleBar;
 
@@ -198,19 +198,24 @@ public abstract class QACardActivity extends BaseActivity {
         // First prepare the text to display
 
         String questionTypeface = setting.getQuestionFont();
+        String hintTypeface = setting.getHintFont();
         String answerTypeface = setting.getAnswerFont();
 
         Setting.Align questionAlign = setting.getQuestionTextAlign();
+        Setting.Align hintAlign = setting.getHintTextAlign();
         Setting.Align answerAlign = setting.getAnswerTextAlign();
 
         String questionTypefaceValue = null;
-        String answerTypefaceValue = null;
         String hintTypefaceValue = null;
+        String answerTypefaceValue = null;
 
         /* Set the typeface of question and answer */
         if (!Strings.isNullOrEmpty(questionTypeface)) {
             questionTypefaceValue = questionTypeface;
 
+        }
+        if (!Strings.isNullOrEmpty(hintTypeface)) {
+            hintTypefaceValue = hintTypeface;
         }
         if (!Strings.isNullOrEmpty(answerTypeface)) {
             answerTypefaceValue = answerTypeface;
@@ -227,32 +232,6 @@ public abstract class QACardActivity extends BaseActivity {
             AMEnv.DEFAULT_IMAGE_PATH,
         };
 
-        // Buttons view can be null if it is not decleared in the layout XML
-        View buttonsView = findViewById(R.id.buttons_root);
-
-        if (buttonsView != null) {
-            // Make sure the buttons view are also handling the event for the answer view
-            // e. g. clicking on the blank area of the buttons layout to reveal the answer
-            // or flip the card.
-            buttonsView.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    onQuestionViewClickListener.onClick(v);
-                }
-            });
-
-            // Also the buttons should match the color of the view above.
-            // It could be the question if it is the double sided card with only question shown
-            // or answer view's color.
-            if (!setting.isDefaultColor()) {
-                if (setting.getCardStyle() == Setting.CardStyle.DOUBLE_SIDED && !showAnswer &&
-                        setting.getQuestionBackgroundColor() != null) {
-                    buttonsView.setBackgroundColor(setting.getQuestionBackgroundColor());
-                } else if (setting.getAnswerBackgroundColor() != null) {
-                    buttonsView.setBackgroundColor(setting.getAnswerBackgroundColor());
-                }
-            }
-        }
-
         CardFragment.Builder questionFragmentBuilder = new CardFragment.Builder(getCurrentCard().getQuestion())
             .setTextAlignment(questionAlign)
             .setTypefaceFromFile(questionTypefaceValue)
@@ -264,6 +243,24 @@ public abstract class QACardActivity extends BaseActivity {
             .setHtmlLinebreakConversion(setting.getHtmlLineBreakConversion())
             .setImageSearchPaths(imageSearchPaths);
 
+        CardFragment.Builder hintFragmentBuilder = new CardFragment.Builder(getCurrentCard().getHint())
+                .setTextAlignment(hintAlign)
+                .setTypefaceFromFile(hintTypefaceValue)
+                .setTextOnClickListener(onHintTextClickListener)
+                .setCardOnClickListener(onHintViewClickListener)
+                .setTextFontSize(setting.getHintFontSize())
+                .setTypefaceFromFile(setting.getHintFont())
+                .setDisplayInHtml(setting.getDisplayInHTMLEnum().contains(Setting.CardField.HINT))
+                .setHtmlLinebreakConversion(setting.getHtmlLineBreakConversion())
+                .setImageSearchPaths(imageSearchPaths);
+
+        CardFragment.Builder showHintFragmentBuilder = new CardFragment.Builder(getString(R.string.memo_show_hint))
+                .setTextAlignment(Setting.Align.CENTER)
+                .setTypefaceFromFile(hintTypefaceValue)
+                .setTextOnClickListener(onHintTextClickListener)
+                .setCardOnClickListener(onHintViewClickListener)
+                .setTextFontSize(setting.getHintFontSize())
+                .setTypefaceFromFile(setting.getHintFont());
 
         CardFragment.Builder answerFragmentBuilder = new CardFragment.Builder(getCurrentCard().getAnswer())
             .setTextAlignment(answerAlign)
@@ -276,6 +273,7 @@ public abstract class QACardActivity extends BaseActivity {
             .setHtmlLinebreakConversion(setting.getHtmlLineBreakConversion())
             .setImageSearchPaths(imageSearchPaths);
 
+
         CardFragment.Builder showAnswerFragmentBuilder = new CardFragment.Builder("?\n" + getString(R.string.memo_show_answer))
             .setTextAlignment(Setting.Align.CENTER)
             .setTypefaceFromFile(answerTypefaceValue)
@@ -287,6 +285,14 @@ public abstract class QACardActivity extends BaseActivity {
             questionFragmentBuilder
                     .setTextColor(setting.getQuestionTextColor())
                     .setBackgroundColor(setting.getQuestionBackgroundColor());
+
+            hintFragmentBuilder
+                    .setBackgroundColor(setting.getHintBackgroundColor())
+                    .setTextColor(setting.getHintTextColor());
+
+            showHintFragmentBuilder
+                    .setTextColor(setting.getHintTextColor())
+                    .setBackgroundColor(setting.getHintBackgroundColor());
 
             answerFragmentBuilder
                     .setBackgroundColor(setting.getAnswerBackgroundColor())
@@ -324,6 +330,9 @@ public abstract class QACardActivity extends BaseActivity {
             if (setting.getQuestionFieldEnum().contains(Setting.CardField.QUESTION)) {
                 builders1List.add(questionFragmentBuilder);
             }
+            if (setting.getHintFieldEnum().contains(Setting.CardField.HINT)) {
+                builders1List.add(hintFragmentBuilder);
+            }
             if (setting.getQuestionFieldEnum().contains(Setting.CardField.ANSWER)) {
                 builders1List.add(answerFragmentBuilder);
             }
@@ -332,11 +341,15 @@ public abstract class QACardActivity extends BaseActivity {
             }
 
             List<CardFragment.Builder> builders2List = new ArrayList<CardFragment.Builder>(4);
+
             if (!showAnswer) {
                 builders2List.add(showAnswerFragmentBuilder);
             }
             if (setting.getAnswerFieldEnum().contains(Setting.CardField.QUESTION)) {
                 builders2List.add(questionFragmentBuilder);
+            }
+            if (setting.getAnswerFieldEnum().contains(Setting.CardField.HINT)) {
+                builders2List.add(hintFragmentBuilder);
             }
             if (setting.getAnswerFieldEnum().contains(Setting.CardField.ANSWER)) {
                 builders2List.add(answerFragmentBuilder);
@@ -345,13 +358,41 @@ public abstract class QACardActivity extends BaseActivity {
                 builders2List.add(noteFragmentBuilder);
             }
 
+            List<CardFragment.Builder> builders3List = new ArrayList<CardFragment.Builder>(4);
+
+            if (!isHintShown) {
+                builders3List.add(showHintFragmentBuilder);
+            }
+            if (setting.getHintFieldEnum().contains(Setting.CardField.QUESTION)) {
+                builders3List.add(questionFragmentBuilder);
+            }
+            if (setting.getHintFieldEnum().contains(Setting.CardField.HINT)) {
+                builders3List.add(hintFragmentBuilder);
+            }
+            if (setting.getHintFieldEnum().contains(Setting.CardField.ANSWER)) {
+                builders3List.add(answerFragmentBuilder);
+            }
+            if (setting.getHintFieldEnum().contains(Setting.CardField.NOTE)) {
+                builders3List.add(noteFragmentBuilder);
+            }
             CardFragment.Builder[] builders1 = new CardFragment.Builder[builders1List.size()];
             builders1List.toArray(builders1);
             CardFragment.Builder[] builders2 = new CardFragment.Builder[builders2List.size()];
             builders2List.toArray(builders2);
+            CardFragment.Builder[] builders3 = new CardFragment.Builder[builders3List.size()];
+            builders3List.toArray(builders3);
 
             b.putSerializable(TwoFieldsCardFragment.EXTRA_FIELD1_CARD_FRAGMENT_BUILDERS, builders1);
             b.putSerializable(TwoFieldsCardFragment.EXTRA_FIELD2_CARD_FRAGMENT_BUILDERS, builders2);
+            b.putSerializable(TwoFieldsCardFragment.EXTRA_FIELD3_CARD_FRAGMENT_BUILDERS, builders3);
+
+            if (isHintShown) {
+                b.putInt(TwoFieldsCardFragment.EXTRA_FIELD3_INITIAL_POSITION, 0);
+                isHintShown = false;
+            } else {
+                b.putInt(TwoFieldsCardFragment.EXTRA_FIELD3_INITIAL_POSITION, 0);
+            }
+
             if (showAnswer) {
                 b.putInt(TwoFieldsCardFragment.EXTRA_FIELD2_INITIAL_POSITION, 0);
             } else {
@@ -368,8 +409,14 @@ public abstract class QACardActivity extends BaseActivity {
         } else if (setting.getCardStyle() == Setting.CardStyle.DOUBLE_SIDED) {
             FlipableCardFragment fragment = new FlipableCardFragment();
             Bundle b = new Bundle(1);
-            CardFragment.Builder[] builders = {questionFragmentBuilder, answerFragmentBuilder, noteFragmentBuilder};
+            CardFragment.Builder[] builders = {questionFragmentBuilder, hintFragmentBuilder, answerFragmentBuilder, noteFragmentBuilder};
             b.putSerializable(FlipableCardFragment.EXTRA_CARD_FRAGMENT_BUILDERS, builders);
+
+            if (isHintShown) {
+                b.putInt(FlipableCardFragment.EXTRA_INITIAL_POSITION, 1);
+            } else {
+                b.putInt(FlipableCardFragment.EXTRA_INITIAL_POSITION, 0);
+            }
             if (showAnswer) {
                 b.putInt(FlipableCardFragment.EXTRA_INITIAL_POSITION, 1);
             } else {
@@ -407,6 +454,14 @@ public abstract class QACardActivity extends BaseActivity {
 
     protected boolean isAnswerShown() {
         return isAnswerShown;
+    }
+
+    protected boolean isHintShown() {
+        return isHintShown;
+    }
+
+    protected void setIsHintShown(boolean hintShown) {
+        isHintShown = hintShown;
     }
 
     protected AnyMemoDBOpenHelper getDbOpenHelper() {
@@ -572,6 +627,10 @@ public abstract class QACardActivity extends BaseActivity {
         }
         return true;
     }
+    protected boolean onClickHintText() {
+        //show hint
+        return true;
+    }
 
     protected void onGestureDetected(GestureName gestureName) {
         // Nothing
@@ -732,6 +791,15 @@ public abstract class QACardActivity extends BaseActivity {
             onClickAnswerText();
         }
     };
+    private CardFragment.OnClickListener onHintTextClickListener = new CardFragment.OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            if(!isAnswerShown) {
+                onClickHintText();
+            }
+        }
+    };
 
     private CardFragment.OnClickListener onQuestionViewClickListener = new CardFragment.OnClickListener() {
 
@@ -751,7 +819,9 @@ public abstract class QACardActivity extends BaseActivity {
 
         @Override
         public void onClick(View v) {
-            onClickHintView();
+            if(!isAnswerShown) {
+                onClickHintView();
+            }
         }
     };
 

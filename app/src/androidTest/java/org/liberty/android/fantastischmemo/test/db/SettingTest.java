@@ -26,6 +26,15 @@ public class SettingTest extends AbstractExistingDBTest {
 
     @SmallTest
     @Test
+    public void testHintFontSize() throws Exception {
+        Setting setting = getCurrentSetting();
+        setting.setHintFontSize(55);
+        Setting savedSetting = setSetting(setting);
+        assertEquals(55, (int)savedSetting.getHintFontSize());
+    }
+
+    @SmallTest
+    @Test
     public void testAnswerFontSize() throws Exception {
         Setting setting = getCurrentSetting();
         setting.setAnswerFontSize(60);
@@ -40,6 +49,15 @@ public class SettingTest extends AbstractExistingDBTest {
         setting.setQuestionTextAlign(Setting.Align.RIGHT);
         Setting savedSetting = setSetting(setting);
         assertEquals(Setting.Align.RIGHT, savedSetting.getQuestionTextAlign());
+    }
+
+    @SmallTest
+    @Test
+    public void testHintTextAlign() throws Exception {
+        Setting setting = getCurrentSetting();
+        setting.setHintTextAlign(Setting.Align.CENTER_RIGHT);
+        Setting savedSetting = setSetting(setting);
+        assertEquals(Setting.Align.CENTER_RIGHT, savedSetting.getHintTextAlign());
     }
 
     @SmallTest
@@ -98,6 +116,15 @@ public class SettingTest extends AbstractExistingDBTest {
 
     @SmallTest
     @Test
+    public void testHintTextColor() throws Exception {
+        Setting setting = getCurrentSetting();
+        setting.setHintTextColor(Color.RED);
+        Setting savedSetting = setSetting(setting);
+        assertEquals(Color.RED, (int)savedSetting.getHintTextColor());
+    }
+
+    @SmallTest
+    @Test
     public void testAnswerTextColor() throws Exception {
         Setting setting = getCurrentSetting();
         setting.setAnswerTextColor(Color.RED);
@@ -112,6 +139,15 @@ public class SettingTest extends AbstractExistingDBTest {
         setting.setQuestionBackgroundColor(Color.RED);
         Setting savedSetting = setSetting(setting);
         assertEquals(Color.RED, (int)savedSetting.getQuestionBackgroundColor());
+    }
+
+    @SmallTest
+    @Test
+    public void testHintBackgroundColor() throws Exception {
+        Setting setting = getCurrentSetting();
+        setting.setHintBackgroundColor(Color.RED);
+        Setting savedSetting = setSetting(setting);
+        assertEquals(Color.RED, (int)savedSetting.getHintBackgroundColor());
     }
 
     @SmallTest
@@ -152,6 +188,15 @@ public class SettingTest extends AbstractExistingDBTest {
 
     @SmallTest
     @Test
+    public void testHintField() throws Exception {
+        Setting setting = getCurrentSetting();
+        setting.setHintFieldEnum(EnumSet.of(Setting.CardField.HINT));
+        Setting savedSetting = setSetting(setting);
+        assertEquals(EnumSet.of(Setting.CardField.HINT), savedSetting.getHintFieldEnum());
+    }
+
+    @SmallTest
+    @Test
     public void testAnswerField() throws Exception {
         Setting setting = getCurrentSetting();
         setting.setAnswerFieldEnum(EnumSet.of(Setting.CardField.NOTE, Setting.CardField.ANSWER));
@@ -166,6 +211,15 @@ public class SettingTest extends AbstractExistingDBTest {
         setting.setQuestionFont("/sdcard/font1.ttf");
         Setting savedSetting = setSetting(setting);
         assertEquals("/sdcard/font1.ttf", savedSetting.getQuestionFont());
+    }
+
+    @SmallTest
+    @Test
+    public void testHintFont() throws Exception {
+        Setting setting = getCurrentSetting();
+        setting.setHintFont("/sdcard/font1.ttf");
+        Setting savedSetting = setSetting(setting);
+        assertEquals("/sdcard/font1.ttf", savedSetting.getHintFont());
     }
 
     @SmallTest
