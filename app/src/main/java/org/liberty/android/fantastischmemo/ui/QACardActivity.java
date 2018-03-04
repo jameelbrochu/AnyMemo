@@ -99,7 +99,7 @@ public abstract class QACardActivity extends BaseActivity {
 
     private boolean isAnswerShown = true;
 
-    private boolean isHintShown = true;
+    private boolean isHintShown = false;
 
     private TextView smallTitleBar;
 
@@ -190,14 +190,10 @@ public abstract class QACardActivity extends BaseActivity {
         return dbName;
     }
 
-    protected void displayCard(boolean showAnswer) {
-        displayCard(showAnswer, isHintShown);
-    }
-
     // Important class that display the card using fragment
     // the showAnswer parameter is handled differently on single
     // sided card and double sided card.
-    protected void displayCard(boolean showAnswer, boolean showHint) {
+    protected void displayCard(boolean showAnswer) {
 
         // First prepare the text to display
 
@@ -235,63 +231,6 @@ public abstract class QACardActivity extends BaseActivity {
             /* Try the image in /sdcard/anymemo/images/ */
             AMEnv.DEFAULT_IMAGE_PATH,
         };
-
-        // Buttons view can be null if it is not decleared in the layout XML
-
-        /**
-        View buttonsView = findViewById(R.id.buttons_root);
-        View hintButtonsView = findViewById(R.id.buttons_hint);
-
-        if (buttonsView != null) {
-            // Make sure the buttons view are also handling the event for the answer view
-            // e. g. clicking on the blank area of the buttons layout to reveal the answer
-            // or flip the card.
-            buttonsView.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    onQuestionViewClickListener.onClick(v);
-                }
-            });
-
-            // Also the buttons should match the color of the view above.
-            // It could be the question if it is the double sided card with only question shown
-            // or answer view's color.
-            if (!setting.isDefaultColor()) {
-                if (setting.getCardStyle() == Setting.CardStyle.DOUBLE_SIDED && !showAnswer && !showHint &&
-                        setting.getQuestionBackgroundColor() != null) {
-                    buttonsView.setBackgroundColor(setting.getQuestionBackgroundColor());
-                } else if (setting.getHintBackgroundColor() != null && !showAnswer && showHint) {
-                    buttonsView.setBackgroundColor(setting.getHintBackgroundColor());
-                } else if (setting.getAnswerBackgroundColor() != null) {
-                    buttonsView.setBackgroundColor(setting.getAnswerBackgroundColor());
-                }
-            }
-        }
-
-        if (hintButtonsView != null) {
-            // Make sure the buttons view are also handling the event for the answer view
-            // e. g. clicking on the blank area of the buttons layout to reveal the answer
-            // or flip the card.
-            hintButtonsView.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    onQuestionViewClickListener.onClick(v);
-                }
-            });
-
-            // Also the buttons should match the color of the view above.
-            // It could be the question if it is the double sided card with only question shown
-            // or answer view's color.
-            if (!setting.isDefaultColor()) {
-                if (setting.getCardStyle() == Setting.CardStyle.DOUBLE_SIDED && !showAnswer && !showHint &&
-                        setting.getQuestionBackgroundColor() != null) {
-                    hintButtonsView.setBackgroundColor(setting.getQuestionBackgroundColor());
-                } else if (setting.getHintBackgroundColor() != null && !showAnswer && showHint) {
-                    hintButtonsView.setBackgroundColor(setting.getHintBackgroundColor());
-                } else if (setting.getAnswerBackgroundColor() != null) {
-                    hintButtonsView.setBackgroundColor(setting.getAnswerBackgroundColor());
-                }
-            }
-        }
-**/
 
         CardFragment.Builder questionFragmentBuilder = new CardFragment.Builder(getCurrentCard().getQuestion())
             .setTextAlignment(questionAlign)
@@ -406,9 +345,6 @@ public abstract class QACardActivity extends BaseActivity {
             if (!showAnswer) {
                 builders2List.add(showAnswerFragmentBuilder);
             }
-            if (!showHint) {
-                builders2List.add(showHintFragmentBuilder);
-            }
             if (setting.getAnswerFieldEnum().contains(Setting.CardField.QUESTION)) {
                 builders2List.add(questionFragmentBuilder);
             }
@@ -423,10 +359,8 @@ public abstract class QACardActivity extends BaseActivity {
             }
 
             List<CardFragment.Builder> builders3List = new ArrayList<CardFragment.Builder>(4);
-            if (showAnswer) {
-                builders3List.add(showAnswerFragmentBuilder);
-            }
-            if (!showHint) {
+
+            if (!isHintShown) {
                 builders3List.add(showHintFragmentBuilder);
             }
             if (setting.getHintFieldEnum().contains(Setting.CardField.QUESTION)) {
@@ -441,7 +375,6 @@ public abstract class QACardActivity extends BaseActivity {
             if (setting.getHintFieldEnum().contains(Setting.CardField.NOTE)) {
                 builders3List.add(noteFragmentBuilder);
             }
-
             CardFragment.Builder[] builders1 = new CardFragment.Builder[builders1List.size()];
             builders1List.toArray(builders1);
             CardFragment.Builder[] builders2 = new CardFragment.Builder[builders2List.size()];
@@ -453,8 +386,9 @@ public abstract class QACardActivity extends BaseActivity {
             b.putSerializable(TwoFieldsCardFragment.EXTRA_FIELD2_CARD_FRAGMENT_BUILDERS, builders2);
             b.putSerializable(TwoFieldsCardFragment.EXTRA_FIELD3_CARD_FRAGMENT_BUILDERS, builders3);
 
-            if (showHint) {
+            if (isHintShown) {
                 b.putInt(TwoFieldsCardFragment.EXTRA_FIELD3_INITIAL_POSITION, 0);
+                isHintShown = false;
             } else {
                 b.putInt(TwoFieldsCardFragment.EXTRA_FIELD3_INITIAL_POSITION, 0);
             }
@@ -478,7 +412,7 @@ public abstract class QACardActivity extends BaseActivity {
             CardFragment.Builder[] builders = {questionFragmentBuilder, hintFragmentBuilder, answerFragmentBuilder, noteFragmentBuilder};
             b.putSerializable(FlipableCardFragment.EXTRA_CARD_FRAGMENT_BUILDERS, builders);
 
-            if (showHint) {
+            if (isHintShown) {
                 b.putInt(FlipableCardFragment.EXTRA_INITIAL_POSITION, 1);
             } else {
                 b.putInt(FlipableCardFragment.EXTRA_INITIAL_POSITION, 0);
@@ -500,7 +434,6 @@ public abstract class QACardActivity extends BaseActivity {
         }
 
         isAnswerShown = showAnswer;
-        isHintShown = showHint;
 
         // Set up the small title bar
         // It is defualt "GONE" so it won't take any space
@@ -525,6 +458,10 @@ public abstract class QACardActivity extends BaseActivity {
 
     protected boolean isHintShown() {
         return isHintShown;
+    }
+
+    protected void setIsHintShown(boolean hintShown) {
+        isHintShown = hintShown;
     }
 
     protected AnyMemoDBOpenHelper getDbOpenHelper() {
@@ -694,7 +631,7 @@ public abstract class QACardActivity extends BaseActivity {
         /**if (!onClickHintView()) {
             speakAnswer();
         }**/
-        return false;
+        return true;
     }
 
     protected void onGestureDetected(GestureName gestureName) {
@@ -856,12 +793,13 @@ public abstract class QACardActivity extends BaseActivity {
             onClickAnswerText();
         }
     };
-
     private CardFragment.OnClickListener onHintTextClickListener = new CardFragment.OnClickListener() {
 
         @Override
         public void onClick(View v) {
-            onClickHintText();
+            if(!isAnswerShown) {
+                onClickHintText();
+            }
         }
     };
 
@@ -883,7 +821,9 @@ public abstract class QACardActivity extends BaseActivity {
 
         @Override
         public void onClick(View v) {
-            onClickHintView();
+            if(!isAnswerShown) {
+                onClickHintView();
+            }
         }
     };
 

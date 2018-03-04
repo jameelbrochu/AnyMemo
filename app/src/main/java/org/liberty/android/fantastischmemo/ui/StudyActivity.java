@@ -124,9 +124,7 @@ public class StudyActivity extends QACardActivity {
         else {
             getDbOpenHelper().getCardDao().unshuffleCards();
         }
-
-
-
+        
     }
 
     @Override
@@ -450,6 +448,7 @@ public class StudyActivity extends QACardActivity {
     @Override
     protected boolean onClickHintView() {
         if (!isHintShown()) {
+            setIsHintShown(true);
             displayCard(false);
         } else if (getSetting().getCardStyle() == Setting.CardStyle.DOUBLE_SIDED && isHintShown()) {
             displayCard(false);
