@@ -158,10 +158,8 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
         }
         if (oldVersion <= 3) {
             database.execSQL("update settings set questionTextColor = ? where questionTextColor = ?", new Object[] {null, 0xFFBEBEBE});
-            //database.execSQL("update settings set hintTextColor = ? where hintTextColor = ?", new Object[] {null, 0xFFBEBEBE} );
             database.execSQL("update settings set answerTextColor = ? where answerTextColor = ?", new Object[] {null, 0xFFBEBEBE} );
             database.execSQL("update settings set questionBackgroundColor = ? where questionBackgroundColor = ?", new Object[] {null, 0xFF000000});
-            //database.execSQL("update settings set hintBackgroundColor = ? where hintBackgroundColor = ?", new Object[] {null, 0xFF000000});
             database.execSQL("update settings set answerBackgroundColor = ? where answerBackgroundColor = ?", new Object[] {null, 0xFF000000});
         }
         if (oldVersion <= 4) {

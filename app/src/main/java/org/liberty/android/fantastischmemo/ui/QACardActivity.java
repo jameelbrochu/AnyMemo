@@ -628,9 +628,7 @@ public abstract class QACardActivity extends BaseActivity {
         return true;
     }
     protected boolean onClickHintText() {
-        /**if (!onClickHintView()) {
-            speakAnswer();
-        }**/
+        //show hint
         return true;
     }
 
