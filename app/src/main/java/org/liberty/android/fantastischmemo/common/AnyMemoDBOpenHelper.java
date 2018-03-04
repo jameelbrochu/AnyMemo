@@ -144,7 +144,6 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
         Log.v(TAG, "Old version" + oldVersion + " new version: " + newVersion);
-
         Cursor cursor = database.rawQuery("select * from cards", null);
         if(cursor.getColumnCount() != 11){
             database.execSQL("alter table cards ADD hint String");

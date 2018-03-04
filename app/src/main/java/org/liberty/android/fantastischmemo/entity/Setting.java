@@ -438,6 +438,7 @@ public class Setting implements Serializable, VersionableDomainObject {
         return questionTextColor == null &&
                 answerTextColor == null &&
                 questionBackgroundColor == null &&
-                answerBackgroundColor == null && separatorColor.equals(DEFAULT_SEPARATOR_COLOR);
+                answerBackgroundColor == null &&
+                separatorColor.equals(DEFAULT_SEPARATOR_COLOR);
     }
 }

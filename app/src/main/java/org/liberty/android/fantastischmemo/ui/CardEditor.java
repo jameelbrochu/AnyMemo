@@ -178,13 +178,13 @@ public class CardEditor extends BaseActivity {
                 return true;
 
             case R.id.editor_menu_br:
-                if(focusView == questionEdit || focusView ==answerEdit || focusView == noteEdit || focusView == hintEdit){
+                if(focusView == questionEdit || focusView == answerEdit || focusView == noteEdit || focusView == hintEdit){
                     addTextToView((EditText)focusView, "<br />");
                 }
                 return true;
 
             case R.id.editor_menu_image:
-                if(focusView == questionEdit || focusView ==answerEdit || focusView == noteEdit || focusView == hintEdit){
+                if(focusView == questionEdit || focusView == answerEdit || focusView == noteEdit || focusView == hintEdit){
                     Intent myIntent = new Intent(this, FileBrowserActivity.class);
                     myIntent.putExtra(FileBrowserActivity.EXTRA_FILE_EXTENSIONS, ".png,.jpg,.tif,.bmp");
                     startActivityForResult(myIntent, ACTIVITY_IMAGE_FILE);
@@ -286,16 +286,15 @@ public class CardEditor extends BaseActivity {
 
     private void removeAudio(){
         View focusView = getCurrentFocus();
-        if(focusView == questionEdit){
+        if (focusView == questionEdit){
             currentCard.setQuestion(currentCard.getQuestion().replaceAll("<audio src=.*/>", ""));
             ((EditText)focusView).setText(currentCard.getQuestion());
         } else if (focusView == answerEdit) {
             currentCard.setAnswer(currentCard.getAnswer().replaceAll("<audio src=.*/>", ""));
             ((EditText)focusView).setText(currentCard.getAnswer());
-        } else if(focusView == hintEdit){
+        } else if (focusView == hintEdit){
             ((EditText)focusView).setText(currentCard.getHint());
-        }
-        else {
+        } else {
             return;
         }
     }

@@ -125,17 +125,14 @@ public class TwoFieldsCardFragment extends BaseFragment {
 
         for (int i = 0; i < array1.length;  i++) {
             field1CardFragmentBuilders[i] = (CardFragment.Builder) array1[i];
-
         }
 
         for (int i = 0; i < array2.length;  i++) {
             field2CardFragmentBuilders[i] = (CardFragment.Builder) array2[i];
-
         }
 
         for (int i = 0; i < array3.length;  i++) {
             field3CardFragmentBuilders[i] = (CardFragment.Builder) array3[i];
-
         }
 
         qaRatio = getArguments().getInt(EXTRA_QA_RATIO, Setting.DEFAULT_QA_RATIO);
