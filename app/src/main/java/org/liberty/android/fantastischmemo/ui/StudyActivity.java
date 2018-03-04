@@ -421,7 +421,7 @@ public class StudyActivity extends QACardActivity {
     protected boolean onClickHintText() {
         if (!isHintShown()) {
             onClickHintView();
-        }else {
+        } else {
             onClickHintView();
         }
         return true;
