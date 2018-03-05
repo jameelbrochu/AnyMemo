@@ -212,10 +212,10 @@ public class CardProvider extends ContentProvider {
      * Build cursor from a list of cards.
      */
     private Cursor buildCursorFromCards(List<Card> cards) {
-        String[] columnNames = {"id", "ordinal", "question", "answer", "category"};
+        String[] columnNames = {"id", "ordinal", "question", "answer", "category", "hint"};
         MatrixCursor cursor = new MatrixCursor(columnNames, cards.size());
         for (Card c : cards) {
-            cursor.addRow(new String[]{c.getId().toString(), c.getOrdinal().toString(), c.getQuestion(), c.getAnswer(), c.getCategory().getName()});
+            cursor.addRow(new String[]{c.getId().toString(), c.getOrdinal().toString(), c.getQuestion(), c.getAnswer(), c.getCategory().getName(), c.getHint()});
         }
         return cursor;
     }
