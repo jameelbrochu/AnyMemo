@@ -428,7 +428,7 @@ public class QuizActivity extends QACardActivity {
         int timeInMinutes = (int) timeToCompleteInMilliseconds / 60000;
         int timeInSeconds = (int) timeToCompleteInMilliseconds % 60000 /1000;
 
-        if(timeToCompleteInMilliseconds <= 0) { return timeToCompleteText; }
+        if (timeToCompleteInMilliseconds <= 0) { return timeToCompleteText; }
 
         String totalTimeToComplete;
         totalTimeToComplete = "" + timeInMinutes;
@@ -438,7 +438,7 @@ public class QuizActivity extends QACardActivity {
         }
 
         totalTimeToComplete += timeInSeconds;
-        timeToCompleteText = "Completed in " +totalTimeToComplete+ " seconds.";
+        timeToCompleteText = "Completed in " + totalTimeToComplete + " seconds.";
         return timeToCompleteText;
     }
 
