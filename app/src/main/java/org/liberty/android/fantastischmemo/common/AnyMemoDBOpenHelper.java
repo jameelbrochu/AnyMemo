@@ -31,7 +31,7 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
 
     private final String dbPath;
 
-    private static final int CURRENT_VERSION = 5;
+    private static final int CURRENT_VERSION = 6;
 
     private CardDao cardDao = null;
 
@@ -80,8 +80,8 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
         // This is old database
         if (isOldDatabase) {
             // copy all cards
-            database.execSQL("insert into cards (ordinal, question, answer, note, hint)" +
-                    " select _id as ordinal, question, answer, note, hint from dict_tbl");
+            database.execSQL("insert into cards (ordinal, question, answer, note)" +
+                    " select _id as ordinal, question, answer, note from dict_tbl");
 
 
             // Make sure the count matches in old database;
@@ -144,10 +144,6 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
         Log.v(TAG, "Old version" + oldVersion + " new version: " + newVersion);
-        Cursor cursor = database.rawQuery("select * from cards", null);
-        if(cursor.getColumnCount() != 11){
-            database.execSQL("alter table cards ADD hint String");
-        }
 
         // Update possible card with null category field
         if (oldVersion <= 2) {
@@ -168,6 +164,9 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
             } catch (android.database.SQLException e) {
                 Log.e(TAG, "Upgrading failed, the column firstLearnData might already exists.", e);
             }
+        }
+        if (oldVersion <= 5) {
+            database.execSQL("alter table cards add hint String");
         }
     }
 
