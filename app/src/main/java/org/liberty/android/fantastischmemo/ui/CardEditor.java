@@ -75,6 +75,7 @@ public class CardEditor extends BaseActivity {
     private Integer currentCardId;
     private EditText questionEdit;
     private EditText answerEdit;
+    private EditText hintEdit;
     private Button categoryButton;
     private EditText noteEdit;
     private RadioGroup addRadio;
@@ -91,6 +92,7 @@ public class CardEditor extends BaseActivity {
     private String originalQuestion;
     private String originalAnswer;
     private String originalNote;
+    private String originalHint;
 
     public static String EXTRA_DBPATH = "dbpath";
     public static String EXTRA_CARD_ID = "id";
@@ -128,7 +130,8 @@ public class CardEditor extends BaseActivity {
         String qText = questionEdit.getText().toString();
         String aText = answerEdit.getText().toString();
         String nText = noteEdit.getText().toString();
-        if (!isEditNew && (!qText.equals(originalQuestion) || !aText.equals(originalAnswer) || !nText.equals(originalNote))) {
+        String hText = hintEdit.getText().toString();
+        if (!isEditNew && (!qText.equals(originalQuestion) || !aText.equals(originalAnswer) || !nText.equals(originalNote) || !hText.equals(originalHint))) {
             new AlertDialog.Builder(this)
                 .setTitle(R.string.warning_text)
                 .setMessage(R.string.edit_dialog_unsave_warning)
@@ -175,13 +178,13 @@ public class CardEditor extends BaseActivity {
                 return true;
 
             case R.id.editor_menu_br:
-                if(focusView == questionEdit || focusView ==answerEdit || focusView == noteEdit){
+                if(focusView == questionEdit || focusView == answerEdit || focusView == noteEdit || focusView == hintEdit){
                     addTextToView((EditText)focusView, "<br />");
                 }
                 return true;
 
             case R.id.editor_menu_image:
-                if(focusView == questionEdit || focusView ==answerEdit || focusView == noteEdit){
+                if(focusView == questionEdit || focusView == answerEdit || focusView == noteEdit || focusView == hintEdit){
                     Intent myIntent = new Intent(this, FileBrowserActivity.class);
                     myIntent.putExtra(FileBrowserActivity.EXTRA_FILE_EXTENSIONS, ".png,.jpg,.tif,.bmp");
                     startActivityForResult(myIntent, ACTIVITY_IMAGE_FILE);
@@ -230,7 +233,7 @@ public class CardEditor extends BaseActivity {
 
     private boolean isViewEligibleToEditAudio(){
         View focusView = getCurrentFocus();
-        if(focusView == questionEdit || focusView == answerEdit){
+        if(focusView == questionEdit || focusView == answerEdit || focusView == hintEdit){
             return true;
         } else {
             return false;
@@ -283,12 +286,14 @@ public class CardEditor extends BaseActivity {
 
     private void removeAudio(){
         View focusView = getCurrentFocus();
-        if(focusView == questionEdit){
+        if (focusView == questionEdit){
             currentCard.setQuestion(currentCard.getQuestion().replaceAll("<audio src=.*/>", ""));
             ((EditText)focusView).setText(currentCard.getQuestion());
         } else if (focusView == answerEdit) {
             currentCard.setAnswer(currentCard.getAnswer().replaceAll("<audio src=.*/>", ""));
             ((EditText)focusView).setText(currentCard.getAnswer());
+        } else if (focusView == hintEdit){
+            ((EditText)focusView).setText(currentCard.getHint());
         } else {
             return;
         }
@@ -477,9 +482,11 @@ public class CardEditor extends BaseActivity {
             originalQuestion = currentCard.getQuestion();
             originalAnswer = currentCard.getAnswer();
             originalNote = currentCard.getNote();
+            originalHint = currentCard.getHint();
             questionEdit.setText(originalQuestion);
             answerEdit.setText(originalAnswer);
             noteEdit.setText(originalNote);
+            hintEdit.setText(originalHint);
         }
     }
 
@@ -553,6 +560,7 @@ public class CardEditor extends BaseActivity {
             // It means empty set
             questionEdit = (EditText)findViewById(R.id.edit_dialog_question_entry);
             answerEdit = (EditText)findViewById(R.id.edit_dialog_answer_entry);
+            hintEdit = (EditText)findViewById(R.id.edit_dialog_answer_hint);
             categoryButton = (Button)findViewById(R.id.edit_dialog_category_button);
             noteEdit = (EditText)findViewById(R.id.edit_dialog_note_entry);
             addRadio = (RadioGroup)findViewById(R.id.add_radio);
@@ -596,9 +604,11 @@ public class CardEditor extends BaseActivity {
             String qText = questionEdit.getText().toString();
             String aText = answerEdit.getText().toString();
             String nText = noteEdit.getText().toString();
+            String hText = hintEdit.getText().toString();
             currentCard.setQuestion(qText);
             currentCard.setAnswer(aText);
             currentCard.setNote(nText);
+            currentCard.setHint(hText);
 
             assert currentCard != null : "Current card shouldn't be null";
         }

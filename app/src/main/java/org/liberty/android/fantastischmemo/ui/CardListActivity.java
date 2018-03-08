@@ -94,6 +94,7 @@ public class CardListActivity extends BaseActivity {
 
     private boolean initialAnswerVisible = true;
 
+
     /**
      * This needs to be defined before onCreate so in onCreate, all loaders will
      * be registered with the right manager.
@@ -121,6 +122,7 @@ public class CardListActivity extends BaseActivity {
 
         initialAnswerVisible = amPrefUtil.getSavedBoolean(
                 AMPrefKeys.LIST_ANSWER_VISIBLE_PREFIX, dbPath, true);
+
 
         listView = (ListView) findViewById(R.id.item_list);
 
@@ -653,5 +655,6 @@ public class CardListActivity extends BaseActivity {
     private enum SortMethod {
         ORDINAL,
         QUESTION,
-        ANSWER};
+        ANSWER
+    };
 }

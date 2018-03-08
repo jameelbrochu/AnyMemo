@@ -23,6 +23,7 @@
     <string name="copyclipboard">Copy to clipboard</string>
     <string name="copyclipboard_summary">Automatically copy card content to clipboard.</string>
     <string name="memo_show_answer">Show answer</string>
+    <string name="memo_show_hint">Hint</string>
     <string name="memo_no_item_title">No item</string>
     <string name="memo_no_item_message">There is no item to learn for now. If you want to cram, you can do quizzes by long clicking a db in the &quot;Recent&quot; tab.</string>
     <string name="memo_btn0_text">0 Forgot</string>
@@ -67,6 +68,7 @@
     <string name="settings_ratio">Q/A display ratio</string>
     <string name="settings_wipe">Wipe all learning progress</string>
     <string name="settings_shuffle">Shuffle all cards</string>
+    <string name="add_screen_hint">Hint</string>
     <string name="settings_inverse">Swap the Q/A of all cards</string>
     <string name="settings_save">Save</string>
     <string name="warning_text">Warning</string>
@@ -245,6 +247,7 @@
     <string name="card_style_single">Single sided</string>
     <string name="settings_field1">Customize card field1</string>
     <string name="settings_field2">Customize card field2</string>
+    <string name="settings_field3">Customize card field3</string>
     <string name="left_text">Left</string>
     <string name="center_text">Center</string>
     <string name="right_text">Right</string>
@@ -366,7 +369,8 @@
     <string name="quiz_completed_text">Quiz completed</string>
     <string name="new_cards_completed_summary">You have completed the quiz. Do you want to review it?</string>
     <string name="review_text">Review</string>
-    <string name="quiz_complete_summary">Congratulations, you have completed the quiz!</string>
+    <string name="quiz_complete_summary">Congratulations, you have completed the quiz</string>
+    <string name="quiz_not_completed">Sorry, you did not complete the quiz on time.</string>
     <string name="us_english_text">English (US)</string>
     <string name="uk_english_text">English (UK)</string>
     <string name="french_text">French</string>

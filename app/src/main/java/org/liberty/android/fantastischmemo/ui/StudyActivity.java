@@ -114,18 +114,18 @@ public class StudyActivity extends QACardActivity {
         if (savedInstanceState != null) {
             startCardId = savedInstanceState.getInt(EXTRA_START_CARD_ID, -1);
         }
-
         getMultipleLoaderManager().registerLoaderCallbacks(LEARN_QUEUE_MANAGER_LOADER_ID, new LearnQueueManagerLoaderCallbacks(), true);
         startInit();
+
         String shuffle = getIntent().getStringExtra("shufflecards");
-        if(shuffle.equals("true")){
-           getDbOpenHelper().getCardDao().shuffleCards();
+        if(shuffle!=null) {
+            if (shuffle.equals("true")) {
+                getDbOpenHelper().getCardDao().shuffleCards();
+            } else {
+                getDbOpenHelper().getCardDao().unshuffleCards();
+            }
         }
-        else {
-            getDbOpenHelper().getCardDao().unshuffleCards();
-        }
-
-
+        
     }
 
     @Override
@@ -419,6 +419,16 @@ public class StudyActivity extends QACardActivity {
     }
 
     @Override
+    protected boolean onClickHintText() {
+        if (!isHintShown()) {
+            onClickHintView();
+        } else {
+            onClickHintView();
+        }
+        return true;
+    }
+
+    @Override
     protected boolean onClickQuestionView() {
         if (!isAnswerShown()) {
             displayCard(true);
@@ -435,6 +445,18 @@ public class StudyActivity extends QACardActivity {
         }
         return true;
     }
+
+    @Override
+    protected boolean onClickHintView() {
+        if (!isHintShown()) {
+            setIsHintShown(true);
+            displayCard(false);
+        } else if (getSetting().getCardStyle() == Setting.CardStyle.DOUBLE_SIDED && isHintShown()) {
+            displayCard(false);
+        }
+        return true;
+    }
+
 
     @Override
     protected boolean onVolumeUpKeyPressed() {

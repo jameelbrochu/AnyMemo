@@ -92,6 +92,12 @@ public class QuizLauncherDialogFragment extends BaseDialogFragment {
     
     private EditText quizRangeEndOrdinalEdit;
 
+    private TextView timerModeSetTimeTitle;
+
+    private EditText timerModeSetTimeEdit;
+
+    private CheckBox timerModeCheckbox;
+
     private CheckBox shuffleCheckbox;
 
     private Button categoryButton;
@@ -105,6 +111,8 @@ public class QuizLauncherDialogFragment extends BaseDialogFragment {
     private int rangeStartOrdinal;
     
     private int rangeEndOrdinal;
+
+    private int chosenTime = 120; //default time in seconds
 
     // Default category id is "uncategorized".
     private int categoryId = 0;
@@ -187,6 +195,16 @@ public class QuizLauncherDialogFragment extends BaseDialogFragment {
         quizRangeEndOrdinalEdit.addTextChangedListener(quizByRangeEndTextWatcher);
         quizRangeEndOrdinalEdit.setOnFocusChangeListener(rangeInputListener);
 
+        //For timer mode
+        timerModeCheckbox = (CheckBox) v.findViewById(R.id.timer_mode);
+        timerModeCheckbox.setOnCheckedChangeListener(onCheckedChangeListenerForTimer);
+
+        timerModeSetTimeTitle = (TextView) v.findViewById(R.id.timer_mode_set_time_title);
+
+        timerModeSetTimeEdit = (EditText) v.findViewById(R.id.timer_mode_set_time);
+        timerModeSetTimeEdit.addTextChangedListener(timerModeSetTimeWatcher);
+        timerModeSetTimeEdit.setOnFocusChangeListener(timerInputListener);
+
         categoryButton = (Button) v.findViewById(R.id.category_button);
         categoryButton.setOnClickListener(categoryButtonListener);
 
@@ -212,6 +230,22 @@ public class QuizLauncherDialogFragment extends BaseDialogFragment {
         task.execute((Void)null);
     }
 
+    private CompoundButton.OnCheckedChangeListener onCheckedChangeListenerForTimer
+            = new CompoundButton.OnCheckedChangeListener() {
+
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView,
+                                     boolean isChecked) {
+            if (isChecked) {
+                timerModeSetTimeEdit.setVisibility(View.VISIBLE);
+                timerModeSetTimeTitle.setVisibility(View.VISIBLE);
+            } else {
+                timerModeSetTimeEdit.setVisibility(View.GONE);
+                timerModeSetTimeTitle.setVisibility(View.GONE);
+            }
+        }
+    };
+
     private CompoundButton.OnCheckedChangeListener onCheckedChangeListener
         = new CompoundButton.OnCheckedChangeListener() {
 
@@ -219,6 +253,7 @@ public class QuizLauncherDialogFragment extends BaseDialogFragment {
         public void onCheckedChanged(CompoundButton buttonView,
                 boolean isChecked) {
                 View settingsView = radioButtonSettingsMapping.get(buttonView);
+
                 if (isChecked) {
                     settingsView.setVisibility(View.VISIBLE);
                 } else {
@@ -236,6 +271,9 @@ public class QuizLauncherDialogFragment extends BaseDialogFragment {
                 intent.putExtra(QuizActivity.EXTRA_DBPATH, dbPath);
                 intent.putExtra(QuizActivity.EXTRA_CATEGORY_ID, categoryId);
                 intent.putExtra(QuizActivity.EXTRA_SHUFFLE_CARDS, shuffleCheckbox.isChecked());
+                intent.putExtra(QuizActivity.EXTRA_TIMER_MODE, timerModeCheckbox.isChecked());
+                intent.putExtra(QuizActivity.EXTRA_COUNTDOWN, chosenTime);
+
                 startActivity(intent);
             } else if(quizByRangeRadio.isChecked()) {
             	Intent intent = new Intent(mActivity, QuizActivity.class);
@@ -250,9 +288,11 @@ public class QuizLauncherDialogFragment extends BaseDialogFragment {
                 intent.putExtra(QuizActivity.EXTRA_START_CARD_ORD, startOrd);
                 intent.putExtra(QuizActivity.EXTRA_QUIZ_SIZE, size);
                 intent.putExtra(QuizActivity.EXTRA_SHUFFLE_CARDS, shuffleCheckbox.isChecked());
-                
+                intent.putExtra(QuizActivity.EXTRA_TIMER_MODE, timerModeCheckbox.isChecked());
+                intent.putExtra(QuizActivity.EXTRA_COUNTDOWN, chosenTime);
+
                 startActivity(intent);
-            } else{
+            } else {
                 Intent intent = new Intent(mActivity, QuizActivity.class);
                 amPrefUtil.putSavedInt(AMPrefKeys.QUIZ_GROUP_SIZE_KEY, dbPath, groupSize);
                 amPrefUtil.putSavedInt(AMPrefKeys.QUIZ_GROUP_NUMBER_KEY, dbPath, groupNumber);
@@ -262,6 +302,9 @@ public class QuizLauncherDialogFragment extends BaseDialogFragment {
                 intent.putExtra(QuizActivity.EXTRA_START_CARD_ORD, startOrd);
                 intent.putExtra(QuizActivity.EXTRA_QUIZ_SIZE, groupSize);
                 intent.putExtra(QuizActivity.EXTRA_SHUFFLE_CARDS, shuffleCheckbox.isChecked());
+                intent.putExtra(QuizActivity.EXTRA_TIMER_MODE, timerModeCheckbox.isChecked());
+                intent.putExtra(QuizActivity.EXTRA_COUNTDOWN, chosenTime);
+
                 startActivity(intent);
             }
         }
@@ -480,7 +523,35 @@ public class QuizLauncherDialogFragment extends BaseDialogFragment {
                 + " (" + 1 + "-" + rangeEndOrdinal + ")");
         }
     };
-    
+
+    private TextWatcher timerModeSetTimeWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+        //nothing happened
+        }
+
+        @Override
+        public void afterTextChanged(Editable value) {
+                if (value == null || Strings.isNullOrEmpty(value.toString())) {
+                    return;
+                }
+                try {
+                    chosenTime = Integer.valueOf(timerModeSetTimeEdit.getText().toString());
+                    if (chosenTime <= 0) {
+                        chosenTime = 120; // if user enters negative value then by default set to 120 seconds
+                    }
+
+                } catch (NumberFormatException e) {
+                    chosenTime = 120; //sets default time to 120 seconds
+                }
+
+        }
+    };
+
     View.OnFocusChangeListener rangeInputListener =
             new View.OnFocusChangeListener() {
     	
@@ -504,6 +575,18 @@ public class QuizLauncherDialogFragment extends BaseDialogFragment {
                 }
             }
         };
+
+    View.OnFocusChangeListener timerInputListener =
+            new View.OnFocusChangeListener() {
+
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if (hasFocus == false) {
+                        timerModeSetTimeEdit.setText("" + chosenTime);
+                    }
+                }
+            };
+
 
     private void showCategoriesDialog() {
         CategoryEditorFragment df = new CategoryEditorFragment();
