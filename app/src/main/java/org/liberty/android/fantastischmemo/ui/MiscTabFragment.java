@@ -86,6 +86,7 @@ public class MiscTabFragment extends BaseFragment implements View.OnClickListene
     private View donateButton;
     private View helpButton;
     private View aboutButton;
+    private View favoriteButton;
 
     @Inject AboutUtil aboutUtil;
 
@@ -164,6 +165,8 @@ public class MiscTabFragment extends BaseFragment implements View.OnClickListene
         helpButton.setOnClickListener(this);
         aboutButton = v.findViewById(R.id.misc_about);
         aboutButton.setOnClickListener(this);
+        favoriteButton = v.findViewById(R.id.misc_favorite);
+        favoriteButton.setOnClickListener(this);
         return v;
     }
 
@@ -361,6 +364,9 @@ public class MiscTabFragment extends BaseFragment implements View.OnClickListene
         }
         if(v == aboutButton){
             aboutUtil.createAboutDialog();
+        }
+        if(v == favoriteButton){
+
         }
     }
 

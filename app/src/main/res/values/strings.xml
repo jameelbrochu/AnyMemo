@@ -254,6 +254,7 @@
     <string name="recent_tab_text">Recent</string>
     <string name="open_tab_text">Open</string>
     <string name="download_tab_text">Download</string>
+    <string name="favorite_tab_text">Favorites</string>
     <string name="misc_tab_text">Misc</string>
     <string name="reset_all_pref_warning">This operation will restore all global settings to default. Your learning progress will NOT be deleted. </string>
     <string name="fe_logout_text">Logout</string>
