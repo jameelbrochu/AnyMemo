@@ -1,4 +1,4 @@
-package org.liberty.android.fantastischmemo.test.ui;
+/*package org.liberty.android.fantastischmemo.test.ui;
 
 import android.content.Intent;
 import android.support.test.rule.ActivityTestRule;
@@ -75,4 +75,4 @@ public class FavouritesDatabaseTest extends AbstractExistingDBTest {
         Assert.assertEquals(1, favourites.size());
 
     }
-}
+}*/
