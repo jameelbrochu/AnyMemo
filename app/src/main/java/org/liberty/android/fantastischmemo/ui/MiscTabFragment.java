@@ -86,7 +86,8 @@ public class MiscTabFragment extends BaseFragment implements View.OnClickListene
     private View donateButton;
     private View helpButton;
     private View aboutButton;
-    private View favoriteButton;
+    private View favouriteButton;
+    private String favouritesDbPath = "/sdcard/favourites.db";
 
     @Inject AboutUtil aboutUtil;
 
@@ -165,8 +166,8 @@ public class MiscTabFragment extends BaseFragment implements View.OnClickListene
         helpButton.setOnClickListener(this);
         aboutButton = v.findViewById(R.id.misc_about);
         aboutButton.setOnClickListener(this);
-        favoriteButton = v.findViewById(R.id.misc_favorite);
-        favoriteButton.setOnClickListener(this);
+        favouriteButton = v.findViewById(R.id.misc_favourite);
+        favouriteButton.setOnClickListener(this);
         return v;
     }
 
@@ -365,8 +366,12 @@ public class MiscTabFragment extends BaseFragment implements View.OnClickListene
         if(v == aboutButton){
             aboutUtil.createAboutDialog();
         }
-        if(v == favoriteButton){
-
+        if(v == favouriteButton){
+            ((AnyMemo)getActivity()).getAllFavourites();
+            Intent myIntent = new Intent();
+            myIntent.setClass(getContext(), StudyActivity.class);
+            myIntent.putExtra(StudyActivity.EXTRA_DBPATH,favouritesDbPath );
+            getContext().startActivity(myIntent);
         }
     }
 
