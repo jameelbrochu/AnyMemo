@@ -48,6 +48,7 @@ import org.liberty.android.fantastischmemo.common.BaseActivity;
 import org.liberty.android.fantastischmemo.entity.Card;
 import org.liberty.android.fantastischmemo.entity.Option;
 import org.liberty.android.fantastischmemo.entity.Setting;
+import org.liberty.android.fantastischmemo.scheduler.Scheduler;
 import org.liberty.android.fantastischmemo.service.AnyMemoService;
 import org.liberty.android.fantastischmemo.ui.loader.CardTTSUtilLoader;
 import org.liberty.android.fantastischmemo.ui.loader.MultipleLoaderManager;
@@ -55,9 +56,12 @@ import org.liberty.android.fantastischmemo.ui.loader.SettingLoader;
 import org.liberty.android.fantastischmemo.utils.AMFileUtil;
 import org.liberty.android.fantastischmemo.utils.AMStringUtils;
 import org.liberty.android.fantastischmemo.utils.CardTTSUtil;
+import org.liberty.android.fantastischmemo.utils.DictionaryUtil;
+import org.liberty.android.fantastischmemo.utils.ShareUtil;
 import org.liberty.android.fantastischmemo.widget.AnyMemoWidgetProvider;
 
 import java.io.File;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -130,6 +134,54 @@ public abstract class QACardActivity extends BaseActivity {
      */
     public MultipleLoaderManager getMultipleLoaderManager() {
         return multipleLoaderManager;
+    }
+
+    /* favourites deck */
+    private String favouritesDbPath = "/sdcard/favourites.db";
+    private AnyMemoDBOpenHelper favouritesDbHelper;
+
+
+    public AnyMemoDBOpenHelper getFavouritesDbHelper(){
+        return favouritesDbHelper;
+    }
+
+    public void favouriteCard(Card card){
+        if(favouritesDbHelper == null) {
+            favouritesDbHelper = AnyMemoDBOpenHelperManager.getHelper(getApplicationContext(), favouritesDbPath);
+        }
+
+        favouritesDbHelper.getCardDao().createCard(card);
+    }
+
+    public void unfavouriteCard(Card card){
+        if(favouritesDbHelper == null) {
+            favouritesDbHelper = AnyMemoDBOpenHelperManager.getHelper(getApplicationContext(), favouritesDbPath);
+        }
+
+        favouritesDbHelper.getCardDao().delete(card);
+    }
+
+    public List<Card> getAllFavourites(){
+        if(favouritesDbHelper == null) {
+            favouritesDbHelper = AnyMemoDBOpenHelperManager.getHelper(getApplicationContext(), favouritesDbPath);
+        }
+
+        return favouritesDbHelper.getCardDao().queryForAll();
+    }
+
+    public void emptyFavourtiesDeck(){
+        if(favouritesDbHelper == null) {
+            favouritesDbHelper = AnyMemoDBOpenHelperManager.getHelper(getApplicationContext(), favouritesDbPath);
+        }
+
+        List<Card> favourites = getAllFavourites();
+
+        try {
+            favouritesDbHelper.getCardDao().delete(favourites);
+        } catch (SQLException e) {
+            System.out.println("An error occured while attempting to empty the favourites database.");
+            e.printStackTrace();
+        }
     }
 
     @Override
