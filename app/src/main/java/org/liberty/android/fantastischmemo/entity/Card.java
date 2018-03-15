@@ -46,6 +46,9 @@ public class Card implements VersionableDomainObject {
     @DatabaseField(defaultValue = "N/A", width = 8192)
     private String hint;
 
+    @DatabaseField(defaultValue = "false", width = 8192)
+    private Boolean favourite;
+
     public Card() {}
 
 
@@ -110,6 +113,15 @@ public class Card implements VersionableDomainObject {
         } else {
             this.note = note;
         }
+    }
+
+    public void setFavourite(Boolean fav){
+        this.favourite = fav;
+    }
+
+    public Boolean getFavourite(){
+        return this.favourite;
+
     }
 
     public Date getCreationDate() {

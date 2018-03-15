@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import android.util.LogPrinter;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
@@ -24,6 +25,7 @@ import org.liberty.android.fantastischmemo.entity.LearningData;
 import org.liberty.android.fantastischmemo.entity.Setting;
 
 import java.sql.SQLException;
+import java.util.logging.Logger;
 
 public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
 
@@ -31,7 +33,7 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
 
     private final String dbPath;
 
-    private static final int CURRENT_VERSION = 6;
+    private static final int CURRENT_VERSION = 7;
 
     private CardDao cardDao = null;
 
@@ -167,6 +169,10 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
         }
         if (oldVersion <= 5) {
             database.execSQL("alter table cards add hint String");
+        }
+
+        if(oldVersion <=6){
+            database.execSQL("alter table cards add favourite Boolean");
         }
     }
 
