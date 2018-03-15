@@ -26,6 +26,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.LinearLayout.LayoutParams;
 
 import org.liberty.android.fantastischmemo.R;
@@ -108,12 +109,13 @@ public class TwoFieldsCardFragment extends BaseFragment {
 
     private int field3InitialPosition = 0;
 
+    private ImageButton favoriteBtn;
+
     public TwoFieldsCardFragment() { }
 
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-
         // Need to convert the array type to Serializable to CardFragment.Builder
         Object[] array1 = (Object[]) getArguments().getSerializable(EXTRA_FIELD1_CARD_FRAGMENT_BUILDERS);
         Object[] array2 = (Object[]) getArguments().getSerializable(EXTRA_FIELD2_CARD_FRAGMENT_BUILDERS);
@@ -152,6 +154,8 @@ public class TwoFieldsCardFragment extends BaseFragment {
             ViewGroup container,
             Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.two_fields_card_layout, container, false);
+        favoriteBtn = (ImageButton)v.findViewById(R.id.favorite_button);
+        favoriteBtn.setOnClickListener(favoriteButtonHandler);
         field1CardPager = (ViewPager) v.findViewById(R.id.field1);
         field1CardPager.setAdapter(new FragmentStatePagerAdapter(
                 getChildFragmentManager()) {
@@ -247,5 +251,12 @@ public class TwoFieldsCardFragment extends BaseFragment {
 
         return v;
     }
+    View.OnClickListener favoriteButtonHandler = new View.OnClickListener() {
+
+        public void onClick(View v) {
+            favoriteBtn.setImageResource(android.R.drawable.btn_star_big_on);
+
+        }
+    };
 }
 
