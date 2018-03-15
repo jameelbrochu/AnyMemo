@@ -112,6 +112,11 @@ public abstract class QACardActivity extends BaseActivity {
 
     private GestureLibrary gestureLibrary;
 
+    /* favourites deck */
+    private String favouritesDbPath = "/sdcard/favourites.db";
+
+    private AnyMemoDBOpenHelper favouritesDbHelper;
+
     /**
      * This needs to be defined before onCreate so in onCreate, all loaders will
      * be registered with the right manager.
@@ -137,29 +142,24 @@ public abstract class QACardActivity extends BaseActivity {
         return multipleLoaderManager;
     }
 
-    /* favourites deck */
-    private String favouritesDbPath = "/sdcard/favourites.db";
-    private AnyMemoDBOpenHelper favouritesDbHelper;
-
-
     public AnyMemoDBOpenHelper getFavouritesDbHelper(){
         return favouritesDbHelper;
     }
 
-    public void favouriteCard(Card card){
+    public void favouriteCard(){
         if(favouritesDbHelper == null) {
             favouritesDbHelper = AnyMemoDBOpenHelperManager.getHelper(getApplicationContext(), favouritesDbPath);
         }
 
-        favouritesDbHelper.getCardDao().createCard(card);
+        favouritesDbHelper.getCardDao().createCard(getCurrentCard());
     }
 
-    public void unfavouriteCard(Card card){
+    public void unfavouriteCard(){
         if(favouritesDbHelper == null) {
             favouritesDbHelper = AnyMemoDBOpenHelperManager.getHelper(getApplicationContext(), favouritesDbPath);
         }
 
-        favouritesDbHelper.getCardDao().delete(card);
+        favouritesDbHelper.getCardDao().delete(getCurrentCard());
     }
 
     public List<Card> getAllFavourites(){
