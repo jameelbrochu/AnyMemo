@@ -120,6 +120,9 @@ public class Card implements VersionableDomainObject {
     }
 
     public Boolean getFavourite(){
+        if(this.favourite == null){
+            return false;
+        }
         return this.favourite;
 
     }

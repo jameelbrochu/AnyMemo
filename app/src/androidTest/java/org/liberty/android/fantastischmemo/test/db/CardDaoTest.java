@@ -13,6 +13,7 @@ import org.liberty.android.fantastischmemo.entity.ReviewOrdering;
 import org.liberty.android.fantastischmemo.test.AbstractExistingDBTest;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
@@ -710,5 +711,42 @@ public class CardDaoTest extends AbstractExistingDBTest {
         Card card3 = cardDao.getByOrdinal(1);
         assertEquals(card1, card3);
     }
+
+    @SmallTest
+    @Test
+    public void testCreateFavourite() throws Exception {
+        CardDao cardDao = helper.getCardDao();
+        Card card1 = cardDao.getByOrdinal(1);
+        assertNotNull(card1.getFavourite());
+    }
+
+    @SmallTest
+    @Test
+    public void testReadFavourite() throws Exception {
+        CardDao cardDao = helper.getCardDao();
+        Card card1 = cardDao.getByOrdinal(1);
+        assertEquals(Boolean.FALSE, card1.getFavourite());
+    }
+
+    @SmallTest
+    @Test
+    public void testUpdateFavourite() throws Exception {
+        CardDao cardDao = helper.getCardDao();
+        Card card1 = cardDao.getByOrdinal(1);
+        card1.setFavourite(Boolean.TRUE);
+        assertEquals(Boolean.TRUE, card1.getFavourite());
+    }
+
+    @SmallTest
+    @Test
+    public void testDeleteFavourite() throws Exception {
+        CardDao cardDao = helper.getCardDao();
+        Card card1 = cardDao.getByOrdinal(1);
+        card1.setFavourite(Boolean.TRUE);
+        card1.setFavourite(Boolean.FALSE);
+        assertEquals(Boolean.FALSE, card1.getFavourite());
+    }
+
+
 }
 
