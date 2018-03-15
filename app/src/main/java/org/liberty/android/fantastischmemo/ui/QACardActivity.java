@@ -45,6 +45,7 @@ import org.liberty.android.fantastischmemo.common.AMEnv;
 import org.liberty.android.fantastischmemo.common.AnyMemoDBOpenHelper;
 import org.liberty.android.fantastischmemo.common.AnyMemoDBOpenHelperManager;
 import org.liberty.android.fantastischmemo.common.BaseActivity;
+import org.liberty.android.fantastischmemo.dao.CardDao;
 import org.liberty.android.fantastischmemo.entity.Card;
 import org.liberty.android.fantastischmemo.entity.Option;
 import org.liberty.android.fantastischmemo.entity.Setting;
@@ -167,6 +168,10 @@ public abstract class QACardActivity extends BaseActivity {
         }
 
         return favouritesDbHelper.getCardDao().queryForAll();
+    }
+
+    public CardDao getDao(){
+        return dbOpenHelper.getCardDao();
     }
 
     public void emptyFavourtiesDeck(){

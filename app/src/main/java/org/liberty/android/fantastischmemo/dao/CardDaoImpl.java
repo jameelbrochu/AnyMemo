@@ -934,5 +934,11 @@ public class CardDaoImpl extends AbstractHelperDaoImpl<Card, Integer> implements
             throw new RuntimeException("An error occured while shuffling cards.", e);
         }
     }
+
+    public void updateFavourite(Card card, Boolean fav) {
+        card.setFavourite(fav);
+        update(card);
+
+    }
 };
 

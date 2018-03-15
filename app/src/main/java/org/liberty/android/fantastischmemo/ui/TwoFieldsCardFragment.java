@@ -32,6 +32,9 @@ import android.widget.LinearLayout.LayoutParams;
 import org.liberty.android.fantastischmemo.R;
 import org.liberty.android.fantastischmemo.common.BaseFragment;
 import org.liberty.android.fantastischmemo.entity.Setting;
+import org.liberty.android.fantastischmemo.entity.Card;
+
+import java.sql.SQLException;
 
 /**
  * This fragment is for a card of two fields, field1 is the upper field and filed2
@@ -156,6 +159,16 @@ public class TwoFieldsCardFragment extends BaseFragment {
         View v = inflater.inflate(R.layout.two_fields_card_layout, container, false);
         favoriteBtn = (ImageButton)v.findViewById(R.id.favorite_button);
         favoriteBtn.setOnClickListener(favoriteButtonHandler);
+
+        boolean fav = ((QACardActivity)getActivity()).getCurrentCard().getFavourite();
+
+        if(fav) {
+            favoriteBtn.setImageResource(android.R.drawable.btn_star_big_on);
+        }
+        else {
+            favoriteBtn.setImageResource(android.R.drawable.btn_star_big_off);
+        }
+
         field1CardPager = (ViewPager) v.findViewById(R.id.field1);
         field1CardPager.setAdapter(new FragmentStatePagerAdapter(
                 getChildFragmentManager()) {
@@ -254,7 +267,23 @@ public class TwoFieldsCardFragment extends BaseFragment {
     View.OnClickListener favoriteButtonHandler = new View.OnClickListener() {
 
         public void onClick(View v) {
-            favoriteBtn.setImageResource(android.R.drawable.btn_star_big_on);
+
+            boolean fav = ((QACardActivity)getActivity()).getCurrentCard().getFavourite();
+            Card card = ((QACardActivity)getActivity()).getCurrentCard();
+            if(fav){
+                favoriteBtn.setImageResource(android.R.drawable.btn_star_big_off);
+                ((QACardActivity)getActivity()).getDao().updateFavourite(card, false);
+                ((QACardActivity)getActivity()).unfavouriteCard(card);
+
+            }
+
+            else {
+                favoriteBtn.setImageResource(android.R.drawable.btn_star_big_on);
+                ((QACardActivity)getActivity()).getDao().updateFavourite(card, true);
+                ((QACardActivity)getActivity()).favouriteCard(card);
+
+            }
+
 
         }
     };
