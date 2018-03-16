@@ -1,4 +1,4 @@
-/*package org.liberty.android.fantastischmemo.test.ui;
+package org.liberty.android.fantastischmemo.test.ui;
 
 import android.content.Intent;
 import android.support.test.rule.ActivityTestRule;
@@ -37,6 +37,7 @@ public class FavouritesDatabaseTest extends AbstractExistingDBTest {
         intent.putExtra(StudyActivity.EXTRA_DBPATH, TestHelper.SAMPLE_DB_PATH);
         intent.putExtra(SHUFFLE_CARDS, "false");
         studyActivityRule.launchActivity(intent);
+        studyActivityRule.getActivity().emptyFavourtiesDeck();
     }
 
     @After
@@ -63,11 +64,8 @@ public class FavouritesDatabaseTest extends AbstractExistingDBTest {
         List<Card> favourites = studyActivity.getAllFavourites();
         Assert.assertTrue(favourites.isEmpty());
 
-        //Get a card to add to the favourites database
-        Card cardToAdd = helper.getCardDao().getById(1);
-
         //Insert a card into the favourites database
-        studyActivity.favouriteCard(cardToAdd);
+        studyActivity.favouriteCard();
 
         //Ensure the card was added to the favourites database
         favourites = studyActivity.getAllFavourites();
@@ -75,4 +73,25 @@ public class FavouritesDatabaseTest extends AbstractExistingDBTest {
         Assert.assertEquals(1, favourites.size());
 
     }
-}*/
+
+    @Test
+    public void unfavouriteCard(){
+
+        //Create a studyActivity instance
+        StudyActivity studyActivity = studyActivityRule.getActivity();
+
+        studyActivity.favouriteCard();
+
+        //Ensure the card was added to the favourites database
+        List<Card> favourites = studyActivity.getAllFavourites();
+        Assert.assertEquals(1, favourites.size());
+
+        studyActivity.unfavouriteCard();
+
+        //Ensure the card was added to the favourites database
+        favourites = studyActivity.getAllFavourites();
+
+        Assert.assertEquals(0, favourites.size());
+
+    }
+}
