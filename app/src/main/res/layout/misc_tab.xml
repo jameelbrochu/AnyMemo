@@ -37,7 +37,7 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:id="@+id/misc_favorite"
+            android:id="@+id/misc_favourite"
             style="@style/list_button"
             android:layout_height="wrap_content">
 
