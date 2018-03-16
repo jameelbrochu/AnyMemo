@@ -80,6 +80,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 
+//AnyMemo Activity
 public class AnyMemo extends BaseActivity {
     private static final String WEBSITE_VERSION="https://anymemo.org/versions-view";
 
