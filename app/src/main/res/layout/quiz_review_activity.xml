@@ -16,6 +16,18 @@
         android:paddingRight="30dp"
         android:paddingTop="15dp"
         android:text="TextView"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/quiz_forgot_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="15dp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:paddingTop="15dp"
+        android:text="TextView"
+        android:textColor="@color/accent"
         android:textSize="14sp" />
 
     <android.support.v7.widget.RecyclerView
@@ -25,5 +37,17 @@
         android:clipToPadding="false"
         android:paddingLeft="30dp"
         android:paddingRight="30dp" />
+
+    <TextView
+        android:id="@+id/quiz_remembered_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="15dp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:paddingTop="15dp"
+        android:text="TextView"
+        android:textColor="@color/accent"
+        android:textSize="14sp" />
 
 </LinearLayout>
