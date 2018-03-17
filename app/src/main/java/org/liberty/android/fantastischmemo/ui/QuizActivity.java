@@ -82,6 +82,8 @@ public class QuizActivity extends QACardActivity {
 
     private boolean isNewCardsCompleted = false;
 
+    private QuizActivity activity;
+
     private boolean shuffleCards = false;
     private int totalQuizSize = -1;
 
@@ -491,11 +493,8 @@ public class QuizActivity extends QACardActivity {
             new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int id) {
-                    // Intent intent = new Intent(this, QuizReviewActivity.class);
-
-                    // startActivity(intent);
-                    dialog.dismiss();
-                    finish();
+                    Intent intent = new Intent(QuizActivity.this, QuizReviewActivity.class);
+                    startActivity(intent);
                 }
             };
 
