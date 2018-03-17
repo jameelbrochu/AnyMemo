@@ -467,8 +467,10 @@ public class QuizActivity extends QACardActivity {
                 .setTitle(R.string.quiz_completed_text)
                 .setMessage(timeToCompleteQuiz())
                 .setView(view)
-                .setPositiveButton(R.string.review_text, null)
-                .setNegativeButton(R.string.cancel_text, flushAndQuitListener)
+                .setNeutralButton(R.string.cancel_text, flushAndQuitListener)
+                .setNegativeButton(R.string.review_text, reviewScoreListener)
+                .setPositiveButton(R.string.restart_text, null)
+
                 .setCancelable(false)
                 .show();
     }
@@ -480,6 +482,18 @@ public class QuizActivity extends QACardActivity {
             new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    finish();
+                }
+            };
+
+    private DialogInterface.OnClickListener reviewScoreListener =
+            new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+                    // Intent intent = new Intent(this, QuizReviewActivity.class);
+
+                    // startActivity(intent);
                     dialog.dismiss();
                     finish();
                 }

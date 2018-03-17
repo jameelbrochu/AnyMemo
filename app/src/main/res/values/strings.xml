@@ -368,6 +368,7 @@
     <string name="enable_animation_summary">Enable the animation for card transition.</string>
     <string name="quiz_completed_text">Quiz completed</string>
     <string name="new_cards_completed_summary">You have completed the quiz. Do you want to review it?</string>
+    <string name="restart_text">Restart</string>
     <string name="review_text">Review</string>
     <string name="quiz_complete_summary">Congratulations, you have completed the quiz</string>
     <string name="quiz_not_completed">Sorry, you did not complete the quiz on time.</string>
@@ -473,4 +474,5 @@
     <string name="google_sign_in_not_successful_error_text">Google sign in is not successful</string>
     <string name="google_sign_in_empty_error_text">Google sign in result is empty</string>
     <string name="google_sign_in_account_empty_result">Unable to get Google account</string>
+    <string name="title_activity_quiz_review">QuizReviewActivity</string>
 </resources>
