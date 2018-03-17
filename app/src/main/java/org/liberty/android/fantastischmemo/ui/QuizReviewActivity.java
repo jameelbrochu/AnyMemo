@@ -7,6 +7,10 @@ import org.liberty.android.fantastischmemo.R;
 
 public class QuizReviewActivity extends Activity {
 
+    public static String FORGOT_CARDS = "forgot_cards";
+    public static String REMEMBERED_CARDS = "remembered_cards";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate ( savedInstanceState );

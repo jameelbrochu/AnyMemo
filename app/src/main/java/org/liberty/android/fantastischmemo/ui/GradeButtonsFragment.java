@@ -49,6 +49,9 @@ import org.liberty.android.fantastischmemo.entity.Option;
 import org.liberty.android.fantastischmemo.scheduler.Scheduler;
 import org.liberty.android.fantastischmemo.utils.AMDateUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 
@@ -73,6 +76,10 @@ public class GradeButtonsFragment extends BaseFragment {
     private Button[] gradeButtons = new Button[6];
 
     private CardDao cardDao;
+
+    private List<Card> failedCards = new ArrayList<>();
+
+    private List<Card> passedCards = new ArrayList<>();
 
     private LearningDataDao learningDataDao;
 
@@ -185,8 +192,15 @@ public class GradeButtonsFragment extends BaseFragment {
     }
 
     private void setButtonOnClickListener(final Button button, final int grade) {
+
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                if (grade == 0 || grade == 1) {
+                    failedCards.add(activity.getCurrentCard());
+                }
+                else {
+                    passedCards.add(activity.getCurrentCard());
+                }
                 onGradeButtonClickListener.onGradeButtonClick(grade);
             }
         });
