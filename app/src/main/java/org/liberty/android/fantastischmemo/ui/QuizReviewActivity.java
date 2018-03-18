@@ -44,33 +44,25 @@ public class QuizReviewActivity extends Activity {
         forgotTextView.setText("Forgot");
 
         forgotQuestionsTextView = (TextView)findViewById(R.id.quiz_forgot_questions);
+
 /*
-
-        ArrayList<String> list = new ArrayList<String>();
-        list.add("A");
-        list.add("B");
-        list.add("C");
-
-        for(int i=0; i < list.size(); i++){
-
-            forgotQuestionsTextView.setText(forgotQuestionsTextView.getText() + list.get(i) + "\n");
-        }
-*/
-
-/*        List<Card> forgotCards = new ArrayList<>();
+        ArrayList<Card> forgotCards = new ArrayList<>();
         Card fcard1 = new Card();
         fcard1.setQuestion("Question1");
+        fcard1.setId(1);
         fcard1.setAnswer("Answer1");
         forgotCards.add (fcard1);
 
         Card fcard2 = new Card();
         fcard2.setQuestion("Question2");
+        fcard2.setId(2);
         fcard2.setAnswer("Answer2");
-        forgotCards.add (fcard2);*/
+        forgotCards.add (fcard2);
+*/
 
         for(int i=0; i < all_forgotten_cards.size(); i++){
             Card c = all_forgotten_cards.get(i);
-            forgotQuestionsTextView.setText(forgotQuestionsTextView.getText() + c.getQuestion() + "\nAnswer: " + c.getAnswer()
+            forgotQuestionsTextView.setText(forgotQuestionsTextView.getText() + "Question " + Integer.toString(c.getId()) + ":\nAnswer: " + c.getAnswer()
                     + "\n\n");
         }
 
@@ -81,7 +73,7 @@ public class QuizReviewActivity extends Activity {
 
         for(int i=0; i < all_remembered_cards.size(); i++){
             Card c = all_remembered_cards.get(i);
-            forgotQuestionsTextView.setText(forgotQuestionsTextView.getText() + c.getQuestion() + "\nAnswer: " + c.getAnswer()
+            rememberQuestionsTextView.setText(rememberQuestionsTextView.getText() + "Question " + Integer.toString(c.getId()) + ":\nAnswer: " + c.getAnswer()
                     + "\n\n");
         }
 
