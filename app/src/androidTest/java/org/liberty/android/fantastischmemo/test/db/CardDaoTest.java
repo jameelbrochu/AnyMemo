@@ -725,7 +725,7 @@ public class CardDaoTest extends AbstractExistingDBTest {
     public void testReadFavourite() throws Exception {
         CardDao cardDao = helper.getCardDao();
         Card card1 = cardDao.getByOrdinal(1);
-        assertEquals(Boolean.FALSE, card1.getFavourite());
+        assertEquals(false, card1.getFavourite());
     }
 
     @SmallTest
@@ -733,8 +733,8 @@ public class CardDaoTest extends AbstractExistingDBTest {
     public void testUpdateFavourite() throws Exception {
         CardDao cardDao = helper.getCardDao();
         Card card1 = cardDao.getByOrdinal(1);
-        card1.setFavourite(Boolean.TRUE);
-        assertEquals(Boolean.TRUE, card1.getFavourite());
+        card1.setFavourite(true);
+        assertEquals(true, card1.getFavourite());
     }
 
     @SmallTest
@@ -742,9 +742,9 @@ public class CardDaoTest extends AbstractExistingDBTest {
     public void testDeleteFavourite() throws Exception {
         CardDao cardDao = helper.getCardDao();
         Card card1 = cardDao.getByOrdinal(1);
-        card1.setFavourite(Boolean.TRUE);
-        card1.setFavourite(Boolean.FALSE);
-        assertEquals(Boolean.FALSE, card1.getFavourite());
+        card1.setFavourite(true);
+        card1.setFavourite(false);
+        assertEquals(false, card1.getFavourite());
     }
 
 
