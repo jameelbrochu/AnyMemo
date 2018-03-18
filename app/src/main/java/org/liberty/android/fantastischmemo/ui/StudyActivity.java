@@ -127,8 +127,10 @@ public class StudyActivity extends QACardActivity {
         if(shuffle!=null) {
             if (shuffle.equals("true")) {
                 getDbOpenHelper().getCardDao().shuffleCards();
+                restartActivity();
             } else {
                 getDbOpenHelper().getCardDao().unshuffleCards();
+                restartActivity();
             }
         }
         
