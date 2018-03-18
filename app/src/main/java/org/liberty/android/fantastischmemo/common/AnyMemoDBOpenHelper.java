@@ -31,7 +31,7 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
 
     private final String dbPath;
 
-    private static final int CURRENT_VERSION = 6;
+    private static final int CURRENT_VERSION = 7;
 
     private CardDao cardDao = null;
 
@@ -167,6 +167,9 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
         }
         if (oldVersion <= 5) {
             database.execSQL("alter table cards add hint String");
+        }
+        if(oldVersion <= 6){
+            database.execSQL("alter table settings add hintToggle Boolean");
         }
     }
 
