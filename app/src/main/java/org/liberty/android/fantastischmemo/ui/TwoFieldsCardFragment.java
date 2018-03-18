@@ -19,6 +19,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 package org.liberty.android.fantastischmemo.ui;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -245,7 +246,21 @@ public class TwoFieldsCardFragment extends BaseFragment {
         field2CardPager.setCurrentItem(field2InitialPosition);
         field3CardPager.setCurrentItem(field3InitialPosition);
 
+        loadPrefs();
+
         return v;
+
+    }
+
+    public void loadPrefs() {
+        SharedPreferences sp = getActivity().getSharedPreferences("AppPref", 0);
+        boolean hintToggleValue = sp.getBoolean("hintToggleCheck", true);
+
+        if(hintToggleValue == false) {
+            field3CardPager.setVisibility(View.GONE);
+        } else {
+            field3CardPager.setVisibility(View.VISIBLE);
+        }
     }
 }
 

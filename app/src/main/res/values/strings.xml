@@ -56,10 +56,14 @@
     <string name="settings_question_font_size_prompt">Font size</string>
     <string name="settings_answer_font_size">Answer font size</string>
     <string name="settings_answer_font_size_prompt">Font size</string>
+    <string name="settings_hint_font_size">Hint font size</string>
+    <string name="settings_hint_font_size_prompt">Font size</string>
     <string name="settings_question_align">Question text alignment</string>
     <string name="settings_question_align_prompt">Text alignment</string>
     <string name="settings_answer_align">Answer text alignment</string>
     <string name="settings_answer_align_prompt">Text alignment</string>
+    <string name="settings_hint_align">Hint text alignment</string>
+    <string name="settings_hint_align_prompt">Text alignment</string>
     <string name="settings_question_locale">Question audio</string>
     <string name="settings_question_locale_prompt">Locale</string>
     <string name="settings_answer_locale">Answer audio</string>
@@ -248,6 +252,7 @@
     <string name="settings_field1">Customize card field1</string>
     <string name="settings_field2">Customize card field2</string>
     <string name="settings_field3">Customize card field3</string>
+    <string name="hint_modeToggle">Hint Mode Toggle</string>
     <string name="left_text">Left</string>
     <string name="center_text">Center</string>
     <string name="right_text">Right</string>
