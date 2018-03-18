@@ -30,13 +30,15 @@
         android:textColor="@color/accent"
         android:textSize="14sp" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/failed_list"
-        android:layout_width="fill_parent"
+    <TextView
+        android:id="@+id/quiz_forgot_questions"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clipToPadding="false"
+        android:paddingBottom="10dp"
         android:paddingLeft="30dp"
-        android:paddingRight="30dp" />
+        android:paddingRight="30dp"
+        android:paddingTop="15dp"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/quiz_remembered_title"
@@ -50,4 +52,13 @@
         android:textColor="@color/accent"
         android:textSize="14sp" />
 
+    <TextView
+        android:id="@+id/quiz_remember_questions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:paddingTop="15dp"
+        android:textSize="14sp" />
 </LinearLayout>
