@@ -1,5 +1,8 @@
 package org.liberty.android.fantastischmemo.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.common.base.Objects;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
@@ -10,7 +13,7 @@ import org.liberty.android.fantastischmemo.dao.CardDaoImpl;
 import java.util.Date;
 
 @DatabaseTable(tableName = "cards", daoClass = CardDaoImpl.class)
-public class Card implements VersionableDomainObject {
+public class Card implements VersionableDomainObject, Parcelable  {
     @DatabaseField(generatedId = true)
     private Integer id;
 
@@ -180,4 +183,30 @@ public class Card implements VersionableDomainObject {
     public int hashCode() {
         return getId();
     }
+
+    private int mData;
+
+    public int describeContents() {
+        return 0;
+    }
+
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeInt(mData);
+    }
+
+    public static final Parcelable.Creator<Card> CREATOR
+            = new Parcelable.Creator<Card>() {
+        public Card createFromParcel(Parcel in) {
+            return new Card(in);
+        }
+
+        public Card[] newArray(int size) {
+            return new Card[size];
+        }
+    };
+
+    private Card(Parcel in) {
+        mData = in.readInt();
+    }
+
 }

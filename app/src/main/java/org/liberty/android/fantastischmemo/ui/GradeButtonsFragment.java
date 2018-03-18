@@ -77,9 +77,9 @@ public class GradeButtonsFragment extends BaseFragment {
 
     private CardDao cardDao;
 
-    private List<Card> failedCards = new ArrayList<>();
+    private ArrayList<Card> forgotCards = new ArrayList<>();
 
-    private List<Card> passedCards = new ArrayList<>();
+    private ArrayList<Card> rememberedCards = new ArrayList<>();
 
     private LearningDataDao learningDataDao;
 
@@ -187,6 +187,14 @@ public class GradeButtonsFragment extends BaseFragment {
         return buttonView;
     }
 
+    public ArrayList<Card> getForgotCards() {
+        return forgotCards;
+    }
+
+    public ArrayList<Card> getRememberedCards() {
+        return rememberedCards;
+    }
+
     public void gradeCurrentCard(int grade) {
         onGradeButtonClickListener.onGradeButtonClick(grade);
     }
@@ -196,10 +204,10 @@ public class GradeButtonsFragment extends BaseFragment {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (grade == 0 || grade == 1) {
-                    failedCards.add(activity.getCurrentCard());
+                    forgotCards.add(activity.getCurrentCard());
                 }
                 else {
-                    passedCards.add(activity.getCurrentCard());
+                    rememberedCards.add(activity.getCurrentCard());
                 }
                 onGradeButtonClickListener.onGradeButtonClick(grade);
             }

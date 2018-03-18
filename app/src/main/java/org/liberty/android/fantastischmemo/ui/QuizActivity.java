@@ -51,6 +51,9 @@ import org.liberty.android.fantastischmemo.scheduler.Scheduler;
 import org.liberty.android.fantastischmemo.ui.loader.DBLoader;
 import org.liberty.android.fantastischmemo.utils.DictionaryUtil;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 
 public class QuizActivity extends QACardActivity {
@@ -552,12 +555,20 @@ public class QuizActivity extends QACardActivity {
                 stopTimer();
                 showCompleteNewDialog(totalQuizSize - reviewQueueSizeBeforeDequeue);
                 isNewCardsCompleted = true;
+
+                Intent intent = new Intent(QuizActivity.this, QuizReviewActivity.class);
+                intent.putExtra("FORGOT_CARDS", gradeButtonsFragment.getForgotCards());
+                intent.putExtra("REMEMBERED_CARDS", gradeButtonsFragment.getRememberedCards());
+                startActivity(intent);
             }
 
             // Stat data
             setCurrentCard(result);
             displayCard(false);
             setSmallTitle(getActivityTitleString());
+
+
+
         }
     }
 
