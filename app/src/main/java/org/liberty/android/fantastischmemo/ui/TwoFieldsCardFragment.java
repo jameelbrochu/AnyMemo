@@ -162,7 +162,7 @@ public class TwoFieldsCardFragment extends BaseFragment {
 
         boolean fav = ((QACardActivity)getActivity()).getCurrentCard().getFavourite();
 
-        if(fav) {
+        if (fav) {
             favouriteBtn.setImageResource(android.R.drawable.btn_star_big_on);
         }
         else {
@@ -270,7 +270,7 @@ public class TwoFieldsCardFragment extends BaseFragment {
 
             boolean fav = ((QACardActivity)getActivity()).getCurrentCard().getFavourite();
             Card card = ((QACardActivity)getActivity()).getCurrentCard();
-            if(fav){
+            if (fav) {
                 favouriteBtn.setImageResource(android.R.drawable.btn_star_big_off);
                 ((QACardActivity)getActivity()).getDao().updateFavourite(card, false);
                 ((QACardActivity)getActivity()).unfavouriteCard();

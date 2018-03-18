@@ -370,7 +370,7 @@ public class MiscTabFragment extends BaseFragment implements View.OnClickListene
             ((AnyMemo)getActivity()).getAllFavourites();
             Intent myIntent = new Intent();
             myIntent.setClass(getContext(), StudyActivity.class);
-            myIntent.putExtra(StudyActivity.EXTRA_DBPATH,favouritesDbPath );
+            myIntent.putExtra(StudyActivity.EXTRA_DBPATH, favouritesDbPath);
             getContext().startActivity(myIntent);
         }
     }

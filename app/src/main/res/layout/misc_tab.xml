@@ -52,7 +52,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="@string/favorite_tab_text"
+                android:text="@string/favourite_tab_text"
                 android:textSize="24dp"
                 android:clickable="false"
                 android:focusable="false"

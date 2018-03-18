@@ -37,21 +37,7 @@ public class FavouritesDatabaseTest extends AbstractExistingDBTest {
         intent.putExtra(StudyActivity.EXTRA_DBPATH, TestHelper.SAMPLE_DB_PATH);
         intent.putExtra(SHUFFLE_CARDS, "false");
         studyActivityRule.launchActivity(intent);
-        studyActivityRule.getActivity().emptyFavourtiesDeck();
-    }
-
-    @After
-    public void teardown(){
-        if(studyActivityRule.getActivity() != null) {
-            studyActivityRule.getActivity().emptyFavourtiesDeck();
-            AnyMemoDBOpenHelper favourtiesDbHelper = studyActivityRule.getActivity().getFavouritesDbHelper();
-
-            if (favourtiesDbHelper != null) {
-                AnyMemoDBOpenHelperManager.releaseHelper(favourtiesDbHelper);
-            }
-        }
-        File newdbFile = new File(favouritesDBPath);
-        newdbFile.delete();
+        studyActivityRule.getActivity().emptyFavourtesDeck();
     }
 
     @Test
@@ -94,4 +80,19 @@ public class FavouritesDatabaseTest extends AbstractExistingDBTest {
         Assert.assertEquals(0, favourites.size());
 
     }
+
+    @After
+    public void teardown(){
+        if(studyActivityRule.getActivity() != null) {
+            studyActivityRule.getActivity().emptyFavourtesDeck();
+            AnyMemoDBOpenHelper favourtiesDbHelper = studyActivityRule.getActivity().getFavouritesDbHelper();
+
+            if (favourtiesDbHelper != null) {
+                AnyMemoDBOpenHelperManager.releaseHelper(favourtiesDbHelper);
+            }
+        }
+        File newdbFile = new File(favouritesDBPath);
+        newdbFile.delete();
+    }
+
 }

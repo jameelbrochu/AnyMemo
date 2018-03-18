@@ -174,7 +174,7 @@ public abstract class QACardActivity extends BaseActivity {
         return dbOpenHelper.getCardDao();
     }
 
-    public void emptyFavourtiesDeck(){
+    public void emptyFavourtesDeck(){
         if(favouritesDbHelper == null) {
             favouritesDbHelper = AnyMemoDBOpenHelperManager.getHelper(getApplicationContext(), favouritesDbPath);
         }
