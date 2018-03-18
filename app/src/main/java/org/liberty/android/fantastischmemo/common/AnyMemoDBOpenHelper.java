@@ -173,6 +173,7 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
 
         if(oldVersion <=6 ){
             database.execSQL("alter table cards add favourite Boolean");
+            database.execSQL("alter table settings add hintToggle Boolean");
         }
     }
 
