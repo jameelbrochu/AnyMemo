@@ -770,16 +770,16 @@ public class SettingsScreen extends BaseActivity {
                 df.show(getSupportFragmentManager(), "aTypefaceEditFB");
             }
 
-            if(v == hintToggleCheckbox){
+            if(v == hintToggleCheckbox) {
                 SharedPreferences prefs = getApplicationContext().getSharedPreferences("AppPref", 0); // 0 for private mode
                 SharedPreferences.Editor editor = prefs.edit();
-                if(hintToggleCheckbox.isChecked()){
+                if(hintToggleCheckbox.isChecked()) {
                     Log.d("HintToggleCheck", "Hint checked");
                     editor.putBoolean("hintToggleCheck", true);
                     editor.commit();
                     setting.setHintToggle(true);
                     hintToggleCheckbox.setChecked(true);
-                }else{
+                } else {
                     Log.d("HintToggleCheck", "Hint unchecked");
                     editor.putBoolean("hintToggleCheck", false);
                     editor.commit();

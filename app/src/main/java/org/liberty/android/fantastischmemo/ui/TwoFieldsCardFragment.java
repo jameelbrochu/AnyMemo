@@ -256,9 +256,9 @@ public class TwoFieldsCardFragment extends BaseFragment {
         SharedPreferences sp = getActivity().getSharedPreferences("AppPref", 0);
         boolean hintToggleValue = sp.getBoolean("hintToggleCheck", true);
 
-        if(hintToggleValue == false){
+        if(hintToggleValue == false) {
             field3CardPager.setVisibility(View.GONE);
-        }else{
+        } else {
             field3CardPager.setVisibility(View.VISIBLE);
         }
     }
