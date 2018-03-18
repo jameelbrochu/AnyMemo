@@ -9,8 +9,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
-    <uses-sdk android:minSdkVersion="16" tools:overrideLibrary="android.support.test.uiautomator.v16"/>
-    
     <supports-screens android:anyDensity="true"/>
 
     <application 
