@@ -15,7 +15,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.liberty.android.fantastischmemo.R;
-import org.liberty.android.fantastischmemo.test.ui.PermissionHelper;
 import org.liberty.android.fantastischmemo.ui.AnyMemo;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -40,7 +39,6 @@ public class FavouriteTest {
 
     @Test
     public void anyMemoTest3() {
-        PermissionHelper.allowPermission();
         if(onView(allOf(withId(android.R.id.button1), withText("OK"))).getClass().equals("android.widget.ScrollView")) {
             ViewInteraction appCompatButton = onView(
                     allOf(withId(android.R.id.button1), withText("OK"),
