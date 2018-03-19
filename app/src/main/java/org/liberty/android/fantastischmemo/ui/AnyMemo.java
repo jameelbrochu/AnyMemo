@@ -58,8 +58,11 @@ import org.liberty.android.fantastischmemo.BuildConfig;
 import org.liberty.android.fantastischmemo.R;
 import org.liberty.android.fantastischmemo.common.AMEnv;
 import org.liberty.android.fantastischmemo.common.AMPrefKeys;
+import org.liberty.android.fantastischmemo.common.AnyMemoDBOpenHelper;
+import org.liberty.android.fantastischmemo.common.AnyMemoDBOpenHelperManager;
 import org.liberty.android.fantastischmemo.common.BaseActivity;
 import org.liberty.android.fantastischmemo.databinding.MainTabsBinding;
+import org.liberty.android.fantastischmemo.entity.Card;
 import org.liberty.android.fantastischmemo.receiver.SetAlarmReceiver;
 import org.liberty.android.fantastischmemo.service.AnyMemoService;
 import org.liberty.android.fantastischmemo.ui.loader.MultipleLoaderManager;
@@ -73,6 +76,7 @@ import org.liberty.android.fantastischmemo.widget.AnyMemoWidgetProvider;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -80,6 +84,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 
+//AnyMemo Activity Class
 public class AnyMemo extends BaseActivity {
     private static final String WEBSITE_VERSION="https://anymemo.org/versions-view";
 
@@ -88,6 +93,10 @@ public class AnyMemo extends BaseActivity {
     private CompositeDisposable disposables;
 
     private MainTabsBinding binding;
+
+    private String favouritesDbPath = "/sdcard/favourites.db";
+
+    private AnyMemoDBOpenHelper favouritesDbHelper;
 
     @Inject AMFileUtil amFileUtil;
 
@@ -138,6 +147,14 @@ public class AnyMemo extends BaseActivity {
                 }
             }
         }
+    }
+
+    public List<Card> getAllFavourites(){
+        if(favouritesDbHelper == null) {
+            favouritesDbHelper = AnyMemoDBOpenHelperManager.getHelper(getApplicationContext(), favouritesDbPath);
+        }
+
+        return favouritesDbHelper.getCardDao().queryForAll();
     }
 
     private void loadUiComponents() {

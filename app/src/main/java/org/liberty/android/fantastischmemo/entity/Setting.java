@@ -111,6 +111,9 @@ public class Setting implements Serializable, VersionableDomainObject {
     @DatabaseField(format="yyyy-MM-dd HH:mm:ss.SSSSSS", dataType=DataType.DATE_STRING)
     private Date updateDate = new Date();
 
+    @DatabaseField(defaultValue = "false")
+    private boolean hintToggle;
+
     public Setting() {}
 
     public static enum Align {
@@ -440,5 +443,13 @@ public class Setting implements Serializable, VersionableDomainObject {
                 questionBackgroundColor == null &&
                 answerBackgroundColor == null &&
                 separatorColor.equals(DEFAULT_SEPARATOR_COLOR);
+    }
+
+    public boolean getHintToggle(){
+        return hintToggle;
+    }
+
+    public void setHintToggle(Boolean hintToggle){
+        this.hintToggle = hintToggle;
     }
 }

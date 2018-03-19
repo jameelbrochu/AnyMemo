@@ -25,6 +25,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -32,6 +33,7 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -107,6 +109,8 @@ public class SettingsScreen extends BaseActivity {
     private CheckBox field1Checkbox;
     private CheckBox field2Checkbox;
     private CheckBox field3Checkbox;
+    private CheckBox hintToggleCheckbox;
+
     private EnumSet<CardField> questionFields;
     private EnumSet<CardField> hintFields;
     private EnumSet<CardField> answerFields;
@@ -357,6 +361,10 @@ public class SettingsScreen extends BaseActivity {
             field3Checkbox.setOnClickListener(settingFieldOnClickListener);
             hintFields = setting.getHintFieldEnum();
 
+            hintToggleCheckbox = (CheckBox) findViewById(R.id.hint_modeToggle);
+            hintToggleCheckbox.setOnClickListener(settingFieldOnClickListener);
+            hintToggleCheckbox.setChecked(setting.getHintToggle());
+
             updateViews();
 
             setSpinnerListeners();
@@ -497,6 +505,7 @@ public class SettingsScreen extends BaseActivity {
         field1Checkbox.setChecked(!(questionFields.size() == 1 && questionFields.contains(CardField.QUESTION)));
         field2Checkbox.setChecked(!(answerFields.size() == 1 && answerFields.contains(CardField.ANSWER)));
         field3Checkbox.setChecked(!(hintFields.size() == 1 && hintFields.contains(CardField.HINT)));
+        hintToggleCheckbox.setChecked(setting.getHintToggle());
 
     }
 
@@ -573,6 +582,7 @@ public class SettingsScreen extends BaseActivity {
             setting.setHtmlLineBreakConversion(linebreakCheckbox.isChecked());
             setting.setQuestionFieldEnum(questionFields);
             setting.setAnswerEnum(answerFields);
+            setting.setHintToggle(hintToggleCheckbox.isChecked());
         }
 
         @Override
@@ -758,6 +768,24 @@ public class SettingsScreen extends BaseActivity {
                 df.setArguments(b);
                 df.setOnFileClickListener(aTypefaceEditFbListener);
                 df.show(getSupportFragmentManager(), "aTypefaceEditFB");
+            }
+
+            if(v == hintToggleCheckbox) {
+                SharedPreferences prefs = getApplicationContext().getSharedPreferences("AppPref", 0); // 0 for private mode
+                SharedPreferences.Editor editor = prefs.edit();
+                if(hintToggleCheckbox.isChecked()) {
+                    Log.d("HintToggleCheck", "Hint checked");
+                    editor.putBoolean("hintToggleCheck", true);
+                    editor.commit();
+                    setting.setHintToggle(true);
+                    hintToggleCheckbox.setChecked(true);
+                } else {
+                    Log.d("HintToggleCheck", "Hint unchecked");
+                    editor.putBoolean("hintToggleCheck", false);
+                    editor.commit();
+                    setting.setHintToggle(false);
+                    hintToggleCheckbox.setChecked(false);
+                }
             }
         }
     };
