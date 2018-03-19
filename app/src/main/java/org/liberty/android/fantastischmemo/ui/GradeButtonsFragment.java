@@ -24,6 +24,7 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcel;
 import android.support.annotation.Nullable;
 import android.text.Html;
 import android.util.Log;
@@ -49,6 +50,9 @@ import org.liberty.android.fantastischmemo.entity.Option;
 import org.liberty.android.fantastischmemo.scheduler.Scheduler;
 import org.liberty.android.fantastischmemo.utils.AMDateUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 
@@ -73,6 +77,10 @@ public class GradeButtonsFragment extends BaseFragment {
     private Button[] gradeButtons = new Button[6];
 
     private CardDao cardDao;
+
+    private ArrayList<Card> forgotCards = new ArrayList<>();
+
+    private ArrayList<Card> rememberedCards = new ArrayList<>();
 
     private LearningDataDao learningDataDao;
 
@@ -180,13 +188,35 @@ public class GradeButtonsFragment extends BaseFragment {
         return buttonView;
     }
 
+    public ArrayList<Card> getForgotCards() {
+        return forgotCards;
+    }
+
+    public ArrayList<Card> getRememberedCards() {
+        return rememberedCards;
+    }
+
     public void gradeCurrentCard(int grade) {
         onGradeButtonClickListener.onGradeButtonClick(grade);
     }
 
     private void setButtonOnClickListener(final Button button, final int grade) {
+
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                if (grade == 0 || grade == 1) {
+                    Parcel parcel = Parcel.obtain();
+                    Card currentCard = activity.getCurrentCard();
+                    forgotCards.add(currentCard);
+                    parcel.writeValue(currentCard);
+                    currentCard.writeToParcel(parcel, 0);
+                } else {
+                    Parcel parcel = Parcel.obtain();
+                    Card currentCard = activity.getCurrentCard();
+                    rememberedCards.add(currentCard);
+                    parcel.writeValue(currentCard);
+                    currentCard.writeToParcel(parcel, 0);
+                }
                 onGradeButtonClickListener.onGradeButtonClick(grade);
             }
         });

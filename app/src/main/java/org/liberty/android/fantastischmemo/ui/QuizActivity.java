@@ -51,6 +51,9 @@ import org.liberty.android.fantastischmemo.scheduler.Scheduler;
 import org.liberty.android.fantastischmemo.ui.loader.DBLoader;
 import org.liberty.android.fantastischmemo.utils.DictionaryUtil;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 
 public class QuizActivity extends QACardActivity {
@@ -81,7 +84,6 @@ public class QuizActivity extends QACardActivity {
     private int quizSize = -1;
 
     private boolean isNewCardsCompleted = false;
-
     private boolean shuffleCards = false;
     private int totalQuizSize = -1;
 
@@ -467,8 +469,10 @@ public class QuizActivity extends QACardActivity {
                 .setTitle(R.string.quiz_completed_text)
                 .setMessage(timeToCompleteQuiz())
                 .setView(view)
-                .setPositiveButton(R.string.review_text, null)
-                .setNegativeButton(R.string.cancel_text, flushAndQuitListener)
+                .setNeutralButton(R.string.cancel_text, flushAndQuitListener)
+                .setNegativeButton(R.string.review_text, reviewScoreListener)
+                .setPositiveButton(R.string.restart_text, null)
+
                 .setCancelable(false)
                 .show();
     }
@@ -482,6 +486,20 @@ public class QuizActivity extends QACardActivity {
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
                     finish();
+                }
+            };
+
+    private DialogInterface.OnClickListener reviewScoreListener =
+            new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+                    Intent intent = new Intent(QuizActivity.this, QuizReviewActivity.class);
+                    ArrayList<Card> forgottenCards = gradeButtonsFragment.getForgotCards();
+                    ArrayList<Card> rememberedCards = gradeButtonsFragment.getRememberedCards();
+
+                    intent.putParcelableArrayListExtra("FORGOT_CARDS", forgottenCards);
+                    intent.putParcelableArrayListExtra("REMEMBERED_CARDS", rememberedCards);
+                    startActivity(intent);
                 }
             };
 
@@ -508,8 +526,11 @@ public class QuizActivity extends QACardActivity {
 
         private Card updatedCard;
 
+        private Context context;
+
         public ChangeCardTask(Context context, Card updatedCard) {
             this.updatedCard = updatedCard;
+            this.context = context;
         }
 
         @Override
@@ -529,6 +550,12 @@ public class QuizActivity extends QACardActivity {
         @Override
         protected void onPostExecute(Card result) {
             setProgressBarIndeterminateVisibility(false);
+
+            // Stat data
+            setCurrentCard(result);
+            displayCard(false);
+            setSmallTitle(getActivityTitleString());
+
             if (result == null) {
                 stopTimer();
                 showCompleteAllDialog();
@@ -539,12 +566,9 @@ public class QuizActivity extends QACardActivity {
                 stopTimer();
                 showCompleteNewDialog(totalQuizSize - reviewQueueSizeBeforeDequeue);
                 isNewCardsCompleted = true;
+
             }
 
-            // Stat data
-            setCurrentCard(result);
-            displayCard(false);
-            setSmallTitle(getActivityTitleString());
         }
     }
 
