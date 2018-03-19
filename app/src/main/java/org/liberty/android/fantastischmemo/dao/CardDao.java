@@ -116,4 +116,6 @@ public interface CardDao extends HelperDao<Card, Integer> {
     void shuffleCards();
 
     void unshuffleCards();
+
+    void updateFavourite(Card card, Boolean fav);
 }

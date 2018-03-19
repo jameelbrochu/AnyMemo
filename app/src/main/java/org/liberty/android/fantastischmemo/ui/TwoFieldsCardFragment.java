@@ -27,11 +27,15 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.LinearLayout.LayoutParams;
 
 import org.liberty.android.fantastischmemo.R;
 import org.liberty.android.fantastischmemo.common.BaseFragment;
 import org.liberty.android.fantastischmemo.entity.Setting;
+import org.liberty.android.fantastischmemo.entity.Card;
+
+import java.sql.SQLException;
 
 /**
  * This fragment is for a card of two fields, field1 is the upper field and filed2
@@ -109,12 +113,13 @@ public class TwoFieldsCardFragment extends BaseFragment {
 
     private int field3InitialPosition = 0;
 
+    private ImageButton favouriteBtn;
+
     public TwoFieldsCardFragment() { }
 
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-
         // Need to convert the array type to Serializable to CardFragment.Builder
         Object[] array1 = (Object[]) getArguments().getSerializable(EXTRA_FIELD1_CARD_FRAGMENT_BUILDERS);
         Object[] array2 = (Object[]) getArguments().getSerializable(EXTRA_FIELD2_CARD_FRAGMENT_BUILDERS);
@@ -153,6 +158,18 @@ public class TwoFieldsCardFragment extends BaseFragment {
             ViewGroup container,
             Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.two_fields_card_layout, container, false);
+        favouriteBtn = (ImageButton)v.findViewById(R.id.favourite_button);
+        favouriteBtn.setOnClickListener(favouriteButtonHandler);
+
+        boolean fav = ((QACardActivity)getActivity()).getCurrentCard().getFavourite();
+
+        if (fav) {
+            favouriteBtn.setImageResource(android.R.drawable.btn_star_big_on);
+        }
+        else {
+            favouriteBtn.setImageResource(android.R.drawable.btn_star_big_off);
+        }
+
         field1CardPager = (ViewPager) v.findViewById(R.id.field1);
         field1CardPager.setAdapter(new FragmentStatePagerAdapter(
                 getChildFragmentManager()) {
@@ -262,5 +279,28 @@ public class TwoFieldsCardFragment extends BaseFragment {
             field3CardPager.setVisibility(View.VISIBLE);
         }
     }
+    View.OnClickListener favouriteButtonHandler = new View.OnClickListener() {
+
+        public void onClick(View v) {
+
+            boolean fav = ((QACardActivity)getActivity()).getCurrentCard().getFavourite();
+            Card card = ((QACardActivity)getActivity()).getCurrentCard();
+            if (fav) {
+                favouriteBtn.setImageResource(android.R.drawable.btn_star_big_off);
+                ((QACardActivity)getActivity()).getDao().updateFavourite(card, false);
+                ((QACardActivity)getActivity()).unfavouriteCard();
+
+            }
+
+            else {
+                favouriteBtn.setImageResource(android.R.drawable.btn_star_big_on);
+                ((QACardActivity)getActivity()).getDao().updateFavourite(card, true);
+                ((QACardActivity)getActivity()).favouriteCard();
+
+            }
+
+
+        }
+    };
 }
 
