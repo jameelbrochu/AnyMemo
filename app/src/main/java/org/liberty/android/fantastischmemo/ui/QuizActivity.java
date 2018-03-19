@@ -84,9 +84,6 @@ public class QuizActivity extends QACardActivity {
     private int quizSize = -1;
 
     private boolean isNewCardsCompleted = false;
-
-    private QuizActivity activity;
-
     private boolean shuffleCards = false;
     private int totalQuizSize = -1;
 

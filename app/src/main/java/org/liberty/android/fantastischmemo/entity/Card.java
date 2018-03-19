@@ -10,11 +10,10 @@ import com.j256.ormlite.table.DatabaseTable;
 
 import org.liberty.android.fantastischmemo.dao.CardDaoImpl;
 
-import java.io.Serializable;
 import java.util.Date;
 
 @DatabaseTable(tableName = "cards", daoClass = CardDaoImpl.class)
-public class Card implements VersionableDomainObject, Parcelable, Serializable {
+public class Card implements VersionableDomainObject, Parcelable {
     @DatabaseField(generatedId = true)
     private Integer id;
 
@@ -220,7 +219,6 @@ public class Card implements VersionableDomainObject, Parcelable, Serializable {
     };
 
     private Card(Parcel in) {
-
         question = in.readString();
         answer = in.readString();
         hint = in.readString();
