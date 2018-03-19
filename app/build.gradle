@@ -26,6 +26,10 @@ android {
         vectorDrawables.useSupportLibrary = true
     }
 
+    testOptions {
+        animationsDisabled = true
+    }
+
     dataBinding {
         enabled = true
     }

@@ -1,3 +1,4 @@
+/*
 package org.liberty.android.fantastischmemo.test.ui;
 
 
@@ -100,3 +101,4 @@ public class shuffleTest {
         };
     }
 }
+*/
