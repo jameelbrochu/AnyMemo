@@ -38,6 +38,8 @@ import android.widget.Toast;
 import com.google.common.base.Strings;
 
 import org.liberty.android.fantastischmemo.R;
+import org.liberty.android.fantastischmemo.common.AnyMemoDBOpenHelper;
+import org.liberty.android.fantastischmemo.common.AnyMemoDBOpenHelperManager;
 import org.liberty.android.fantastischmemo.entity.Card;
 import org.liberty.android.fantastischmemo.entity.Category;
 import org.liberty.android.fantastischmemo.entity.LearningData;
@@ -53,6 +55,7 @@ import org.liberty.android.fantastischmemo.ui.loader.DBLoader;
 import org.liberty.android.fantastischmemo.utils.DictionaryUtil;
 import org.liberty.android.fantastischmemo.utils.ShareUtil;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -91,11 +94,14 @@ public class StudyActivity extends QACardActivity {
 
     boolean initialized = false;
 
-    @Inject Scheduler scheduler;
+    @Inject
+    Scheduler scheduler;
 
-    @Inject DictionaryUtil dictionaryUtil;
+    @Inject
+    DictionaryUtil dictionaryUtil;
 
-    @Inject ShareUtil shareUtil;
+    @Inject
+    ShareUtil shareUtil;
 
     private GradeButtonsFragment gradeButtonsFragment;
 
@@ -121,8 +127,10 @@ public class StudyActivity extends QACardActivity {
         if(shuffle!=null) {
             if (shuffle.equals("true")) {
                 getDbOpenHelper().getCardDao().shuffleCards();
+                restartActivity();
             } else {
                 getDbOpenHelper().getCardDao().unshuffleCards();
+                restartActivity();
             }
         }
         
