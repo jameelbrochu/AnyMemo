@@ -208,7 +208,7 @@ public class GradeButtonsFragment extends BaseFragment {
                     Parcel parcel = Parcel.obtain();
                     Card currentCard = activity.getCurrentCard();
                     forgotCards.add(currentCard);
-                    parcel.writeValue(currentCard.getQuestion());
+                    parcel.writeValue(currentCard);
                     currentCard.writeToParcel(parcel, 0);
                 }
                 else {

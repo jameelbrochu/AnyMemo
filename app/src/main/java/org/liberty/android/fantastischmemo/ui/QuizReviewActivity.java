@@ -63,7 +63,7 @@ public class QuizReviewActivity extends Activity implements Serializable {
 
         for(int i=0; i < all_forgotten_cards.size(); i++){
             Card c = all_forgotten_cards.get(i);
-            forgotQuestionsTextView.setText(forgotQuestionsTextView.getText() + "Question " + Integer.toString(c.getId()) + ":\nAnswer: " + c.getAnswer()
+            forgotQuestionsTextView.setText(forgotQuestionsTextView.getText() + "Question " + Integer.toString(c.getId()) + ": " + c.getQuestion() + "\nAnswer: " + c.getAnswer()
                     + "\n\n");
         }
 
@@ -74,7 +74,7 @@ public class QuizReviewActivity extends Activity implements Serializable {
 
         for(int i=0; i < all_remembered_cards.size(); i++){
             Card c = all_remembered_cards.get(i);
-            rememberQuestionsTextView.setText(rememberQuestionsTextView.getText() + "Question " + Integer.toString(c.getId()) + ":\nAnswer: " + c.getAnswer()
+            rememberQuestionsTextView.setText(rememberQuestionsTextView.getText() + "Question " + Integer.toString(c.getId()) + ": " + c.getQuestion() + "\nAnswer: " + c.getAnswer()
                     + "\n\n");
         }
 
