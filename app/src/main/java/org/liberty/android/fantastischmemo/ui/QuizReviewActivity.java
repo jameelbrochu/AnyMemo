@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuizReviewActivity extends Activity implements Serializable {
+public class QuizReviewActivity extends Activity {
 
     public static String FORGOT_CARDS = "FORGOT_CARDS";
     public static String REMEMBERED_CARDS = "REMEMBERED_CARDS";

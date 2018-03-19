@@ -497,6 +497,11 @@ public class QuizActivity extends QACardActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int id) {
                     Intent intent = new Intent(QuizActivity.this, QuizReviewActivity.class);
+                    ArrayList<Card> forgottenCards = gradeButtonsFragment.getForgotCards();
+                    ArrayList<Card> rememberedCards = gradeButtonsFragment.getRememberedCards();
+
+                    intent.putParcelableArrayListExtra("FORGOT_CARDS", forgottenCards);
+                    intent.putParcelableArrayListExtra("REMEMBERED_CARDS", rememberedCards);
                     startActivity(intent);
                 }
             };
@@ -565,13 +570,6 @@ public class QuizActivity extends QACardActivity {
                 showCompleteNewDialog(totalQuizSize - reviewQueueSizeBeforeDequeue);
                 isNewCardsCompleted = true;
 
-                Intent intent = new Intent(context, QuizReviewActivity.class);
-                ArrayList<Card> forgottenCards = gradeButtonsFragment.getForgotCards();
-                ArrayList<Card> rememberedCards = gradeButtonsFragment.getRememberedCards();
-
-                intent.putParcelableArrayListExtra("FORGOT_CARDS", forgottenCards);
-                intent.putParcelableArrayListExtra("REMEMBERED_CARDS", rememberedCards);
-                startActivity(intent);
             }
 
         }
