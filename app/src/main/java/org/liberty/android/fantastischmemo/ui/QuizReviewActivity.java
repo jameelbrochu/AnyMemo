@@ -7,16 +7,17 @@ import android.widget.TextView;
 import org.liberty.android.fantastischmemo.R;
 import org.liberty.android.fantastischmemo.entity.Card;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuizReviewActivity extends Activity {
+public class QuizReviewActivity extends Activity implements Serializable {
 
-    public static String FORGOT_CARDS = "forgot_cards";
-    public static String REMEMBERED_CARDS = "remembered_cards";
+    public static String FORGOT_CARDS = "FORGOT_CARDS";
+    public static String REMEMBERED_CARDS = "REMEMBERED_CARDS";
 
-    List<Card> all_forgotten_cards = new ArrayList<>();
-    List<Card> all_remembered_cards = new ArrayList<>();
+    ArrayList<Card> all_forgotten_cards = new ArrayList<>();
+    ArrayList<Card> all_remembered_cards = new ArrayList<>();
 
 
     private TextView titleTextView;
@@ -31,9 +32,9 @@ public class QuizReviewActivity extends Activity {
         super.onCreate ( savedInstanceState );
         setContentView ( R.layout.quiz_review_activity );
         try {
-            Bundle extras = getIntent().getExtras();
-            all_forgotten_cards = extras.getParcelable(FORGOT_CARDS);
-            all_remembered_cards = extras.getParcelable(REMEMBERED_CARDS);
+            //Bundle extras = getIntent().getExtras();
+            all_forgotten_cards = this.getIntent().getParcelableArrayListExtra(FORGOT_CARDS);
+            all_remembered_cards = this.getIntent().getParcelableArrayListExtra(REMEMBERED_CARDS);
         }
         catch (NullPointerException e) {
             e.getMessage();

@@ -10,10 +10,11 @@ import com.j256.ormlite.table.DatabaseTable;
 
 import org.liberty.android.fantastischmemo.dao.CardDaoImpl;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @DatabaseTable(tableName = "cards", daoClass = CardDaoImpl.class)
-public class Card implements VersionableDomainObject, Parcelable  {
+public class Card implements VersionableDomainObject, Parcelable, Serializable {
     @DatabaseField(generatedId = true)
     private Integer id;
 
@@ -184,14 +185,16 @@ public class Card implements VersionableDomainObject, Parcelable  {
         return getId();
     }
 
-    private int mData;
-
     public int describeContents() {
         return 0;
     }
 
-    public void writeToParcel(Parcel out, int flags) {
-        out.writeInt(mData);
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(this.getQuestion());
+        parcel.writeString(this.getAnswer());
+        parcel.writeString(this.getHint());
+        parcel.writeInt(this.getId());
     }
 
     public static final Parcelable.Creator<Card> CREATOR
@@ -206,7 +209,11 @@ public class Card implements VersionableDomainObject, Parcelable  {
     };
 
     private Card(Parcel in) {
-        mData = in.readInt();
+
+        question = in.readString();
+        answer = in.readString();
+        hint = in.readString();
+        id = in.readInt();
     }
 
 }

@@ -24,6 +24,7 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcel;
 import android.support.annotation.Nullable;
 import android.text.Html;
 import android.util.Log;
@@ -204,10 +205,18 @@ public class GradeButtonsFragment extends BaseFragment {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (grade == 0 || grade == 1) {
-                    forgotCards.add(activity.getCurrentCard());
+                    Parcel parcel = Parcel.obtain();
+                    Card currentCard = activity.getCurrentCard();
+                    forgotCards.add(currentCard);
+                    parcel.writeValue(currentCard.getQuestion());
+                    currentCard.writeToParcel(parcel, 0);
                 }
                 else {
-                    rememberedCards.add(activity.getCurrentCard());
+                    Parcel parcel = Parcel.obtain();
+                    Card currentCard = activity.getCurrentCard();
+                    rememberedCards.add(currentCard);
+                    parcel.writeValue(currentCard);
+                    currentCard.writeToParcel(parcel, 0);
                 }
                 onGradeButtonClickListener.onGradeButtonClick(grade);
             }

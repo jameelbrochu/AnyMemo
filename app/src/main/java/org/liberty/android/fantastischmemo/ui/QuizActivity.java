@@ -524,8 +524,11 @@ public class QuizActivity extends QACardActivity {
 
         private Card updatedCard;
 
+        private Context context;
+
         public ChangeCardTask(Context context, Card updatedCard) {
             this.updatedCard = updatedCard;
+            this.context = context;
         }
 
         @Override
@@ -545,6 +548,12 @@ public class QuizActivity extends QACardActivity {
         @Override
         protected void onPostExecute(Card result) {
             setProgressBarIndeterminateVisibility(false);
+
+            // Stat data
+            setCurrentCard(result);
+            displayCard(false);
+            setSmallTitle(getActivityTitleString());
+
             if (result == null) {
                 stopTimer();
                 showCompleteAllDialog();
@@ -556,18 +565,14 @@ public class QuizActivity extends QACardActivity {
                 showCompleteNewDialog(totalQuizSize - reviewQueueSizeBeforeDequeue);
                 isNewCardsCompleted = true;
 
-                Intent intent = new Intent(QuizActivity.this, QuizReviewActivity.class);
-                intent.putExtra("FORGOT_CARDS", gradeButtonsFragment.getForgotCards());
-                intent.putExtra("REMEMBERED_CARDS", gradeButtonsFragment.getRememberedCards());
+                Intent intent = new Intent(context, QuizReviewActivity.class);
+                ArrayList<Card> forgottenCards = gradeButtonsFragment.getForgotCards();
+                ArrayList<Card> rememberedCards = gradeButtonsFragment.getRememberedCards();
+
+                intent.putParcelableArrayListExtra("FORGOT_CARDS", forgottenCards);
+                intent.putParcelableArrayListExtra("REMEMBERED_CARDS", rememberedCards);
                 startActivity(intent);
             }
-
-            // Stat data
-            setCurrentCard(result);
-            displayCard(false);
-            setSmallTitle(getActivityTitleString());
-
-
 
         }
     }
