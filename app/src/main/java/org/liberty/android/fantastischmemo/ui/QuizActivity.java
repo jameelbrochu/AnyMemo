@@ -23,6 +23,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -156,6 +157,10 @@ public class QuizActivity extends QACardActivity {
             @Override
             public void onTick(long millisUntilFinished) {
                 timeLeftInMilliseconds = millisUntilFinished;
+                if(timeLeftInMilliseconds <= 11000){
+                    TextView clock = (TextView) findViewById(R.id.countdown_text);
+                    clock.setTextColor(Color.RED);
+                }
                 updateTimerText();
             }
 
