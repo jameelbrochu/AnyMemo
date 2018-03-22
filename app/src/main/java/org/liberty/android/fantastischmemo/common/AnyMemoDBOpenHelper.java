@@ -22,6 +22,7 @@ import org.liberty.android.fantastischmemo.entity.Category;
 import org.liberty.android.fantastischmemo.entity.Deck;
 import org.liberty.android.fantastischmemo.entity.Filter;
 import org.liberty.android.fantastischmemo.entity.LearningData;
+import org.liberty.android.fantastischmemo.entity.MultipleChoiceCard;
 import org.liberty.android.fantastischmemo.entity.Setting;
 
 import java.sql.SQLException;
@@ -33,7 +34,7 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
 
     private final String dbPath;
 
-    private static final int CURRENT_VERSION = 7;
+    private static final int CURRENT_VERSION = 8;
 
     private CardDao cardDao = null;
 
@@ -61,6 +62,8 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, Filter.class);
             TableUtils.createTable(connectionSource, Category.class);
             TableUtils.createTable(connectionSource, LearningData.class);
+            TableUtils.createTable(connectionSource, MultipleChoiceCard.class);
+
 
             getSettingDao().create(new Setting());
             getCategoryDao().create(new Category());
@@ -174,6 +177,13 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
         if(oldVersion <=6 ){
             database.execSQL("alter table cards add favourite Boolean");
             database.execSQL("alter table settings add hintToggle Boolean");
+        }
+
+        if(oldVersion <= 7){
+            Log.d("CreatMC","Creating table for MCQ" );
+            database.execSQL("create table multipleChoiceCards (id int primary key, question string, option1 string, option2 string, option3 string, option4 string, answer string)");
+            Log.d("CreatedMC", "MCQ table has been created");
+            database.execSQL("insert into multipleChoiceCards id, question, option1, option2, option3, option4, answer");
         }
     }
 
