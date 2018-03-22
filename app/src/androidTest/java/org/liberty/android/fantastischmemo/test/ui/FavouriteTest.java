@@ -1,4 +1,4 @@
-package org.liberty.android.fantastischmemo.test.ui;
+/*package org.liberty.android.fantastischmemo.test.ui;
 
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
@@ -112,3 +112,4 @@ public class FavouriteTest {
         };
     }
 }
+*/
