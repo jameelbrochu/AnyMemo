@@ -8,15 +8,6 @@
 //import android.view.ViewGroup;
 //import android.view.ViewParent;
 //
-//import org.hamcrest.Description;
-//import org.hamcrest.Matcher;
-//import org.hamcrest.TypeSafeMatcher;
-//import org.junit.Rule;
-//import org.junit.Test;
-//import org.junit.runner.RunWith;
-//import org.liberty.android.fantastischmemo.R;
-//import org.liberty.android.fantastischmemo.ui.AnyMemo;
-//
 //import static android.support.test.espresso.Espresso.onView;
 //import static android.support.test.espresso.action.ViewActions.click;
 //import static android.support.test.espresso.action.ViewActions.scrollTo;
@@ -27,6 +18,17 @@
 //import static android.support.test.espresso.matcher.ViewMatchers.withText;
 //import static org.hamcrest.Matchers.allOf;
 //import static org.hamcrest.Matchers.is;
+//
+//import org.hamcrest.Description;
+//import org.hamcrest.Matcher;
+//import org.hamcrest.TypeSafeMatcher;
+//
+//import org.liberty.android.fantastischmemo.R;
+//import org.liberty.android.fantastischmemo.ui.AnyMemo;
+//
+//import org.junit.Rule;
+//import org.junit.Test;
+//import org.junit.runner.RunWith;
 //
 //@LargeTest
 //@RunWith(AndroidJUnit4.class)
