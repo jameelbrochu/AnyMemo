@@ -1,16 +1,6 @@
 /*
 package org.liberty.android.fantastischmemo.test.ui;
 
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import org.liberty.android.fantastischmemo.integrationtest.TestHelper;
-import org.liberty.android.fantastischmemo.test.AbstractExistingDBTest;
-import org.liberty.android.fantastischmemo.ui.QuizActivity;
-import org.liberty.android.fantastischmemo.R;
-
 import android.content.Intent;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
@@ -20,6 +10,16 @@ import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.espresso.assertion.ViewAssertions;
 
 import static org.hamcrest.Matchers.not;
+
+import org.liberty.android.fantastischmemo.integrationtest.TestHelper;
+import org.liberty.android.fantastischmemo.test.AbstractExistingDBTest;
+import org.liberty.android.fantastischmemo.ui.QuizActivity;
+import org.liberty.android.fantastischmemo.R;
+
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
