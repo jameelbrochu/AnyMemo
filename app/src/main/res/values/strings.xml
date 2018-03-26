@@ -96,7 +96,7 @@
     <string name="search_text">Search</string>
     <string name="fb_create_db">Create new DB</string>
     <string name="fb_create_dir">Create new folder</string>
-    <string name="fb_create_db_message">Please enter the name of new database.</string>
+    <string name="fb_create_db_message">Please choose deck type and name.</string>
     <string name="fb_create_dir_message">Please enter the name of new folder.</string>
     <string name="fb_delete_message">Are you sure to delete this file?</string>
     <string name="fb_edit_dialog_title">Edit</string>
