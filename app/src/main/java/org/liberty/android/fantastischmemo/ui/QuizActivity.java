@@ -160,13 +160,13 @@ public class QuizActivity extends QACardActivity {
             public void onTick(long millisUntilFinished) {
                 timeLeftInMilliseconds = millisUntilFinished;
 
-                if(!mediaPlayer.isPlaying()) {
+                if (!mediaPlayer.isPlaying()) {
                     if (timeLeftInMilliseconds <= 8000) {
                         mediaPlayer.start();
                     }
                 }
 
-                if(timeLeftInMilliseconds <= 11000){
+                if (timeLeftInMilliseconds <= 11000) {
                     TextView clock = (TextView) findViewById(R.id.countdown_text);
                     clock.setTextColor(Color.RED);
                 }
