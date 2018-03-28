@@ -4,9 +4,9 @@ package org.liberty.android.fantastischmemo.entity;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-import org.liberty.android.fantastischmemo.dao.MCDaoImpl;
+import org.liberty.android.fantastischmemo.dao.MultipleChoiceDaoImpl;
 
-@DatabaseTable(tableName = "multipleChoiceCards", daoClass = MCDaoImpl.class)
+@DatabaseTable(tableName = "multipleChoiceCards", daoClass = MultipleChoiceDaoImpl.class)
 public class MultipleChoiceCard  {
 
     @DatabaseField(generatedId = true)

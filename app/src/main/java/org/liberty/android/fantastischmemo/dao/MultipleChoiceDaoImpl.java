@@ -11,15 +11,15 @@ import java.util.List;
 import java.util.Objects;
 
 
-public class MCDaoImpl extends AbstractHelperDaoImpl<MultipleChoiceCard, Integer> implements MCDao {
+public class MultipleChoiceDaoImpl extends AbstractHelperDaoImpl<MultipleChoiceCard, Integer> implements MultipleChoiceCardDao {
 
     private AnyMemoDBOpenHelper helper = null;
 
-    protected MCDaoImpl(ConnectionSource connectionSource, DatabaseTableConfig<MultipleChoiceCard> config) throws SQLException {
+    protected MultipleChoiceDaoImpl(ConnectionSource connectionSource, DatabaseTableConfig<MultipleChoiceCard> config) throws SQLException {
         super(connectionSource, config);
     }
 
-    public MCDaoImpl(ConnectionSource connectionSource, Class<MultipleChoiceCard> clazz) throws SQLException {
+    public MultipleChoiceDaoImpl(ConnectionSource connectionSource, Class<MultipleChoiceCard> clazz) throws SQLException {
         super(connectionSource, clazz);
     }
 
@@ -28,7 +28,7 @@ public class MCDaoImpl extends AbstractHelperDaoImpl<MultipleChoiceCard, Integer
         if (helper != null) {
             return helper;
         } else {
-            throw new IllegalStateException("Must set the helper in order to use");
+            throw new IllegalStateException("Must set the helper in order to use.");
         }
     }
 
@@ -52,13 +52,13 @@ public class MCDaoImpl extends AbstractHelperDaoImpl<MultipleChoiceCard, Integer
     }
 
     @Override
-    public List<MultipleChoiceCard> getAllMCCards() {
+    public List<MultipleChoiceCard> getAllMultipleChoiceCards() {
         AnyMemoDBOpenHelper dbHelper = getHelper();
         return dbHelper.getAllMultipleChoiceCards();
     }
 
     @Override
-    public MultipleChoiceCard getMCCard(long id) {
+    public MultipleChoiceCard getMultipleChoiceCard(long id) {
         List<MultipleChoiceCard> mcCards;
         AnyMemoDBOpenHelper dbHelper = getHelper();
         mcCards = dbHelper.getAllMultipleChoiceCards();
@@ -71,9 +71,9 @@ public class MCDaoImpl extends AbstractHelperDaoImpl<MultipleChoiceCard, Integer
     }
 
     @Override
-    public MultipleChoiceCard addMCCard(MultipleChoiceCard mcCard) {
+    public MultipleChoiceCard addMultipleChoiceCard(MultipleChoiceCard mcCard) {
         AnyMemoDBOpenHelper dbHelper = getHelper();
-        dbHelper.insertMCCard(mcCard, dbHelper.getWritableDatabase());
+        dbHelper.insertMultipleChoiceCard(mcCard, dbHelper.getWritableDatabase());
         if (mcCard != null) {
             return mcCard;
         }
@@ -81,47 +81,41 @@ public class MCDaoImpl extends AbstractHelperDaoImpl<MultipleChoiceCard, Integer
     }
 
     @Override
-    public List<MultipleChoiceCard> deleteMCCard(MultipleChoiceCard mcCard) {
-        long id;
+    public void deleteMultipleChoiceCard(MultipleChoiceCard mcCard) {
         AnyMemoDBOpenHelper dbHelper = getHelper();
-        id = mcCard.getId();
-        dbHelper.deleteMCCard(mcCard);
-        for(MultipleChoiceCard card : getAllMCCards()) {
+        long id = mcCard.getId();
+        dbHelper.deleteMultipleChoiceCard(mcCard);
+        for(MultipleChoiceCard card : getAllMultipleChoiceCards()) {
             if (card.getId() == (id + 1)) {
-                dbHelper.updateMCId(String.valueOf(id), String.valueOf(card.getId()));
+                dbHelper.updateMultipleChoiceId(String.valueOf(id), String.valueOf(card.getId()));
                 card.setId(id);
                 id++;
             }
         }
-        return getAllMCCards();
     }
 
     @Override
-    public MultipleChoiceCard getNextMCCard(MultipleChoiceCard mcCard) {
-        long currentCardId;
-        long nextCardId;
-        currentCardId = mcCard.getId();
-        nextCardId = currentCardId + 1;
-        MultipleChoiceCard nextCard = getMCCard(nextCardId);
+    public MultipleChoiceCard getNextMultipleChoiceCard(MultipleChoiceCard mcCard) {
+        long currentCardId = mcCard.getId();
+        long nextCardId = currentCardId + 1;
+        MultipleChoiceCard nextCard = getMultipleChoiceCard(nextCardId);
         if (nextCard != null)  {
             return nextCard;
         }
         else {
-            return getMCCard(currentCardId);
+            return getMultipleChoiceCard(currentCardId);
         }
     }
 
     @Override
-    public MultipleChoiceCard getPrevMCCard(MultipleChoiceCard mcCard) {
-        long currentCardId;
-        long prevCardId;
-        currentCardId = mcCard.getId();
-        prevCardId = currentCardId - 1;
-        MultipleChoiceCard prevCard = getMCCard(prevCardId);
+    public MultipleChoiceCard getPrevMultipleChoiceCard(MultipleChoiceCard mcCard) {
+        long currentCardId = mcCard.getId();
+        long prevCardId = currentCardId - 1;
+        MultipleChoiceCard prevCard = getMultipleChoiceCard(prevCardId);
         if (prevCard != null) {
             return prevCard;
         } else {
-            return getMCCard(currentCardId);
+            return getMultipleChoiceCard(currentCardId);
         }
     }
 

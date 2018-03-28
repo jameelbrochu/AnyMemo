@@ -17,7 +17,7 @@ import org.liberty.android.fantastischmemo.dao.CategoryDao;
 import org.liberty.android.fantastischmemo.dao.DeckDao;
 import org.liberty.android.fantastischmemo.dao.FilterDao;
 import org.liberty.android.fantastischmemo.dao.LearningDataDao;
-import org.liberty.android.fantastischmemo.dao.MCDao;
+import org.liberty.android.fantastischmemo.dao.MultipleChoiceCardDao;
 import org.liberty.android.fantastischmemo.dao.SettingDao;
 import org.liberty.android.fantastischmemo.entity.Card;
 import org.liberty.android.fantastischmemo.entity.Category;
@@ -37,7 +37,7 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
 
     private final String dbPath;
 
-    private static final int CURRENT_VERSION = 9;
+    private static final int CURRENT_VERSION = 8;
 
     private CardDao cardDao = null;
 
@@ -51,7 +51,7 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
 
     private LearningDataDao learningDataDao = null;
 
-    private MCDao mcDao = null;
+    private MultipleChoiceCardDao multipleChoiceCardDao = null;
 
     private boolean isReleased = false;
 
@@ -186,7 +186,7 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
             database.execSQL("alter table settings add hintToggle Boolean");
         }
 
-        final String CREATE_MC_TABLE = "create table " +
+        final String CREATE_MULTIPLE_CHOICE_TABLE = "create table " +
                 MultipleChoiceContract.MultipleChoiceCardTable.TABLE_NAME + " (" +
                 "_id" + " integer primary key autoincrement, " +
                 MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_QUESTION + " string, " +
@@ -196,9 +196,8 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
                 MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_OPTION4 + " string, " +
                 MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_ANSWER + " string, " + ")";
 
-        if(oldVersion <= 8){
-            database.execSQL("drop table "+ MultipleChoiceContract.MultipleChoiceCardTable.TABLE_NAME);
-            database.execSQL(CREATE_MC_TABLE);
+        if(oldVersion <= 7){
+            database.execSQL(CREATE_MULTIPLE_CHOICE_TABLE);
         }
     }
 
@@ -289,12 +288,12 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
         }
     }
 
-    public synchronized MCDao getMCDao() {
+    public synchronized MultipleChoiceCardDao getMultipleChoiceDao() {
         try {
-            if(mcDao == null) {
-                mcDao = getDao(MultipleChoiceCard.class);
+            if(multipleChoiceCardDao == null) {
+                multipleChoiceCardDao = getDao(MultipleChoiceCard.class);
             }
-            return mcDao;
+            return multipleChoiceCardDao;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -328,7 +327,7 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
     }
 
     //inserts values to the multiple choice card table
-    public void insertMCCard(MultipleChoiceCard mcCard, SQLiteDatabase db) {
+    public void insertMultipleChoiceCard(MultipleChoiceCard mcCard, SQLiteDatabase db) {
         ContentValues cv = new ContentValues();
         cv.put(MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_QUESTION, mcCard.getQuestion());
         cv.put(MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_OPTION1, mcCard.getOption1());
@@ -336,12 +335,11 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
         cv.put(MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_OPTION3, mcCard.getOption3());
         cv.put(MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_OPTION4, mcCard.getOption4());
         cv.put(MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_ANSWER, mcCard.getAnswer());
-        long id;
-        id = db.insert(MultipleChoiceContract.MultipleChoiceCardTable.TABLE_NAME, null, cv);
+        long id = db.insert(MultipleChoiceContract.MultipleChoiceCardTable.TABLE_NAME, null, cv);
         mcCard.setId(id);
     }
 
-    public void deleteMCCard(MultipleChoiceCard mcCard) {
+    public void deleteMultipleChoiceCard(MultipleChoiceCard mcCard) {
         db.delete(MultipleChoiceContract.MultipleChoiceCardTable.TABLE_NAME,
                 "id" + "=" + mcCard.getId(),
                 null);
@@ -352,13 +350,13 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
 
         db = getReadableDatabase();
         Cursor c = db.rawQuery("SELECT * FROM " + MultipleChoiceContract.MultipleChoiceCardTable.TABLE_NAME, null);
-        addToMCList(c, mcList);
+        addToMultipleChoiceList(c, mcList);
         c.close();
 
         return mcList;
     }
 
-    private void addToMCList(Cursor c, List<MultipleChoiceCard> list) {
+    private void addToMultipleChoiceList(Cursor c, List<MultipleChoiceCard> list) {
         if (c.moveToFirst()) {
             do {
                 MultipleChoiceCard mcCard = new MultipleChoiceCard();
@@ -376,18 +374,7 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
         }
     }
 
-    public void updateMCId(String newId, String oldId) {
+    public void updateMultipleChoiceId(String newId, String oldId) {
         db.execSQL("update " + MultipleChoiceContract.MultipleChoiceCardTable.TABLE_NAME +" set id = " + newId + " where id = " + oldId);
-
-    }
-
-    //test data for multiple choice table
-    public void fillMCTable(SQLiteDatabase db) {
-        MultipleChoiceCard mc1 = new MultipleChoiceCard("What color is the sky?", "green", "blue", "pink", "orange", "blue");
-        insertMCCard(mc1, db);
-        MultipleChoiceCard mc2 = new MultipleChoiceCard("What color is grass?", "green", "blue", "pink", "orange", "green");
-        insertMCCard(mc2, db);
-        MultipleChoiceCard mc3 = new MultipleChoiceCard("What color is snow?", "green", "blue", "white", "orange", "white");
-        insertMCCard(mc3, db);
     }
 }
