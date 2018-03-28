@@ -4,11 +4,13 @@ package org.liberty.android.fantastischmemo.entity;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-@DatabaseTable(tableName = "multipleChoiceCards")
-public class MultipleChoiceCard {
+import org.liberty.android.fantastischmemo.dao.MCDaoImpl;
+
+@DatabaseTable(tableName = "multipleChoiceCards", daoClass = MCDaoImpl.class)
+public class MultipleChoiceCard  {
 
     @DatabaseField(generatedId = true)
-    private Integer id;
+    private long id;
 
     @DatabaseField(defaultValue = "", width = 8192)
     private String question;
@@ -28,11 +30,22 @@ public class MultipleChoiceCard {
     @DatabaseField(defaultValue = "", width = 8192)
     private String answer;
 
-    public Integer getId() {
+    public MultipleChoiceCard() {}
+
+    public MultipleChoiceCard(String question, String option1, String option2, String option3, String option4, String answer) {
+        this.question = question;
+        this.option1 = option1;
+        this.option2 = option2;
+        this.option3 = option3;
+        this.option4 = option4;
+        this.answer = answer;
+    }
+
+    public long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(long id) {
         this.id = id;
     }
 
