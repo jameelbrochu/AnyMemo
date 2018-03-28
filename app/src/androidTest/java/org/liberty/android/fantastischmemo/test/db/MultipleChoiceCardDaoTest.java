@@ -119,10 +119,20 @@ public class MultipleChoiceCardDaoTest extends AbstractExistingDBTest {
 
     }
 
-    //TO-DO
-    public void testNextMultipleChoiceCard() {}
+    @SmallTest
+    @Test
+    public void testNextMultipleChoiceCard() {
+        MultipleChoiceCard currentCard = multipleChoiceCardDao.getMultipleChoiceCard(2);
+        MultipleChoiceCard nextCard =  multipleChoiceCardDao.getNextMultipleChoiceCard(currentCard);
+        assertEquals(nextCard.getId(),3);
+    }
 
-    //TO-DO
-    public void testPrevMultipleChoiceCard() {}
+    @SmallTest
+    @Test
+    public void testPrevMultipleChoiceCard() {
+        MultipleChoiceCard currentCard = multipleChoiceCardDao.getMultipleChoiceCard(2);
+        MultipleChoiceCard prevCard =  multipleChoiceCardDao.getPrevMultipleChoiceCard(currentCard);
+        assertEquals(prevCard.getId(),1);
+    }
 
 }
