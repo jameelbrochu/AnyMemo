@@ -1,3 +1,4 @@
+//
 //package org.liberty.android.fantastischmemo.test.ui;
 //
 //import android.support.test.espresso.ViewInteraction;
@@ -11,8 +12,10 @@
 //import static android.support.test.espresso.Espresso.onView;
 //import static android.support.test.espresso.action.ViewActions.click;
 //import static android.support.test.espresso.action.ViewActions.scrollTo;
+//import static android.support.test.espresso.assertion.ViewAssertions.matches;
 //import static android.support.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 //import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+//import static android.support.test.espresso.matcher.ViewMatchers.isFocusable;
 //import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 //import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 //import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -35,40 +38,48 @@
 //
 //@LargeTest
 //@RunWith(AndroidJUnit4.class)
-//public class FavouriteTest {
+//public class shuffleTest {
 //
 //    @Rule
 //    public ActivityTestRule<AnyMemo> mActivityTestRule = new ActivityTestRule<>(AnyMemo.class);
 //
 //    @Test
-//    public void FavouriteTest() {
-//        if(onView(allOf(withId(android.R.id.button1), withText("OK"))).getClass().equals("android.widget.ScrollView")) {
-//            ViewInteraction appCompatButton = onView(
-//                    allOf(withId(android.R.id.button1), withText("OK"),
-//                            childAtPosition(
-//                                    childAtPosition(
-//                                            withClassName(is("android.widget.ScrollView")),
-//                                            0),
-//                                    3)));
-//            appCompatButton.perform(scrollTo(), click());
-//        }
+//    public void shuffleTest() {
+//        ViewInteraction appCompatButton = onView(
+//                allOf(withId(android.R.id.button1), withText("OK"),
+//                        childAtPosition(
+//                                childAtPosition(
+//                                        withClassName(is("android.widget.ScrollView")),
+//                                        0),
+//                                3)));
+//        appCompatButton.perform(scrollTo(), click());
 //
 //        ViewInteraction recyclerView = onView(
 //                allOf(withId(R.id.recent_open_list),
 //                        withParent(withId(R.id.viewpager))));
 //        recyclerView.perform(actionOnItemAtPosition(0, click()));
 //
-//        ViewInteraction appCompatImageButton = onView(
-//                allOf(withId(R.id.favourite_button), withContentDescription("About"),
+//        ViewInteraction appCompatTextView = onView(
+//                allOf(withId(R.id.card_text_view), withText("?\nShow answer"),
 //                        childAtPosition(
 //                                childAtPosition(
-//                                        withClassName(is("android.widget.LinearLayout")),
+//                                        withId(R.id.root),
 //                                        0),
+//                                0)));
+//        appCompatTextView.perform(scrollTo(), click());
+//
+//        ViewInteraction appCompatButton2 = onView(
+//                allOf(withId(R.id.grade_button_0), withText("Again\n0.0 min"),
+//                        childAtPosition(
+//                                allOf(withId(R.id.grade_buttons_anki),
+//                                        childAtPosition(
+//                                                withId(R.id.buttons_root),
+//                                                0)),
 //                                0),
 //                        isDisplayed()));
-//        appCompatImageButton.perform(click());
+//        appCompatButton2.perform(click());
 //
-//        ViewInteraction appCompatImageButton2 = onView(
+//        ViewInteraction appCompatImageButton = onView(
 //                allOf(withContentDescription("Navigate up"),
 //                        childAtPosition(
 //                                allOf(withId(R.id.action_bar),
@@ -77,12 +88,37 @@
 //                                                0)),
 //                                1),
 //                        isDisplayed()));
+//        appCompatImageButton.perform(click());
+//
+//        ViewInteraction appCompatImageButton2 = onView(
+//                allOf(withId(R.id.test_shuffle),
+//                        childAtPosition(
+//                                childAtPosition(
+//                                        withClassName(is("android.widget.FrameLayout")),
+//                                        0),
+//                                2),
+//                        isDisplayed()));
 //        appCompatImageButton2.perform(click());
 //
-//        ViewInteraction recyclerView2 = onView(
-//                allOf(withId(R.id.recent_open_list),
-//                        withParent(withId(R.id.viewpager))));
-//        recyclerView2.perform(actionOnItemAtPosition(0, click()));
+//        ViewInteraction appCompatTextView2 = onView(
+//                allOf(withId(R.id.card_text_view), withText("?\nShow answer"),
+//                        childAtPosition(
+//                                childAtPosition(
+//                                        withId(R.id.root),
+//                                        0),
+//                                0)));
+//        appCompatTextView2.perform(scrollTo(), click());
+//
+//        ViewInteraction appCompatButton3 = onView(
+//                allOf(withId(R.id.grade_button_0), withText("Again\n0.0 min"),
+//                        childAtPosition(
+//                                allOf(withId(R.id.grade_buttons_anki),
+//                                        childAtPosition(
+//                                                withId(R.id.buttons_root),
+//                                                0)),
+//                                0),
+//                        isDisplayed()));
+//        appCompatButton3.perform(click());
 //
 //        ViewInteraction appCompatImageButton3 = onView(
 //                allOf(withContentDescription("Navigate up"),

@@ -1,4 +1,6 @@
+//
 //package org.liberty.android.fantastischmemo.test.ui;
+//
 //
 //import android.support.test.espresso.ViewInteraction;
 //import android.support.test.rule.ActivityTestRule;
@@ -11,6 +13,7 @@
 //import static android.support.test.espresso.Espresso.onView;
 //import static android.support.test.espresso.action.ViewActions.click;
 //import static android.support.test.espresso.action.ViewActions.scrollTo;
+//import static android.support.test.espresso.assertion.ViewAssertions.matches;
 //import static android.support.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 //import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 //import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
@@ -35,65 +38,46 @@
 //
 //@LargeTest
 //@RunWith(AndroidJUnit4.class)
-//public class FavouriteTest {
+//public class HintTest {
 //
 //    @Rule
 //    public ActivityTestRule<AnyMemo> mActivityTestRule = new ActivityTestRule<>(AnyMemo.class);
 //
 //    @Test
-//    public void FavouriteTest() {
-//        if(onView(allOf(withId(android.R.id.button1), withText("OK"))).getClass().equals("android.widget.ScrollView")) {
-//            ViewInteraction appCompatButton = onView(
-//                    allOf(withId(android.R.id.button1), withText("OK"),
-//                            childAtPosition(
-//                                    childAtPosition(
-//                                            withClassName(is("android.widget.ScrollView")),
-//                                            0),
-//                                    3)));
-//            appCompatButton.perform(scrollTo(), click());
-//        }
+//    public void hintTest() {
+//        ViewInteraction appCompatButton = onView(
+//                allOf(withId(android.R.id.button1), withText("OK"),
+//                        childAtPosition(
+//                                childAtPosition(
+//                                        withClassName(is("android.widget.ScrollView")),
+//                                        0),
+//                                3)));
+//        appCompatButton.perform(scrollTo(), click());
 //
 //        ViewInteraction recyclerView = onView(
 //                allOf(withId(R.id.recent_open_list),
 //                        withParent(withId(R.id.viewpager))));
 //        recyclerView.perform(actionOnItemAtPosition(0, click()));
 //
-//        ViewInteraction appCompatImageButton = onView(
-//                allOf(withId(R.id.favourite_button), withContentDescription("About"),
+//        ViewInteraction appCompatTextView = onView(
+//                allOf(withId(R.id.card_text_view), withText("Hint"),
 //                        childAtPosition(
 //                                childAtPosition(
-//                                        withClassName(is("android.widget.LinearLayout")),
+//                                        withId(R.id.root),
 //                                        0),
-//                                0),
+//                                0)));
+//        appCompatTextView.perform(scrollTo(), click());
+//
+//        ViewInteraction appCompatImageButton = onView(
+//                allOf(withContentDescription("Navigate up"),
+//                        childAtPosition(
+//                                allOf(withId(R.id.action_bar),
+//                                        childAtPosition(
+//                                                withId(R.id.action_bar_container),
+//                                                0)),
+//                                1),
 //                        isDisplayed()));
 //        appCompatImageButton.perform(click());
-//
-//        ViewInteraction appCompatImageButton2 = onView(
-//                allOf(withContentDescription("Navigate up"),
-//                        childAtPosition(
-//                                allOf(withId(R.id.action_bar),
-//                                        childAtPosition(
-//                                                withId(R.id.action_bar_container),
-//                                                0)),
-//                                1),
-//                        isDisplayed()));
-//        appCompatImageButton2.perform(click());
-//
-//        ViewInteraction recyclerView2 = onView(
-//                allOf(withId(R.id.recent_open_list),
-//                        withParent(withId(R.id.viewpager))));
-//        recyclerView2.perform(actionOnItemAtPosition(0, click()));
-//
-//        ViewInteraction appCompatImageButton3 = onView(
-//                allOf(withContentDescription("Navigate up"),
-//                        childAtPosition(
-//                                allOf(withId(R.id.action_bar),
-//                                        childAtPosition(
-//                                                withId(R.id.action_bar_container),
-//                                                0)),
-//                                1),
-//                        isDisplayed()));
-//        appCompatImageButton3.perform(click());
 //
 //    }
 //
