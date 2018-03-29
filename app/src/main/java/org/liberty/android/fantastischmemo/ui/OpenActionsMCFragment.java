@@ -78,7 +78,7 @@ public class OpenActionsMCFragment extends BaseDialogFragment{
 
             if (v == editItem) {
                 Intent myIntent = new Intent();
-                myIntent.setClass(mActivity, PreviewEditActivity.class);
+                myIntent.setClass(mActivity, CardMCEditor.class);
                 myIntent.putExtra(PreviewEditActivity.EXTRA_DBPATH, dbPath);
                 int startId = amPrefUtil.getSavedInt(AMPrefKeys.PREVIEW_EDIT_START_ID_PREFIX, dbPath, 1);
                 myIntent.putExtra(PreviewEditActivity.EXTRA_CARD_ID, startId);

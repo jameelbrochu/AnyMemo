@@ -182,6 +182,8 @@
             android:name=".ui.QuizReviewActivity"
             android:label="@string/title_activity_quiz_review" />
         <activity android:name=".ui.MCStudyActivity"></activity>
+
+        <activity android:name=".ui.CardMCEditor"></activity>
     </application>
 
 </manifest>
