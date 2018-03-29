@@ -1,0 +1,50 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_weight="1">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/mc_question_field"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+    <android.support.v4.view.ViewPager
+        android:id="@+id/mc_option1_field"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+    <android.support.v4.view.ViewPager
+        android:id="@+id/mc_option2_field"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+    <android.support.v4.view.ViewPager
+        android:id="@+id/mc_option3_field"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+    <android.support.v4.view.ViewPager
+        android:id="@+id/mc_option4_field"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+    <android.support.v4.view.ViewPager
+        android:id="@+id/mc_answer_field"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+    <LinearLayout
+        android:id="@+id/horizontal_line"
+        android:layout_width="fill_parent"
+        android:layout_height="2dip"
+        android:orientation="vertical"
+        android:background="#FF909090"/>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/mc_message_field"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+</LinearLayout>
