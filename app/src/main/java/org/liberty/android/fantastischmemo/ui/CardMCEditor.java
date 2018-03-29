@@ -67,11 +67,9 @@ public class CardMCEditor extends BaseActivity {
     private final int ACTIVITY_IMAGE_FILE = 1;
     private final int ACTIVITY_AUDIO_FILE = 2;
 
-    private static final int PERMISSION_REQUEST_RECORD_AUDIO = 1;
+    MultipleChoiceCard currentCard = null;
 
-    Card currentCard = null;
-
-    Card prevCard = null;
+    MultipleChoiceCard  prevCard = null;
     private Integer prevOrdinal = null;
     private Integer currentCardId;
     private EditText questionMCEdit;
@@ -171,7 +169,7 @@ public class CardMCEditor extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.card_editor_menu, menu);
+        inflater.inflate(R.menu.card_mc_editor_menu, menu);
         return true;
     }
 
@@ -200,162 +198,8 @@ public class CardMCEditor extends BaseActivity {
                 }
                 return true;
 
-            case R.id.add_existing_audio:
-                if (isViewEligibleToEditAudio()) {
-                    addExistingAudio();
-                }
-                return true;
-
-            case R.id.add_new_audio:
-                if (isViewEligibleToEditAudio()) {
-                    addNewAudio();
-                }
-                return true;
-
-            case R.id.remove_audio:
-                if (isViewEligibleToEditAudio()) {
-                    removeAudio();
-                }
-                return true;
-
         }
         return false;
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSION_REQUEST_RECORD_AUDIO: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    startAudioRecorder();
-                } else {
-                    Toast.makeText(this, R.string.record_audio_permission_denied_message, Toast.LENGTH_LONG)
-                            .show();
-                }
-                return;
-            }
-        }
-    }
-
-    private boolean isViewEligibleToEditAudio(){
-        View focusView = getCurrentFocus();
-        if(focusView == questionMCEdit || focusView == option1Edit || focusView == option1Edit || focusView == option2Edit ||
-                focusView == option3Edit || focusView == option4Edit || focusView == answerMCEdit){
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private void showConfirmDialog(String msg, DialogInterface.OnClickListener positiveClickListener){
-        new AlertDialog.Builder(this)
-                .setMessage(msg)
-                .setPositiveButton(getString(R.string.yes_text), positiveClickListener)
-                .setNegativeButton(getString(R.string.no_text), null)
-                .create()
-                .show();
-
-    }
-
-    private boolean audioPreviouslyExists(){
-        View focusView = getCurrentFocus();
-        String curContent = ((EditText)focusView).getText().toString();
-        return curContent.contains("src=");
-    }
-
-    private void addExistingAudio(){
-        if(audioPreviouslyExists()){
-            //if there is audio previously defined,show alert
-            DialogInterface.OnClickListener positiveClickListener = new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    startAudioBrowser();
-                }
-            };
-            showConfirmDialog(getString(R.string.override_audio_warning_text), positiveClickListener);
-        } else {
-            startAudioBrowser();
-        }
-    }
-
-    private void addNewAudio(){
-        if(audioPreviouslyExists()){
-            //if there is audio previously defined,show alert
-            DialogInterface.OnClickListener positiveClickListener = new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    startAudioRecorderWithPermissionCheck();
-                }
-            };
-            showConfirmDialog(getString(R.string.override_audio_warning_text), positiveClickListener);
-        } else {
-            startAudioRecorderWithPermissionCheck();
-        }
-    }
-
-    private void removeAudio(){
-        View focusView = getCurrentFocus();
-        if (focusView == questionMCEdit){
-            currentCard.setQuestion(currentCard.getQuestion().replaceAll("<audio src=.*/>", ""));
-            ((EditText)focusView).setText(currentCard.getQuestion());
-        } else if (focusView == answerMCEdit) {
-            currentCard.setAnswer(currentCard.getAnswer().replaceAll("<audio src=.*/>", ""));
-            ((EditText)focusView).setText(currentCard.getAnswer());
-        } else {
-            return;
-        }
-    }
-
-    private void startAudioBrowser(){
-        removeAudio();
-        Intent myIntent = new Intent(this, FileBrowserActivity.class);
-        myIntent.putExtra(FileBrowserActivity.EXTRA_FILE_EXTENSIONS, ".3gp,.ogg,.mp3,.wav,.amr");
-        startActivityForResult(myIntent, ACTIVITY_AUDIO_FILE);
-    }
-
-    private void startAudioRecorderWithPermissionCheck() {
-        // Request record permission
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.RECORD_AUDIO},
-                    PERMISSION_REQUEST_RECORD_AUDIO);
-        } else {
-            startAudioRecorder();
-        }
-    }
-
-    private void startAudioRecorder(){
-        removeAudio();
-        View focusView = getCurrentFocus();
-        String audioFilename = AMEnv.DEFAULT_AUDIO_PATH + dbName;
-        new File(audioFilename).mkdirs();
-        AudioRecorderFragment recorder = new AudioRecorderFragment();
-        if (focusView == questionMCEdit) {
-            audioFilename +=  "/"+ currentCardId + "_q.3gp";
-        } else if (focusView == answerMCEdit) {
-            audioFilename +=  "/"+ currentCardId + "_a.3gp";
-        } else {
-            return;
-        }
-        Bundle b = new Bundle();
-        b.putString(AudioRecorderFragment.EXTRA_AUDIO_FILENAME, audioFilename);
-
-        recorder.setAudioRecorderResultListener(new AudioRecorderResultListener() {
-            public void onReceiveAudio() {
-                View focusView = getCurrentFocus();
-                if(focusView == questionMCEdit){
-                    addTextToView((EditText) focusView, "<audio src=\"" + currentCardId + "_q.3gp\" />");
-                } else if (focusView == answerMCEdit){
-                    addTextToView((EditText) focusView, "<audio src=\"" + currentCardId + "_a.3gp\" />");
-                }
-            }
-        });
-        recorder.setArguments(b);
-        getSupportFragmentManager().beginTransaction()
-                .add(recorder, "AudioRecorderDialog")
-                .commitAllowingStateLoss();
     }
 
     private void addTextToView(EditText v, String text){
@@ -403,31 +247,6 @@ public class CardMCEditor extends BaseActivity {
                         }
                         catch(Exception e){
                             Log.e(TAG, "Error copying image", e);
-                        }
-                    }
-                }
-                break;
-            case ACTIVITY_AUDIO_FILE:
-                if(resultCode == Activity.RESULT_OK){
-                    View focusView = getCurrentFocus();
-                    if(focusView == questionMCEdit || focusView == option1Edit || focusView == option1Edit || focusView == option2Edit ||
-                            focusView == option3Edit || focusView == option4Edit || focusView == answerMCEdit){
-                        path = data.getStringExtra(FileBrowserActivity.EXTRA_RESULT_PATH);
-                        name = FilenameUtils.getName(path);
-                        addTextToView((EditText)focusView, "<audio src=\"" + name + "\" />");
-                        /* Copy the image to correct location */
-                        String audioRoot = AMEnv.DEFAULT_AUDIO_PATH;
-                        String audioPath = audioRoot + dbName + "/";
-                        new File(audioRoot).mkdir();
-                        new File(audioPath).mkdir();
-                        try{
-                            String target = audioPath + name;
-                            if(!(new File(target)).exists()){
-                                FileUtils.copyFile(new File(path), new File(audioPath + name));
-                            }
-                        }
-                        catch(Exception e){
-                            Log.e(TAG, "Error copying audio", e);
                         }
                     }
                 }
@@ -490,14 +309,17 @@ public class CardMCEditor extends BaseActivity {
         }
         if(!isEditNew){
             originalQuestion = currentCard.getQuestion();
+            originalOption1 = currentCard.getOption1();
+            originalOption2 = currentCard.getOption2();
+            originalOption3 = currentCard.getOption3();
+            originalOption4 = currentCard.getOption4();
             originalAnswer = currentCard.getAnswer();
-            // Need to add for get options 1-4
-/*            originalNote = currentCard.getNote();
-            originalHint = currentCard.getHint();
-            questionEdit.setText(originalQuestion);
-            answerEdit.setText(originalAnswer);
-            noteEdit.setText(originalNote);
-            hintEdit.setText(originalHint);*/
+            questionMCEdit.setText(originalQuestion);
+            option1Edit = setText(originalOption1);
+            option2Edit = setText(originalOption1);
+            option3Edit = setText(originalOption1);
+            option4Edit = setText(originalOption1);
+            answerMCEdit.setText(originalAnswer);
         }
     }
 
@@ -543,13 +365,13 @@ public class CardMCEditor extends BaseActivity {
             categoryDao = helper.getCategoryDao();
             learningDataDao = helper.getLearningDataDao();
 
-            Card prevCard = cardDao.queryForId(currentCardId);
+            MultipleChoiceCard prevCard = cardDao.queryForId(currentCardId);
 
             if (prevCard != null) {
                 prevOrdinal = prevCard.getOrdinal();
             }
             if (isEditNew) {
-                currentCard = new Card();
+                currentCard = new MultipleChoiceCard();
                 // Search for "Uncategorized".
                 Category c = categoryDao.queryForId(1);
                 currentCard.setCategory(c);
@@ -615,11 +437,14 @@ public class CardMCEditor extends BaseActivity {
             String op2Text = option2Edit.getText().toString();
             String op3Text = option3Edit.getText().toString();
             String op4Text = option4Edit.getText().toString();
-            //String aText = answerMCEdit.getText().toString();
+            String aText = answerMCEdit.getText().toString();
 
             currentCard.setQuestion(qText);
-            //currentCard.setAnswer(aText);
-            // need to add for set options 1-4
+            currentCard.setOption1(op1Text);
+            currentCard.setOption2(op2Text);
+            currentCard.setOption3(op3Text);
+            currentCard.setOption4(op4Text);
+            currentCard.setAnswer(aText);
 
             assert currentCard != null : "Current card shouldn't be null";
         }
@@ -629,7 +454,7 @@ public class CardMCEditor extends BaseActivity {
             if (prevOrdinal != null && !addBack) {
                 currentCard.setOrdinal(prevOrdinal);
             } else {
-                Card lastCard = cardDao.queryLastOrdinal();
+                MultipleChoiceCard lastCard = cardDao.queryLastOrdinal();
                 // last card = null means this is the first card to add
                 // We should set ordinal to 1.
                 if (lastCard == null) {
