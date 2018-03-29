@@ -115,6 +115,8 @@ public class TwoFieldsCardFragment extends BaseFragment {
 
     private ImageButton favouriteBtn;
 
+    private boolean quizMode = false;
+
     public TwoFieldsCardFragment() { }
 
     @Override
@@ -270,7 +272,9 @@ public class TwoFieldsCardFragment extends BaseFragment {
 
     public void loadPrefs() {
         SharedPreferences sp = getActivity().getSharedPreferences("AppPref", 0);
+        SharedPreferences qp = getActivity().getSharedPreferences("QuizPref", 0);
         boolean hintToggleValue = sp.getBoolean("hintToggleCheck", true);
+        quizMode = qp.getBoolean("quizMode",false);
 
         if(hintToggleValue == false) {
             field3CardPager.setVisibility(View.GONE);
@@ -285,7 +289,7 @@ public class TwoFieldsCardFragment extends BaseFragment {
             boolean fav = ((QACardActivity)getActivity()).getCurrentCard().getFavourite();
             Card card = ((QACardActivity)getActivity()).getCurrentCard();
             String dbPath = ((QACardActivity)getActivity()).getDbPath();
-            if(!dbPath.equals("/sdcard/favourites.db")) {
+            if(!dbPath.equals("/sdcard/favourites.db") && !quizMode) {
                 if (fav) {
                     favouriteBtn.setImageResource(android.R.drawable.btn_star_big_off);
                     ((QACardActivity)getActivity()).getDao().updateFavourite(card, false);
