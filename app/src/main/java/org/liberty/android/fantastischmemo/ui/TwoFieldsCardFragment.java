@@ -276,9 +276,10 @@ public class TwoFieldsCardFragment extends BaseFragment {
         boolean hintToggleValue = sp.getBoolean("hintToggleCheck", true);
         quizMode = qp.getBoolean("quizMode",false);
 
-        if(hintToggleValue == false) {
+        if(hintToggleValue == false || quizMode) {
             field3CardPager.setVisibility(View.GONE);
-        } else {
+        }
+        else {
             field3CardPager.setVisibility(View.VISIBLE);
         }
     }
