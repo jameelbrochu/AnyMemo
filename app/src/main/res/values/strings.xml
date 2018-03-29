@@ -91,6 +91,10 @@
     <string name="add_screen_question">Question</string>
     <string name="add_screen_new">New</string>
     <string name="add_screen_answer">Answer</string>
+    <string name="add_screen_option1">Option 1</string>
+    <string name="add_screen_option2">Option 2</string>
+    <string name="add_screen_option3">Option 3</string>
+    <string name="add_screen_option4">Option 4</string>
     <string name="add_screen_next">Next</string>
     <string name="add_screen_previous">Previous</string>
     <string name="search_text">Search</string>
