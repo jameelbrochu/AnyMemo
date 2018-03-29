@@ -278,8 +278,7 @@ public class TwoFieldsCardFragment extends BaseFragment {
 
         if(hintToggleValue == false || quizMode) {
             field3CardPager.setVisibility(View.GONE);
-        }
-        else {
+        } else {
             field3CardPager.setVisibility(View.VISIBLE);
         }
     }
@@ -296,9 +295,7 @@ public class TwoFieldsCardFragment extends BaseFragment {
                     ((QACardActivity)getActivity()).getDao().updateFavourite(card, false);
                     ((QACardActivity)getActivity()).unfavouriteCard();
 
-                }
-
-                else {
+                } else {
                     favouriteBtn.setImageResource(android.R.drawable.btn_star_big_on);
                     ((QACardActivity)getActivity()).getDao().updateFavourite(card, true);
                     ((QACardActivity)getActivity()).favouriteCard();

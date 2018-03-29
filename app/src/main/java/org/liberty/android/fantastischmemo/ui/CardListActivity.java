@@ -441,7 +441,6 @@ public class CardListActivity extends BaseActivity {
                 int position, long id) {
             showListItemLongClickPopup(view,
                     cardListAdapter.getCardItem(position));
-
             return true;
         }
     };
@@ -508,8 +507,7 @@ public class CardListActivity extends BaseActivity {
 
             if (card.getFavourite()) {
                 convertView.setBackgroundColor(Color.parseColor("#C71585"));
-            }
-            else {
+            } else {
                 convertView.setBackgroundColor(getResources().getColor(BACKGROUND_COLOR));
             }
             return convertView;
