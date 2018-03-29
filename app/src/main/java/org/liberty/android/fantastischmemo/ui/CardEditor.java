@@ -41,6 +41,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import org.apache.commons.io.FileUtils;
@@ -76,6 +77,14 @@ public class CardEditor extends BaseActivity {
     private EditText questionEdit;
     private EditText answerEdit;
     private EditText hintEdit;
+
+    private EditText questionMCEdit;
+    private EditText option1Edit;
+    private EditText option2Edit;
+    private EditText option3Edit;
+    private EditText option4Edit;
+    private Spinner answerMCEdit;
+
     private Button categoryButton;
     private EditText noteEdit;
     private RadioGroup addRadio;
@@ -564,6 +573,14 @@ public class CardEditor extends BaseActivity {
             categoryButton = (Button)findViewById(R.id.edit_dialog_category_button);
             noteEdit = (EditText)findViewById(R.id.edit_dialog_note_entry);
             addRadio = (RadioGroup)findViewById(R.id.add_radio);
+
+            // Requires new condition for multiple choice card
+            questionMCEdit = (EditText)findViewById(R.id.edit_dialog_question_mc_entry);
+            option1Edit = (EditText)findViewById(R.id.edit_dialog_option1_entry);
+            option2Edit = (EditText)findViewById(R.id.edit_dialog_option2_entry);
+            option3Edit = (EditText)findViewById(R.id.edit_dialog_option3_entry);
+            option4Edit = (EditText)findViewById(R.id.edit_dialog_option4_entry);
+            answerMCEdit = (Spinner)findViewById(R.id.edit_dialog_answer_spinner_entry);
 
             categoryButton.setOnClickListener(categoryButtonClickListener);
 
