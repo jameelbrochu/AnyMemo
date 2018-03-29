@@ -194,7 +194,7 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
                 MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_OPTION2 + " string, " +
                 MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_OPTION3 + " string, " +
                 MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_OPTION4 + " string, " +
-                MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_ANSWER + " string, " + ")";
+                MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_ANSWER + " string " + ")";
 
         if(oldVersion <= 7){
             database.execSQL(CREATE_MULTIPLE_CHOICE_TABLE);

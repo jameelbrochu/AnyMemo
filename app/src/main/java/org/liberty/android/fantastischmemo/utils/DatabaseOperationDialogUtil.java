@@ -61,14 +61,15 @@ public class DatabaseOperationDialogUtil {
                             @Override
                             public void onClick(DialogInterface dialog, int which ){
                                 String value = input.getText().toString();
-                                boolean value2 = mc.isChecked();
-                                if(!value.endsWith(".db")){
+                                boolean isMultipleChoice = mc.isChecked();
+                                if (isMultipleChoice){
+                                    value += "_MC";
+                                }
+                                if (!value.endsWith(".db")){
                                     value += ".db";
                                 }
-                                if(value2){
-
-                                }
                                 File newDbFile = new File(directoryPath + "/" + value);
+
                                 try {
                                     if (newDbFile.exists()) {
                                         amFileUtil.deleteFileWithBackup(newDbFile.getAbsolutePath());

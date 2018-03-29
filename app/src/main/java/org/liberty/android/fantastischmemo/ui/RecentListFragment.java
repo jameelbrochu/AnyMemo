@@ -417,12 +417,26 @@ public class RecentListFragment extends BaseFragment {
             holder.moreButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String dbPath = currentItem.dbPath;
-                    DialogFragment df = new OpenActionsFragment();
-                    Bundle b = new Bundle();
-                    b.putString(OpenActionsFragment.EXTRA_DBPATH, dbPath);
-                    df.setArguments(b);
-                    df.show(((FragmentActivity) context).getSupportFragmentManager(), "OpenActions");
+                    String s = currentItem.dbPath;
+                    String[] split = s.split(".db");
+                    String nameWithoutDB = split[0];
+
+                    if(nameWithoutDB.endsWith("_MC")) {
+                        String dbPath = currentItem.dbPath;
+                        DialogFragment df = new OpenActionsMCFragment();
+                        Bundle b = new Bundle();
+                        b.putString(OpenActionsMCFragment.EXTRA_DBPATH_MC, dbPath);
+                        df.setArguments(b);
+                        df.show(((FragmentActivity) context).getSupportFragmentManager(), "OpenActionsMC");
+                    }
+                    else {
+                        String dbPath = currentItem.dbPath;
+                        DialogFragment df = new OpenActionsFragment();
+                        Bundle b = new Bundle();
+                        b.putString(OpenActionsFragment.EXTRA_DBPATH, dbPath);
+                        df.setArguments(b);
+                        df.show(((FragmentActivity) context).getSupportFragmentManager(), "OpenActions");
+                    }
                 }
             });
 
