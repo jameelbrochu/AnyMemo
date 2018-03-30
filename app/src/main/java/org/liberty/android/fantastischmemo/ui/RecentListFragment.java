@@ -426,6 +426,8 @@ public class RecentListFragment extends BaseFragment {
                         DialogFragment df = new OpenActionsMCFragment();
                         Bundle b = new Bundle();
                         b.putString(OpenActionsMCFragment.EXTRA_DBPATH_MC, dbPath);
+                        b.putString(CardMCEditor.EXTRA_DBPATH_MC, dbPath);
+                        b.putString(PreviewEditMCActivity.EXTRA_DBPATH_MC, dbPath);
                         df.setArguments(b);
                         df.show(((FragmentActivity) context).getSupportFragmentManager(), "OpenActionsMC");
                     }

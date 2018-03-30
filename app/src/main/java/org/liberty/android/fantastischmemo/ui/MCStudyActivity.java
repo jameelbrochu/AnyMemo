@@ -61,13 +61,13 @@ public class MCStudyActivity extends AppCompatActivity {
 
         textColorDefaultRb = rb1.getTextColors();
 
-/*        MultipleChoiceCard card1 = new MultipleChoiceCard("Question1", "Op1", "Op2", "Op3", "Op4", "Op1");
+        MultipleChoiceCard card1 = new MultipleChoiceCard("Question1", "Op1", "Op2", "Op3", "Op4", "Op1");
         MultipleChoiceCard card2 = new MultipleChoiceCard("Question2", "Op1", "Op2", "Op3", "Op4", "Op2");
         MultipleChoiceCard card3 = new MultipleChoiceCard("Question3", "Op1", "Op2", "Op3", "Op4", "Op3");
 
         multipleChoiceCardList.add(card1);
         multipleChoiceCardList.add(card2);
-        multipleChoiceCardList.add(card3);*/
+        multipleChoiceCardList.add(card3);
 
         // YOU NEED THIS TO CONNECT
         //dbHelper.getMultipleChoiceDao().getHelper();

@@ -360,7 +360,9 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
         if (c.moveToFirst()) {
             do {
                 MultipleChoiceCard mcCard = new MultipleChoiceCard();
-                mcCard.setId((c.getLong(c.getColumnIndex("id"))));
+                if(!c.isNull(c.getColumnIndex("id"))) {
+                    mcCard.setId((c.getLong(c.getColumnIndex("id"))));
+                }
                 mcCard.setQuestion((c.getString(c.getColumnIndex(MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_QUESTION))));
                 mcCard.setOption1((c.getString(c.getColumnIndex(MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_OPTION1))));
                 mcCard.setOption2((c.getString(c.getColumnIndex(MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_OPTION2))));
@@ -369,7 +371,6 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
                 mcCard.setAnswer((c.getString(c.getColumnIndex(MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_ANSWER))));
 
                 list.add(mcCard);
-
             } while (c.moveToNext());
         }
     }

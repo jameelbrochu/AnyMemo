@@ -49,7 +49,8 @@ public class CardMCEditor extends BaseActivity{
     private RadioButton option4Radio;
 
     private Button save;
-
+    public static String EXTRA_DBPATH_MC = "dbpath";
+    String dbPath;
     private AnyMemoDBOpenHelper dbOpenHelper;
 
     private MultipleChoiceCardDao multipleChoiceCardDao;
@@ -59,6 +60,8 @@ public class CardMCEditor extends BaseActivity{
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.card_mc_editor_layout);
+
+        dbPath = getIntent().getExtras().getString(EXTRA_DBPATH_MC);
 
         mcQuestion = (EditText) findViewById(R.id.edit_dialog_question_mc_entry);
 
@@ -80,8 +83,14 @@ public class CardMCEditor extends BaseActivity{
 
         save = (Button) findViewById(R.id.save_mc);
         save.setOnClickListener(saveOnClickListener);
-
+        dbOpenHelper = AnyMemoDBOpenHelperManager.getHelper(getApplicationContext(), dbPath);
+        multipleChoiceCardDao = dbOpenHelper.getMultipleChoiceDao();
+        multipleChoiceCardDao.setHelper(dbOpenHelper);
         updateViews();
+    }
+
+    protected AnyMemoDBOpenHelper getDbOpenHelper() {
+        return dbOpenHelper;
     }
 
     @Override
@@ -126,6 +135,7 @@ public class CardMCEditor extends BaseActivity{
         public void onClick(View v) {
             updateViews();
             multipleChoiceCardDao.addMultipleChoiceCard(currentMCCard);
+            CardMCEditor.super.onBackPressed();
         }
     };
 }

@@ -187,6 +187,14 @@
         <activity
             android:name=".ui.CardViewMCActivity"
             android:label="@string/title_activity_card_view_mc"></activity>
+
+        <activity
+            android:name=".ui.MCStudyActivity"
+            android:label="@string/title_activity_mc_study_activity" />
+
+        <activity
+            android:name=".ui.CardMCEditor"
+            android:label="@string/title_activity_card_mc" />
     </application>
 
 </manifest>
