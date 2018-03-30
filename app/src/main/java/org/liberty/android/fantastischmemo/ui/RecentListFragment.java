@@ -354,8 +354,12 @@ public class RecentListFragment extends BaseFragment {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    String s = currentItem.dbPath;
+                    String[] split = s.split(".db");
+                    String nameWithoutDB = split[0];
                     String shuffle = "false";
-                    if (getSelectedItemCount() == 0) {
+
+                    if (getSelectedItemCount() == 0 && !nameWithoutDB.endsWith("_MC")) {
                         Intent myIntent = new Intent();
                         myIntent.setClass(context, StudyActivity.class);
                         String dbPath = currentItem.dbPath;
@@ -363,6 +367,15 @@ public class RecentListFragment extends BaseFragment {
                         myIntent.putExtra(SHUFFLE_CARDS, shuffle);
                         recentListUtil.addToRecentList(dbPath);
                         context.startActivity(myIntent);
+
+                    } else if (getSelectedItemCount() == 0 && nameWithoutDB.endsWith("_MC")) {
+                        Intent myIntent = new Intent();
+                        myIntent.setClass(context, MCStudyActivity.class);
+                        String dbPath = currentItem.dbPath;
+                        myIntent.putExtra(MCStudyActivity.EXTRA_DBPATH_MC, dbPath);
+                        recentListUtil.addToRecentList(dbPath);
+                        context.startActivity(myIntent);
+
                     } else {
                         toggleSelection(position);
                     }
