@@ -50,6 +50,7 @@ public class PreviewEditMCActivity extends Activity {
 
     private void initializeData(){
         mcCards =  multipleChoiceCardDao.getAllMultipleChoiceCards();
+
     }
 
     private void initializeAdapter(){

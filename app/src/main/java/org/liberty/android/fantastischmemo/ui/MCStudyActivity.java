@@ -2,8 +2,8 @@ package org.liberty.android.fantastischmemo.ui;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -13,8 +13,8 @@ import android.widget.Toast;
 
 import org.liberty.android.fantastischmemo.R;
 import org.liberty.android.fantastischmemo.common.AnyMemoDBOpenHelper;
+import org.liberty.android.fantastischmemo.common.AnyMemoDBOpenHelperManager;
 import org.liberty.android.fantastischmemo.dao.MultipleChoiceCardDao;
-import org.liberty.android.fantastischmemo.dao.MultipleChoiceDaoImpl;
 import org.liberty.android.fantastischmemo.entity.MultipleChoiceCard;
 
 import java.util.ArrayList;
@@ -42,13 +42,17 @@ public class MCStudyActivity extends AppCompatActivity {
 
     private boolean answered;
 
-    private AnyMemoDBOpenHelper dbHelper;
-    private List<MultipleChoiceCard> multipleChoiceCardList = new ArrayList<>();
+    List<MultipleChoiceCard> multipleChoiceCardList = new ArrayList<>();
+    MultipleChoiceCardDao multipleChoiceCardDao;
+    AnyMemoDBOpenHelper dbOpenHelper;
+    String dbPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mc_study_activity);
+
+        dbPath = getIntent().getExtras().getString(EXTRA_DBPATH_MC);
 
         textViewId = (TextView)findViewById(R.id.mc_text_view_id);
         textViewQuestion = (TextView)findViewById(R.id.mc_text_view_question);
@@ -61,17 +65,11 @@ public class MCStudyActivity extends AppCompatActivity {
 
         textColorDefaultRb = rb1.getTextColors();
 
-        MultipleChoiceCard card1 = new MultipleChoiceCard("Question1", "Op1", "Op2", "Op3", "Op4", "Op1");
-        MultipleChoiceCard card2 = new MultipleChoiceCard("Question2", "Op1", "Op2", "Op3", "Op4", "Op2");
-        MultipleChoiceCard card3 = new MultipleChoiceCard("Question3", "Op1", "Op2", "Op3", "Op4", "Op3");
+        dbOpenHelper = AnyMemoDBOpenHelperManager.getHelper(getApplicationContext(), dbPath);
+        multipleChoiceCardDao = dbOpenHelper.getMultipleChoiceDao();
+        multipleChoiceCardDao.setHelper(dbOpenHelper);
+        multipleChoiceCardList = multipleChoiceCardDao.getAllMultipleChoiceCards();
 
-        multipleChoiceCardList.add(card1);
-        multipleChoiceCardList.add(card2);
-        multipleChoiceCardList.add(card3);
-
-        // YOU NEED THIS TO CONNECT
-        //dbHelper.getMultipleChoiceDao().getHelper();
-        //multipleChoiceCardList = dbHelper.getAllMultipleChoiceCards();
         mcCardCountTotal = multipleChoiceCardList.size();
         Collections.shuffle(multipleChoiceCardList);
 
