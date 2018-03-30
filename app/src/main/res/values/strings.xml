@@ -95,6 +95,7 @@
     <string name="add_screen_option2">Option 2</string>
     <string name="add_screen_option3">Option 3</string>
     <string name="add_screen_option4">Option 4</string>
+    <string name="save_mc">Save</string>
     <string name="add_screen_next">Next</string>
     <string name="add_screen_previous">Previous</string>
     <string name="search_text">Search</string>
@@ -487,4 +488,8 @@
     <string name="title_activity_quiz_review">QuizReviewActivity</string>
     <string name="title_activity_preview_edit_mc">PreviewEditMCActivity</string>
     <string name="title_activity_card_view_mc">CardViewMCActivity</string>
+    <string name="title_activity_card_mc">CardMCEditorActivity</string>
+    <string-array name="optionsMC">
+
+    </string-array>
 </resources>

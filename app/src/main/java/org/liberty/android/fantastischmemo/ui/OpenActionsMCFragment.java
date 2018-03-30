@@ -70,8 +70,8 @@ public class OpenActionsMCFragment extends BaseDialogFragment{
         public void onClick(View v) {
             if (v == studyItem) {
                 Intent myIntent = new Intent();
-                myIntent.setClass(mActivity, StudyActivity.class);
-                myIntent.putExtra(StudyActivity.EXTRA_DBPATH, dbPath);
+                myIntent.setClass(mActivity, MCStudyActivity.class);
+                myIntent.putExtra(MCStudyActivity.EXTRA_DBPATH_MC, dbPath);
                 startActivity(myIntent);
                 recentListUtil.addToRecentList(dbPath);
             }
