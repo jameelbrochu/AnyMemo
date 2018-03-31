@@ -101,8 +101,7 @@ public class MultipleChoiceDaoImpl extends AbstractHelperDaoImpl<MultipleChoiceC
         MultipleChoiceCard nextCard = getMultipleChoiceCard(nextCardId);
         if (nextCard != null)  {
             return nextCard;
-        }
-        else {
+        } else {
             return getMultipleChoiceCard(currentCardId);
         }
     }

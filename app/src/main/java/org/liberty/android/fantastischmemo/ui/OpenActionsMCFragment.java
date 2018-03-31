@@ -29,7 +29,6 @@ public class OpenActionsMCFragment extends BaseDialogFragment{
     private View studyItem;
     private View editItem;
 
-
     @Inject AMFileUtil amFileUtil;
 
     @Inject RecentListUtil recentListUtil;
@@ -38,7 +37,6 @@ public class OpenActionsMCFragment extends BaseDialogFragment{
     AMPrefUtil amPrefUtil;
 
     public OpenActionsMCFragment(){}
-
 
     @Override
     public void onAttach(Context context) {

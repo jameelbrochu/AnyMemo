@@ -25,9 +25,7 @@ public class MultipleChoiceCardDaoTest extends AbstractExistingDBTest {
 
 
     private AnyMemoDBOpenHelper newDbHelper;
-    @Mock
     private SQLiteDatabase db;
-    @Mock
     private MultipleChoiceCardDao multipleChoiceCardDao;
 
     public static final String dbPath = "/sdcard/mctestdb.db";
@@ -84,7 +82,6 @@ public class MultipleChoiceCardDaoTest extends AbstractExistingDBTest {
         assertEquals(mc.getOption2(), "blue");
         assertEquals(mc.getOption3(), "pink");
         assertEquals(mc.getOption4(), "orange");
-
     }
 
     @SmallTest
@@ -101,8 +98,6 @@ public class MultipleChoiceCardDaoTest extends AbstractExistingDBTest {
         assertEquals(multipleChoiceCardDao.getMultipleChoiceCard(4).getOption2(), newCard.getOption2());
         assertEquals(multipleChoiceCardDao.getMultipleChoiceCard(4).getOption3(), newCard.getOption3());
         assertEquals(multipleChoiceCardDao.getMultipleChoiceCard(4).getOption4(), newCard.getOption4());
-
-
     }
 
     @SmallTest
@@ -140,9 +135,6 @@ public class MultipleChoiceCardDaoTest extends AbstractExistingDBTest {
         assertEquals(multipleChoiceCardDao.getMultipleChoiceCard(2).getOption2(), "blue");
         assertEquals(multipleChoiceCardDao.getMultipleChoiceCard(2).getOption3(), "white");
         assertEquals(multipleChoiceCardDao.getMultipleChoiceCard(2).getOption4(), "orange");
-
-
-
     }
 
     @SmallTest

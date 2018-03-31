@@ -444,8 +444,7 @@ public class RecentListFragment extends BaseFragment {
                         b.putString(MCStudyActivity.EXTRA_DBPATH_MC, dbPath);
                         df.setArguments(b);
                         df.show(((FragmentActivity) context).getSupportFragmentManager(), "OpenActionsMC");
-                    }
-                    else {
+                    } else {
                         String dbPath = currentItem.dbPath;
                         DialogFragment df = new OpenActionsFragment();
                         Bundle b = new Bundle();

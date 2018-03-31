@@ -360,7 +360,9 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
         if (c.moveToFirst()) {
             do {
                 MultipleChoiceCard mcCard = new MultipleChoiceCard();
-                if(!c.isNull(c.getColumnIndex("_id"))) {
+                if(!c.isNull(c.getColumnIndex("id"))) {
+                    mcCard.setId((c.getLong(c.getColumnIndex("id"))));
+                } else {
                     mcCard.setId((c.getLong(c.getColumnIndex("_id"))));
                 }
                 mcCard.setQuestion((c.getString(c.getColumnIndex(MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_QUESTION))));

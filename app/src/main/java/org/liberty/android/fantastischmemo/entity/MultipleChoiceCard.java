@@ -59,7 +59,7 @@ public class MultipleChoiceCard  {
     public void setQuestion(String question) {
         if (question == null) {
             this.question = "";
-        } else{
+        } else {
             this.question = question;
         }
     }
