@@ -27,6 +27,8 @@ public class MCStudyActivity extends AppCompatActivity {
 
     private TextView textViewId;
     private TextView textViewQuestion;
+    private TextView textViewScore;
+    private TextView textViewMessage;
     private RadioGroup rbGroup;
     private RadioButton rb1;
     private RadioButton rb2;
@@ -37,6 +39,7 @@ public class MCStudyActivity extends AppCompatActivity {
     private ColorStateList textColorDefaultRb;
     private int mcCardCounter;
     private int mcCardCountTotal;
+    private int score;
     private MultipleChoiceCard currentMCCard;
     private String answerSelected;
 
@@ -55,12 +58,14 @@ public class MCStudyActivity extends AppCompatActivity {
         dbPath = getIntent().getExtras().getString(EXTRA_DBPATH_MC);
 
         textViewId = (TextView)findViewById(R.id.mc_text_view_id);
+        textViewScore = (TextView)findViewById(R.id.mc_text_view_score);
         textViewQuestion = (TextView)findViewById(R.id.mc_text_view_question);
         rbGroup = (RadioGroup)findViewById(R.id.mc_radio_group);
         rb1 = (RadioButton)findViewById(R.id.mc_radio_button1);
         rb2 = (RadioButton)findViewById(R.id.mc_radio_button2);
         rb3 = (RadioButton)findViewById(R.id.mc_radio_button3);
         rb4 = (RadioButton)findViewById(R.id.mc_radio_button4);
+        textViewMessage = (TextView)findViewById(R.id.mc_text_view_message);
         buttonConfirmNext = (Button)findViewById(R.id.mc_button_confirm_next);
 
         textColorDefaultRb = rb1.getTextColors();
@@ -97,6 +102,11 @@ public class MCStudyActivity extends AppCompatActivity {
         rb3.setTextColor(textColorDefaultRb);
         rb4.setTextColor(textColorDefaultRb);
         rbGroup.clearCheck();
+        rb1.setEnabled(true);
+        rb2.setEnabled(true);
+        rb3.setEnabled(true);
+        rb4.setEnabled(true);
+        textViewMessage.setText("");
 
         if(mcCardCounter < mcCardCountTotal) {
             currentMCCard = multipleChoiceCardList.get(mcCardCounter);
@@ -108,7 +118,8 @@ public class MCStudyActivity extends AppCompatActivity {
             rb4.setText(currentMCCard.getOption4());
 
             mcCardCounter++;
-            textViewId.setText("ID: " + mcCardCounter + " Total: " + mcCardCountTotal);
+            textViewId.setText("Question: " + mcCardCounter);
+            textViewScore.setText("Score: " + score + "/" + mcCardCountTotal);
             answered = false;
             buttonConfirmNext.setText("Confirm");
         } else {
@@ -123,40 +134,51 @@ public class MCStudyActivity extends AppCompatActivity {
         int answerNr = rbGroup.indexOfChild(rbSelected) + 1;
 
         switch(answerNr) {
-            case 1: answerSelected = currentMCCard.getOption1();
-            case 2: answerSelected = currentMCCard.getOption2();
-            case 3: answerSelected = currentMCCard.getOption3();
-            case 4: answerSelected = currentMCCard.getOption4();
+            case 1:
+                answerSelected = currentMCCard.getOption1();
+                break;
+            case 2:
+                answerSelected = currentMCCard.getOption2();
+                break;
+            case 3:
+                answerSelected = currentMCCard.getOption3();
+                break;
+            case 4:
+                answerSelected = currentMCCard.getOption4();
                 break;
             default: break;
         }
 
-/*        if(answerSelected.equals(currentMCCard.getAnswer())) {
+        if(answerSelected.equals(currentMCCard.getAnswer())) {
             score++;
-            textViewMCScore.setText("Score: " + score);
-        }*/
+            textViewScore.setText("Score: " + score + "/" + mcCardCountTotal);
+        }
 
         showSolution();
     }
 
     private void showSolution() {
-        rb1.setTextColor(Color.RED);
-        rb2.setTextColor(Color.RED);
-        rb3.setTextColor(Color.RED);
-        rb4.setTextColor(Color.RED);
+        rb1.setTextColor(Color.parseColor("#ffff4444"));
+        rb2.setTextColor(Color.parseColor("#ffff4444"));
+        rb3.setTextColor(Color.parseColor("#ffff4444"));
+        rb4.setTextColor(Color.parseColor("#ffff4444"));
+        rb1.setEnabled(false);
+        rb2.setEnabled(false);
+        rb3.setEnabled(false);
+        rb4.setEnabled(false);
 
         if(currentMCCard.getAnswer().equals(currentMCCard.getOption1())) {
-            rb1.setTextColor(Color.GREEN);
-            textViewQuestion.setText("Answer 1 is correct");
+            rb1.setTextColor(Color.parseColor("#ff00e676"));
+            textViewMessage.setText("Answer 1 is correct");
         } else if (currentMCCard.getAnswer().equals(currentMCCard.getOption2())) {
-            rb2.setTextColor(Color.GREEN);
-            textViewQuestion.setText("Answer 2 is correct");
+            rb2.setTextColor(Color.parseColor("#ff00e676"));
+            textViewMessage.setText("Answer 2 is correct");
         } else if(currentMCCard.getAnswer().equals(currentMCCard.getOption3())) {
-            rb3.setTextColor(Color.GREEN);
-            textViewQuestion.setText("Answer 3 is correct");
+            rb3.setTextColor(Color.parseColor("#ff00e676"));
+            textViewMessage.setText("Answer 3 is correct");
         } else {
-            rb4.setTextColor(Color.GREEN);
-            textViewQuestion.setText("Answer 4 is correct");
+            rb4.setTextColor(Color.parseColor("#ff00e676"));
+            textViewMessage.setText("Answer 4 is correct");
         }
 
         if(mcCardCounter < mcCardCountTotal) {
