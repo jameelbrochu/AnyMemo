@@ -23,6 +23,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
@@ -125,6 +126,11 @@ public class QuizActivity extends QACardActivity {
         displayCard(false);
         setSmallTitle(getActivityTitleString());
         setTitle(getDbName());
+
+        SharedPreferences prefs = getApplicationContext().getSharedPreferences("QuizPref", 0); // 0 for private mode
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("quizMode", true);
+        editor.commit();
     }
 
     @Override

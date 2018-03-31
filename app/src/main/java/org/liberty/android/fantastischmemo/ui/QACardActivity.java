@@ -21,6 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 package org.liberty.android.fantastischmemo.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.gesture.Gesture;
 import android.gesture.GestureLibraries;
 import android.gesture.GestureLibrary;
@@ -540,6 +541,11 @@ public abstract class QACardActivity extends BaseActivity {
         if (buttonsView != null && !setting.isDefaultColor() && setting.getAnswerBackgroundColor() != null) {
             buttonsView.setBackgroundColor(setting.getAnswerBackgroundColor());
         }
+
+        SharedPreferences prefs = getApplicationContext().getSharedPreferences("QuizPref", 0); // 0 for private mode
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("quizMode", false);
+        editor.commit();
     }
 
     private class SettingLoaderCallbacks implements
