@@ -48,12 +48,19 @@ public class PreviewEditMCActivity extends Activity {
         initializeAdapter();
     }
 
-    private void initializeData(){
+    @Override
+    public void onRestart() {
+        super.onRestart();
+        initializeData();
+        initializeAdapter();
+    }
+
+    private void initializeData() {
         mcCards =  multipleChoiceCardDao.getAllMultipleChoiceCards();
 
     }
 
-    private void initializeAdapter(){
+    private void initializeAdapter() {
         if (mcCards == null) {
             new AlertDialog.Builder(PreviewEditMCActivity.this)
                     .setTitle("No items in deck")

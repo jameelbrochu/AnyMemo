@@ -28,10 +28,10 @@ public class MCStudyActivity extends AppCompatActivity {
     private TextView textViewId;
     private TextView textViewQuestion;
     private RadioGroup rbGroup;
-    private RadioButton rb1;
-    private RadioButton rb2;
-    private RadioButton rb3;
-    private RadioButton rb4;
+    private RadioButton rbOption1;
+    private RadioButton rbOption2;
+    private RadioButton rbOption3;
+    private RadioButton rbOption4;
     private Button buttonConfirmNext;
 
     private ColorStateList textColorDefaultRb;
@@ -57,13 +57,13 @@ public class MCStudyActivity extends AppCompatActivity {
         textViewId = (TextView)findViewById(R.id.mc_text_view_id);
         textViewQuestion = (TextView)findViewById(R.id.mc_text_view_question);
         rbGroup = (RadioGroup)findViewById(R.id.mc_radio_group);
-        rb1 = (RadioButton)findViewById(R.id.mc_radio_button1);
-        rb2 = (RadioButton)findViewById(R.id.mc_radio_button2);
-        rb3 = (RadioButton)findViewById(R.id.mc_radio_button3);
-        rb4 = (RadioButton)findViewById(R.id.mc_radio_button4);
+        rbOption1 = (RadioButton)findViewById(R.id.mc_radio_button1);
+        rbOption2 = (RadioButton)findViewById(R.id.mc_radio_button2);
+        rbOption3 = (RadioButton)findViewById(R.id.mc_radio_button3);
+        rbOption4 = (RadioButton)findViewById(R.id.mc_radio_button4);
         buttonConfirmNext = (Button)findViewById(R.id.mc_button_confirm_next);
 
-        textColorDefaultRb = rb1.getTextColors();
+        textColorDefaultRb = rbOption1.getTextColors();
 
         dbOpenHelper = AnyMemoDBOpenHelperManager.getHelper(getApplicationContext(), dbPath);
         multipleChoiceCardDao = dbOpenHelper.getMultipleChoiceDao();
@@ -79,7 +79,7 @@ public class MCStudyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(!answered) {
-                    if(rb1.isChecked() || rb2.isChecked() || rb3.isChecked() || rb4.isChecked()) {
+                    if(rbOption1.isChecked() || rbOption2.isChecked() || rbOption3.isChecked() || rbOption4.isChecked()) {
                         checkAnswer();
                     } else {
                         Toast.makeText(MCStudyActivity.this, "Please select an answer.", Toast.LENGTH_SHORT).show();
@@ -92,23 +92,24 @@ public class MCStudyActivity extends AppCompatActivity {
     }
 
     private void showNextMultipleChoiceCard() {
-        rb1.setTextColor(textColorDefaultRb);
-        rb2.setTextColor(textColorDefaultRb);
-        rb3.setTextColor(textColorDefaultRb);
-        rb4.setTextColor(textColorDefaultRb);
+        rbOption1.setTextColor(textColorDefaultRb);
+        rbOption2.setTextColor(textColorDefaultRb);
+        rbOption3.setTextColor(textColorDefaultRb);
+        rbOption4.setTextColor(textColorDefaultRb);
         rbGroup.clearCheck();
 
         if(mcCardCounter < mcCardCountTotal) {
             currentMCCard = multipleChoiceCardList.get(mcCardCounter);
 
             textViewQuestion.setText(currentMCCard.getQuestion());
-            rb1.setText(currentMCCard.getOption1());
-            rb2.setText(currentMCCard.getOption2());
-            rb3.setText(currentMCCard.getOption3());
-            rb4.setText(currentMCCard.getOption4());
+            rbOption1.setText(currentMCCard.getOption1());
+            rbOption2.setText(currentMCCard.getOption2());
+            rbOption3.setText(currentMCCard.getOption3());
+            rbOption4.setText(currentMCCard.getOption4());
 
             mcCardCounter++;
-            textViewId.setText("ID: " + mcCardCounter + " Total: " + mcCardCountTotal);
+            textViewId.setText("ID: " + currentMCCard.getId() + " Total: " + mcCardCountTotal);
+
             answered = false;
             buttonConfirmNext.setText("Confirm");
         } else {
@@ -140,22 +141,22 @@ public class MCStudyActivity extends AppCompatActivity {
     }
 
     private void showSolution() {
-        rb1.setTextColor(Color.RED);
-        rb2.setTextColor(Color.RED);
-        rb3.setTextColor(Color.RED);
-        rb4.setTextColor(Color.RED);
+        rbOption1.setTextColor(Color.RED);
+        rbOption2.setTextColor(Color.RED);
+        rbOption3.setTextColor(Color.RED);
+        rbOption4.setTextColor(Color.RED);
 
         if(currentMCCard.getAnswer().equals(currentMCCard.getOption1())) {
-            rb1.setTextColor(Color.GREEN);
+            rbOption1.setTextColor(Color.GREEN);
             textViewQuestion.setText("Answer 1 is correct");
         } else if (currentMCCard.getAnswer().equals(currentMCCard.getOption2())) {
-            rb2.setTextColor(Color.GREEN);
+            rbOption2.setTextColor(Color.GREEN);
             textViewQuestion.setText("Answer 2 is correct");
         } else if(currentMCCard.getAnswer().equals(currentMCCard.getOption3())) {
-            rb3.setTextColor(Color.GREEN);
+            rbOption3.setTextColor(Color.GREEN);
             textViewQuestion.setText("Answer 3 is correct");
         } else {
-            rb4.setTextColor(Color.GREEN);
+            rbOption4.setTextColor(Color.GREEN);
             textViewQuestion.setText("Answer 4 is correct");
         }
 
