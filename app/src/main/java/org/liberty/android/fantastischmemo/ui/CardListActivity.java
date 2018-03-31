@@ -25,8 +25,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.Loader;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.PopupMenu;
@@ -81,6 +83,7 @@ public class CardListActivity extends BaseActivity {
 
     private static final int LEARNED_CARD_ITEM_COLOR = 0x4F00FF00;
     private static final int REVIEW_CARD_ITEM_COLOR = 0x4FFFFF00;
+    private static final int BACKGROUND_COLOR = R.color.cardview_dark_background;
 
     private String dbPath;
 
@@ -500,6 +503,12 @@ public class CardListActivity extends BaseActivity {
                 answerView.setVisibility(View.VISIBLE);
             } else {
                 answerView.setVisibility(View.INVISIBLE);
+            }
+
+            if (card.getFavourite()) {
+                convertView.setBackgroundColor(Color.parseColor("#C71585"));
+            } else {
+                convertView.setBackgroundColor(getResources().getColor(BACKGROUND_COLOR));
             }
             return convertView;
         }

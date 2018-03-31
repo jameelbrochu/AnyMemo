@@ -115,6 +115,8 @@ public class TwoFieldsCardFragment extends BaseFragment {
 
     private ImageButton favouriteBtn;
 
+    private boolean quizMode = false;
+
     public TwoFieldsCardFragment() { }
 
     @Override
@@ -160,7 +162,6 @@ public class TwoFieldsCardFragment extends BaseFragment {
         View v = inflater.inflate(R.layout.two_fields_card_layout, container, false);
         favouriteBtn = (ImageButton)v.findViewById(R.id.favourite_button);
         favouriteBtn.setOnClickListener(favouriteButtonHandler);
-
         boolean fav = ((QACardActivity)getActivity()).getCurrentCard().getFavourite();
 
         if (fav) {
@@ -271,9 +272,11 @@ public class TwoFieldsCardFragment extends BaseFragment {
 
     public void loadPrefs() {
         SharedPreferences sp = getActivity().getSharedPreferences("AppPref", 0);
+        SharedPreferences qp = getActivity().getSharedPreferences("QuizPref", 0);
         boolean hintToggleValue = sp.getBoolean("hintToggleCheck", true);
+        quizMode = qp.getBoolean("quizMode",false);
 
-        if(hintToggleValue == false) {
+        if(hintToggleValue == false || quizMode) {
             field3CardPager.setVisibility(View.GONE);
         } else {
             field3CardPager.setVisibility(View.VISIBLE);
@@ -285,19 +288,21 @@ public class TwoFieldsCardFragment extends BaseFragment {
 
             boolean fav = ((QACardActivity)getActivity()).getCurrentCard().getFavourite();
             Card card = ((QACardActivity)getActivity()).getCurrentCard();
-            if (fav) {
-                favouriteBtn.setImageResource(android.R.drawable.btn_star_big_off);
-                ((QACardActivity)getActivity()).getDao().updateFavourite(card, false);
-                ((QACardActivity)getActivity()).unfavouriteCard();
+            String dbPath = ((QACardActivity)getActivity()).getDbPath();
+            if(!dbPath.equals("/sdcard/favourites.db") && !quizMode) {
+                if (fav) {
+                    favouriteBtn.setImageResource(android.R.drawable.btn_star_big_off);
+                    ((QACardActivity)getActivity()).getDao().updateFavourite(card, false);
+                    ((QACardActivity)getActivity()).unfavouriteCard();
 
+                } else {
+                    favouriteBtn.setImageResource(android.R.drawable.btn_star_big_on);
+                    ((QACardActivity)getActivity()).getDao().updateFavourite(card, true);
+                    ((QACardActivity)getActivity()).favouriteCard();
+
+                }
             }
 
-            else {
-                favouriteBtn.setImageResource(android.R.drawable.btn_star_big_on);
-                ((QACardActivity)getActivity()).getDao().updateFavourite(card, true);
-                ((QACardActivity)getActivity()).favouriteCard();
-
-            }
 
 
         }
