@@ -24,6 +24,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -52,7 +54,6 @@ import org.liberty.android.fantastischmemo.scheduler.Scheduler;
 import org.liberty.android.fantastischmemo.ui.loader.DBLoader;
 import org.liberty.android.fantastischmemo.utils.DictionaryUtil;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.inject.Inject;
@@ -159,14 +160,28 @@ public class QuizActivity extends QACardActivity {
     public void startTimer() {
         this.countDownTimer = new CountDownTimer(timeLeftInMilliseconds, 1000) {
 
+            MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.countdown);
+
             @Override
             public void onTick(long millisUntilFinished) {
                 timeLeftInMilliseconds = millisUntilFinished;
+
+                if (!mediaPlayer.isPlaying()) {
+                    if (timeLeftInMilliseconds <= 8000) {
+                        mediaPlayer.start();
+                    }
+                }
+
+                if (timeLeftInMilliseconds <= 11000) {
+                    TextView clock = (TextView) findViewById(R.id.countdown_text);
+                    clock.setTextColor(Color.RED);
+                }
                 updateTimerText();
             }
 
             @Override
             public void onFinish() {
+                mediaPlayer.stop();
                 if (getCurrentCard().getOrdinal() != totalQuizSize) {
                     new AlertDialog.Builder(QuizActivity.this)
                             .setTitle(R.string.quiz_not_completed)
