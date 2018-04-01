@@ -184,9 +184,6 @@
         <activity
             android:name=".ui.PreviewEditMCActivity"
             android:label="@string/title_activity_preview_edit_mc" />
-        <activity
-            android:name=".ui.CardViewMCActivity"
-            android:label="@string/title_activity_card_view_mc"></activity>
 
         <activity
             android:name=".ui.MCStudyActivity"
