@@ -54,6 +54,7 @@ import org.liberty.android.fantastischmemo.common.AnyMemoDBOpenHelper;
 import org.liberty.android.fantastischmemo.common.AnyMemoDBOpenHelperManager;
 import org.liberty.android.fantastischmemo.common.BaseFragment;
 import org.liberty.android.fantastischmemo.dao.CardDao;
+import org.liberty.android.fantastischmemo.dao.MultipleChoiceCardDao;
 import org.liberty.android.fantastischmemo.ui.helper.SelectableAdapter;
 import org.liberty.android.fantastischmemo.utils.DatabaseUtil;
 import org.liberty.android.fantastischmemo.utils.RecentListActionModeUtil;
@@ -281,9 +282,20 @@ public class RecentListFragment extends BaseFragment {
                 }
                 AnyMemoDBOpenHelper helper = AnyMemoDBOpenHelperManager.getHelper(getContext(), ri.dbPath);
                 CardDao dao = helper.getCardDao();
-                ri.dbInfo = context.getString(R.string.stat_total) + dao.getTotalCount(null) + " " +
-                        getContext().getString(R.string.stat_new) + dao.getNewCardCount(null) + " " +
-                        getContext().getString(R.string.stat_scheduled)+ dao.getScheduledCardCount(null);
+                MultipleChoiceCardDao mcDao = helper.getMultipleChoiceDao();
+
+                String s = ri.dbPath;
+                String[] split = s.split(".db");
+                String nameWithoutDB = split[0];
+
+                if (nameWithoutDB.endsWith("MC")) {
+                    ri.dbInfo = context.getString((R.string.stat_mc_mode)) + " " +
+                            getContext().getString(R.string.stat_total) + mcDao.getAllMultipleChoiceCards().size();
+                } else {
+                    ri.dbInfo = context.getString(R.string.stat_total) + dao.getTotalCount(null) + " " +
+                            getContext().getString(R.string.stat_new) + dao.getNewCardCount(null) + " " +
+                            getContext().getString(R.string.stat_scheduled)+ dao.getScheduledCardCount(null);
+                }
                 ril.set(ri.index, ri);
                 AnyMemoDBOpenHelperManager.releaseHelper(helper);
             } catch (Exception e) {
