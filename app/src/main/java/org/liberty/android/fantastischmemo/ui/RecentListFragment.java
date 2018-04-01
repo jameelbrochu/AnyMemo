@@ -54,6 +54,7 @@ import org.liberty.android.fantastischmemo.common.AnyMemoDBOpenHelper;
 import org.liberty.android.fantastischmemo.common.AnyMemoDBOpenHelperManager;
 import org.liberty.android.fantastischmemo.common.BaseFragment;
 import org.liberty.android.fantastischmemo.dao.CardDao;
+import org.liberty.android.fantastischmemo.dao.MultipleChoiceCardDao;
 import org.liberty.android.fantastischmemo.ui.helper.SelectableAdapter;
 import org.liberty.android.fantastischmemo.utils.DatabaseUtil;
 import org.liberty.android.fantastischmemo.utils.RecentListActionModeUtil;
@@ -281,9 +282,20 @@ public class RecentListFragment extends BaseFragment {
                 }
                 AnyMemoDBOpenHelper helper = AnyMemoDBOpenHelperManager.getHelper(getContext(), ri.dbPath);
                 CardDao dao = helper.getCardDao();
-                ri.dbInfo = context.getString(R.string.stat_total) + dao.getTotalCount(null) + " " +
-                        getContext().getString(R.string.stat_new) + dao.getNewCardCount(null) + " " +
-                        getContext().getString(R.string.stat_scheduled)+ dao.getScheduledCardCount(null);
+                MultipleChoiceCardDao mcDao = helper.getMultipleChoiceDao();
+
+                String s = ri.dbPath;
+                String[] split = s.split(".db");
+                String nameWithoutDB = split[0];
+
+                if (nameWithoutDB.endsWith("MC")) {
+                    ri.dbInfo = context.getString((R.string.stat_mc_mode)) + " " +
+                            getContext().getString(R.string.stat_total) + mcDao.getAllMultipleChoiceCards().size();
+                } else {
+                    ri.dbInfo = context.getString(R.string.stat_total) + dao.getTotalCount(null) + " " +
+                            getContext().getString(R.string.stat_new) + dao.getNewCardCount(null) + " " +
+                            getContext().getString(R.string.stat_scheduled)+ dao.getScheduledCardCount(null);
+                }
                 ril.set(ri.index, ri);
                 AnyMemoDBOpenHelperManager.releaseHelper(helper);
             } catch (Exception e) {
@@ -354,8 +366,12 @@ public class RecentListFragment extends BaseFragment {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    String s = currentItem.dbPath;
+                    String[] split = s.split(".db");
+                    String nameWithoutDB = split[0];
                     String shuffle = "false";
-                    if (getSelectedItemCount() == 0) {
+
+                    if (getSelectedItemCount() == 0 && !nameWithoutDB.endsWith("_MC")) {
                         Intent myIntent = new Intent();
                         myIntent.setClass(context, StudyActivity.class);
                         String dbPath = currentItem.dbPath;
@@ -363,6 +379,15 @@ public class RecentListFragment extends BaseFragment {
                         myIntent.putExtra(SHUFFLE_CARDS, shuffle);
                         recentListUtil.addToRecentList(dbPath);
                         context.startActivity(myIntent);
+
+                    } else if (getSelectedItemCount() == 0 && nameWithoutDB.endsWith("_MC")) {
+                        Intent myIntent = new Intent();
+                        myIntent.setClass(context, MCStudyActivity.class);
+                        String dbPath = currentItem.dbPath;
+                        myIntent.putExtra(MCStudyActivity.EXTRA_DBPATH_MC, dbPath);
+                        recentListUtil.addToRecentList(dbPath);
+                        context.startActivity(myIntent);
+
                     } else {
                         toggleSelection(position);
                     }
@@ -417,12 +442,28 @@ public class RecentListFragment extends BaseFragment {
             holder.moreButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String dbPath = currentItem.dbPath;
-                    DialogFragment df = new OpenActionsFragment();
-                    Bundle b = new Bundle();
-                    b.putString(OpenActionsFragment.EXTRA_DBPATH, dbPath);
-                    df.setArguments(b);
-                    df.show(((FragmentActivity) context).getSupportFragmentManager(), "OpenActions");
+                    String s = currentItem.dbPath;
+                    String[] split = s.split(".db");
+                    String nameWithoutDB = split[0];
+
+                    if(nameWithoutDB.endsWith("_MC")) {
+                        String dbPath = currentItem.dbPath;
+                        DialogFragment df = new OpenActionsMCFragment();
+                        Bundle b = new Bundle();
+                        b.putString(OpenActionsMCFragment.EXTRA_DBPATH_MC, dbPath);
+                        b.putString(CardMCEditor.EXTRA_DBPATH_MC, dbPath);
+                        b.putString(PreviewEditMCActivity.EXTRA_DBPATH_MC, dbPath);
+                        b.putString(MCStudyActivity.EXTRA_DBPATH_MC, dbPath);
+                        df.setArguments(b);
+                        df.show(((FragmentActivity) context).getSupportFragmentManager(), "OpenActionsMC");
+                    } else {
+                        String dbPath = currentItem.dbPath;
+                        DialogFragment df = new OpenActionsFragment();
+                        Bundle b = new Bundle();
+                        b.putString(OpenActionsFragment.EXTRA_DBPATH, dbPath);
+                        df.setArguments(b);
+                        df.show(((FragmentActivity) context).getSupportFragmentManager(), "OpenActions");
+                    }
                 }
             });
 

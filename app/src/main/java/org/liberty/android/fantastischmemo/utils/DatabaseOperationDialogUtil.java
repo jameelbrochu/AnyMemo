@@ -1,11 +1,16 @@
 package org.liberty.android.fantastischmemo.utils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import org.apache.commons.io.FileUtils;
 import org.liberty.android.fantastischmemo.R;
@@ -38,21 +43,33 @@ public class DatabaseOperationDialogUtil {
 
     public Maybe<File> showCreateDbDialog(@NonNull final String directoryPath) {
         final EditText input = new EditText(activity);
+        final CheckBox mc = new CheckBox(activity);
+        mc.setText("Multiple Choice Mode");
+        final LinearLayout linearLayout = new LinearLayout(activity);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.addView(mc);
+        linearLayout.addView(input);
+
         return Maybe.create(new MaybeOnSubscribe<File>() {
             @Override
             public void subscribe(final MaybeEmitter<File> emitter) throws Exception {
                 new AlertDialog.Builder(activity)
                         .setTitle(activity.getString(R.string.fb_create_db))
                         .setMessage(activity.getString(R.string.fb_create_db_message))
-                        .setView(input)
+                        .setView(linearLayout)
                         .setPositiveButton(activity.getString(R.string.ok_text), new DialogInterface.OnClickListener(){
                             @Override
                             public void onClick(DialogInterface dialog, int which ){
                                 String value = input.getText().toString();
-                                if(!value.endsWith(".db")){
+                                boolean isMultipleChoice = mc.isChecked();
+                                if (isMultipleChoice){
+                                    value += "_MC";
+                                }
+                                if (!value.endsWith(".db")){
                                     value += ".db";
                                 }
                                 File newDbFile = new File(directoryPath + "/" + value);
+
                                 try {
                                     if (newDbFile.exists()) {
                                         amFileUtil.deleteFileWithBackup(newDbFile.getAbsolutePath());

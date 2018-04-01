@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cardview="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardview_id"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    cardview:cardCornerRadius="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/rv_mc_question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Question"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/rv_mc_option1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rv_mc_question"
+            android:text="Option1"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/rv_mc_option2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rv_mc_option1"
+            android:text="Option2"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/rv_mc_option3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rv_mc_option2"
+            android:text="Option3"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/rv_mc_option4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rv_mc_option4"
+            android:text="Option4"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/rv_mc_answer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rv_mc_option4"
+            android:text="Answer"
+            android:textColor="#ff33b5e5"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

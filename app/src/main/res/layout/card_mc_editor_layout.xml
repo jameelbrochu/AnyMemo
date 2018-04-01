@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:id="@+id/edit_dialog_root"
+    android:orientation="vertical">
+    <ScrollView
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:layout_width="fill_parent">
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+            <RadioGroup
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+            <TextView
+                android:text="@string/add_screen_question"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="3dip"/>
+            <EditText
+                android:id="@+id/edit_dialog_question_mc_entry"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:inputType="textMultiLine"
+                android:minLines="3"
+                android:gravity="top"
+                android:layout_weight="1" />
+            <TextView
+                android:text="@string/add_screen_option1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dip"/>
+
+            <RadioButton
+                android:id="@+id/op_radio_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Correct Answer" />
+
+            <EditText
+                android:id="@+id/edit_dialog_option1_entry"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:inputType="textMultiLine"
+                android:gravity="top"
+                android:minLines="2"
+                android:layout_weight="1" />
+            <TextView
+                android:text="@string/add_screen_option2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dip"/>
+
+            <RadioButton
+                android:id="@+id/op_radio_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Correct Answer" />
+
+            <EditText
+                android:id="@+id/edit_dialog_option2_entry"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:inputType="textMultiLine"
+                android:gravity="top"
+                android:minLines="2"
+                android:layout_weight="1" />
+            <TextView
+                android:text="@string/add_screen_option3"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dip"/>
+
+            <RadioButton
+                android:id="@+id/op_radio_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Correct Answer" />
+
+            <EditText
+                android:id="@+id/edit_dialog_option3_entry"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:inputType="textMultiLine"
+                android:gravity="top"
+                android:minLines="2"
+                android:layout_weight="1" />
+            <TextView
+                android:text="@string/add_screen_option4"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dip"/>
+
+            <RadioButton
+                android:id="@+id/op_radio_4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Correct Answer" />
+
+            <EditText
+                android:id="@+id/edit_dialog_option4_entry"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:inputType="textMultiLine"
+                android:gravity="top"
+                android:minLines="2"
+                android:layout_weight="1" />
+            <Button
+                android:id="@+id/save_mc"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/save_mc"/>
+    </RadioGroup>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
