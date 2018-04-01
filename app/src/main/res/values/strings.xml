@@ -84,7 +84,7 @@
     <string name="stat_total">Total: </string>
     <string name="stat_scheduled">Rev: </string>
     <string name="stat_new">New: </string>
-    <string name="stat_mc_mode">Mode: MC</string>
+    <string name="stat_mc_mode">Mode:MC</string>
     <string name="open_open_new_db">Open existing database</string>
     <string name="clear_all_pref">Reset all preferences</string>
     <string name="clear_recent_list">Clear recent list</string>

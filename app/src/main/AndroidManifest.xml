@@ -183,12 +183,18 @@
             android:label="@string/title_activity_quiz_review" />
         <activity
             android:name=".ui.PreviewEditMCActivity"
-            android:label="@string/title_activity_preview_edit_mc" />
-
+            android:parentActivityName=".ui.AnyMemo">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.AnyMemo" />
+        </activity>
         <activity
             android:name=".ui.MCStudyActivity"
-            android:label="@string/title_activity_mc_study_activity" />
-
+            android:parentActivityName=".ui.AnyMemo">
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".ui.AnyMemo" />
+        </activity>
         <activity
             android:name=".ui.CardMCEditor"
             android:label="@string/title_activity_card_mc" />
