@@ -1,31 +1,35 @@
 package org.liberty.android.fantastischmemo.common;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-import android.util.LogPrinter;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.support.DatabaseConnection;
 import com.j256.ormlite.table.TableUtils;
 
+import org.liberty.android.fantastischmemo.contract.MultipleChoiceContract;
 import org.liberty.android.fantastischmemo.dao.CardDao;
 import org.liberty.android.fantastischmemo.dao.CategoryDao;
 import org.liberty.android.fantastischmemo.dao.DeckDao;
 import org.liberty.android.fantastischmemo.dao.FilterDao;
 import org.liberty.android.fantastischmemo.dao.LearningDataDao;
+import org.liberty.android.fantastischmemo.dao.MultipleChoiceCardDao;
 import org.liberty.android.fantastischmemo.dao.SettingDao;
 import org.liberty.android.fantastischmemo.entity.Card;
 import org.liberty.android.fantastischmemo.entity.Category;
 import org.liberty.android.fantastischmemo.entity.Deck;
 import org.liberty.android.fantastischmemo.entity.Filter;
 import org.liberty.android.fantastischmemo.entity.LearningData;
+import org.liberty.android.fantastischmemo.entity.MultipleChoiceCard;
 import org.liberty.android.fantastischmemo.entity.Setting;
 
 import java.sql.SQLException;
-import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
 
@@ -33,7 +37,7 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
 
     private final String dbPath;
 
-    private static final int CURRENT_VERSION = 7;
+    private static final int CURRENT_VERSION = 8;
 
     private CardDao cardDao = null;
 
@@ -47,7 +51,11 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
 
     private LearningDataDao learningDataDao = null;
 
+    private MultipleChoiceCardDao multipleChoiceCardDao = null;
+
     private boolean isReleased = false;
+
+    private SQLiteDatabase db;
 
     @Override
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
@@ -61,6 +69,8 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, Filter.class);
             TableUtils.createTable(connectionSource, Category.class);
             TableUtils.createTable(connectionSource, LearningData.class);
+            TableUtils.createTable(connectionSource, MultipleChoiceCard.class);
+
 
             getSettingDao().create(new Setting());
             getCategoryDao().create(new Category());
@@ -175,6 +185,20 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
             database.execSQL("alter table cards add favourite Boolean");
             database.execSQL("alter table settings add hintToggle Boolean");
         }
+
+        final String CREATE_MULTIPLE_CHOICE_TABLE = "create table " +
+                MultipleChoiceContract.MultipleChoiceCardTable.TABLE_NAME + " (" +
+                "_id" + " integer primary key autoincrement, " +
+                MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_QUESTION + " string, " +
+                MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_OPTION1 + " string, " +
+                MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_OPTION2 + " string, " +
+                MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_OPTION3 + " string, " +
+                MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_OPTION4 + " string, " +
+                MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_ANSWER + " string " + ")";
+
+        if(oldVersion <= 7){
+            database.execSQL(CREATE_MULTIPLE_CHOICE_TABLE);
+        }
     }
 
     @Override
@@ -264,6 +288,17 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
         }
     }
 
+    public synchronized MultipleChoiceCardDao getMultipleChoiceDao() {
+        try {
+            if(multipleChoiceCardDao == null) {
+                multipleChoiceCardDao = getDao(MultipleChoiceCard.class);
+            }
+            return multipleChoiceCardDao;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     /*
      * Override the finalize in case the helper is not release.
      */
@@ -289,5 +324,60 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
     /* Package private getDbPath used in Manager. */
     String getDbPath() {
         return dbPath;
+    }
+
+    //inserts values to the multiple choice card table
+    public void insertMultipleChoiceCard(MultipleChoiceCard mcCard, SQLiteDatabase db) {
+        ContentValues cv = new ContentValues();
+        cv.put(MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_QUESTION, mcCard.getQuestion());
+        cv.put(MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_OPTION1, mcCard.getOption1());
+        cv.put(MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_OPTION2, mcCard.getOption2());
+        cv.put(MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_OPTION3, mcCard.getOption3());
+        cv.put(MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_OPTION4, mcCard.getOption4());
+        cv.put(MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_ANSWER, mcCard.getAnswer());
+        long id = db.insert(MultipleChoiceContract.MultipleChoiceCardTable.TABLE_NAME, null, cv);
+        mcCard.setId(id);
+    }
+
+    public void deleteMultipleChoiceCard(MultipleChoiceCard mcCard) {
+        db.delete(MultipleChoiceContract.MultipleChoiceCardTable.TABLE_NAME,
+                "id" + "=" + mcCard.getId(),
+                null);
+    }
+
+    public List<MultipleChoiceCard> getAllMultipleChoiceCards() {
+        List<MultipleChoiceCard> mcList = new ArrayList<>();
+
+        db = getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM " + MultipleChoiceContract.MultipleChoiceCardTable.TABLE_NAME, null);
+        addToMultipleChoiceList(c, mcList);
+        c.close();
+
+        return mcList;
+    }
+
+    private void addToMultipleChoiceList(Cursor c, List<MultipleChoiceCard> list) {
+        if (c.moveToFirst()) {
+            do {
+                MultipleChoiceCard mcCard = new MultipleChoiceCard();
+                if(!c.isNull(c.getColumnIndex("id"))) {
+                    mcCard.setId((c.getLong(c.getColumnIndex("id"))));
+                } else {
+                    mcCard.setId((c.getLong(c.getColumnIndex("_id"))));
+                }
+                mcCard.setQuestion((c.getString(c.getColumnIndex(MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_QUESTION))));
+                mcCard.setOption1((c.getString(c.getColumnIndex(MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_OPTION1))));
+                mcCard.setOption2((c.getString(c.getColumnIndex(MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_OPTION2))));
+                mcCard.setOption3((c.getString(c.getColumnIndex(MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_OPTION3))));
+                mcCard.setOption4((c.getString(c.getColumnIndex(MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_OPTION4))));
+                mcCard.setAnswer((c.getString(c.getColumnIndex(MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_ANSWER))));
+
+                list.add(mcCard);
+            } while (c.moveToNext());
+        }
+    }
+
+    public void updateMultipleChoiceId(String newId, String oldId) {
+        db.execSQL("update " + MultipleChoiceContract.MultipleChoiceCardTable.TABLE_NAME +" set id = " + newId + " where id = " + oldId);
     }
 }

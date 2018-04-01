@@ -84,6 +84,7 @@
     <string name="stat_total">Total: </string>
     <string name="stat_scheduled">Rev: </string>
     <string name="stat_new">New: </string>
+    <string name="stat_mc_mode">Mode:MC</string>
     <string name="open_open_new_db">Open existing database</string>
     <string name="clear_all_pref">Reset all preferences</string>
     <string name="clear_recent_list">Clear recent list</string>
@@ -91,12 +92,17 @@
     <string name="add_screen_question">Question</string>
     <string name="add_screen_new">New</string>
     <string name="add_screen_answer">Answer</string>
+    <string name="add_screen_option1">Option 1</string>
+    <string name="add_screen_option2">Option 2</string>
+    <string name="add_screen_option3">Option 3</string>
+    <string name="add_screen_option4">Option 4</string>
+    <string name="save_mc">Save</string>
     <string name="add_screen_next">Next</string>
     <string name="add_screen_previous">Previous</string>
     <string name="search_text">Search</string>
     <string name="fb_create_db">Create new DB</string>
     <string name="fb_create_dir">Create new folder</string>
-    <string name="fb_create_db_message">Please enter the name of new database.</string>
+    <string name="fb_create_db_message">Please choose deck type and name.</string>
     <string name="fb_create_dir_message">Please enter the name of new folder.</string>
     <string name="fb_delete_message">Are you sure to delete this file?</string>
     <string name="fb_edit_dialog_title">Edit</string>
@@ -481,4 +487,11 @@
     <string name="google_sign_in_empty_error_text">Google sign in result is empty</string>
     <string name="google_sign_in_account_empty_result">Unable to get Google account</string>
     <string name="title_activity_quiz_review">QuizReviewActivity</string>
+    <string name="title_activity_preview_edit_mc">PreviewEditMCActivity</string>
+    <string name="title_activity_card_view_mc">CardViewMCActivity</string>
+    <string name="title_activity_card_mc">CardMCEditorActivity</string>
+    <string name="title_activity_mc_study_activity">MCStudyActivity</string>
+    <string-array name="optionsMC">
+
+    </string-array>
 </resources>

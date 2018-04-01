@@ -41,11 +41,23 @@ public class OpenTabFragment extends FileBrowserFragment {
     private FileBrowserFragment.OnFileClickListener fileClickListener
         = new FileBrowserFragment.OnFileClickListener() {
             public void onClick(File file) {
-                DialogFragment df = new OpenActionsFragment();
-                Bundle b = new Bundle();
-                b.putString(OpenActionsFragment.EXTRA_DBPATH, file.getAbsolutePath());
-                df.setArguments(b);
-                df.show(((FragmentActivity)mActivity).getSupportFragmentManager(), "OpenActions");
+                String currentDBPath = file.getAbsolutePath();
+                String[] split = currentDBPath.split(".db");
+                String nameWithoutDB = split[0];
+
+                if (nameWithoutDB.endsWith("_MC")) {
+                    DialogFragment df = new OpenActionsMCFragment();
+                    Bundle b = new Bundle();
+                    b.putString(OpenActionsMCFragment.EXTRA_DBPATH_MC, file.getAbsolutePath());
+                    df.setArguments(b);
+                    df.show(((FragmentActivity)mActivity).getSupportFragmentManager(), "OpenActionsMC");
+                } else {
+                    DialogFragment df = new OpenActionsFragment();
+                    Bundle b = new Bundle();
+                    b.putString(OpenActionsFragment.EXTRA_DBPATH, file.getAbsolutePath());
+                    df.setArguments(b);
+                    df.show(((FragmentActivity)mActivity).getSupportFragmentManager(), "OpenActions");
+                }
             }
         };
 }
