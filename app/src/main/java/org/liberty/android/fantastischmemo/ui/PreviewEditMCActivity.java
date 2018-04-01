@@ -5,7 +5,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -22,28 +22,26 @@ import java.util.List;
 public class PreviewEditMCActivity extends Activity {
 
     private List<MultipleChoiceCard> mcCards = new ArrayList<>();
-    private RecyclerView rv;
+    private RecyclerView mcRV;
     private MultipleChoiceCardDao multipleChoiceCardDao;
     private AnyMemoDBOpenHelper dbOpenHelper;
     private FloatingActionButton addCardButton;
     public static String EXTRA_DBPATH_MC = "dbpath";
     String dbPath;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.preview_edit_mc_activity);
         dbPath = getIntent().getExtras().getString(EXTRA_DBPATH_MC);
-        rv=(RecyclerView)findViewById(R.id.rv);
+        mcRV = (RecyclerView) findViewById(R.id.recyclerview_mc);
         addCardButton = (FloatingActionButton) findViewById(R.id.addCard);
         addCardButton.setOnClickListener(addButtonListener);
-        LinearLayoutManager llm = new LinearLayoutManager(this);
-        rv.setLayoutManager(llm);
-        rv.setHasFixedSize(true);
+
         dbOpenHelper = AnyMemoDBOpenHelperManager.getHelper(getApplicationContext(), dbPath);
         multipleChoiceCardDao = dbOpenHelper.getMultipleChoiceDao();
         multipleChoiceCardDao.setHelper(dbOpenHelper);
+
         initializeData();
         initializeAdapter();
     }
@@ -67,8 +65,9 @@ public class PreviewEditMCActivity extends Activity {
                     .setCancelable(false)
                     .show();
         } else {
-            RVAdapter adapter = new RVAdapter(mcCards);
-            rv.setAdapter(adapter);
+            RecyclerViewAdapter mcAdapter = new RecyclerViewAdapter(this, mcCards);
+            mcRV.setLayoutManager(new GridLayoutManager(this, 1));
+            mcRV.setAdapter(mcAdapter);
         }
 
     }
