@@ -10,8 +10,6 @@ repositories {
 findbugs {
     ignoreFailures = false
     toolVersion = "3.0.1"
-    sourceSets=[sourceSets.main.java]
-    excludeFilter = file("build/generated/findbugs/excludeFilter.xml")
     reportsDir = file("$project.buildDir/reports/findbugs")
     effort = "max"
 }
