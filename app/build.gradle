@@ -7,9 +7,19 @@ repositories {
     maven { url 'https://maven.google.com' }
 }
 
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java']
+        }
+    }
+}
+
 findbugs {
     ignoreFailures = false
     toolVersion = "3.0.1"
+    sourceSets=[sourceSets.main]
+    excludeFilter = file("build/generated/findbugs/excludeFilter.xml")
     reportsDir = file("$project.buildDir/reports/findbugs")
     effort = "max"
 }
