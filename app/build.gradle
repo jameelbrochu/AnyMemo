@@ -15,22 +15,6 @@ sourceSets {
     }
 }
 
-findbugs {
-    ignoreFailures = false
-    toolVersion = "3.0.1"
-    sourceSets=[sourceSets.main]
-    excludeFilter = file("build/generated/findbugs/excludeFilter.xml")
-    reportsDir = file("$project.buildDir/reports/findbugs")
-    effort = "max"
-    reportLevel = "low"
-}
-tasks.withType(FindBugs) {
-    reports {
-        xml.enabled true
-        html.enabled false
-    }
-}
-
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
@@ -172,6 +156,25 @@ task copySecretsIfNotExists << {
             rename "AMSecrets.java.template", "AMSecrets.java"
             include "AMSecrets.java.template"
         }
+    }
+}
+
+task findSecurityBugs(type: FindBugs) {
+
+    classes = fileTree(project.rootDir.absolutePath) .include("**/*.class")
+    source = fileTree(project.rootDir.absolutePath).include("**/*.java")
+    classpath = files()
+    pluginClasspath = project.configurations.findbugsPlugins
+
+    findbugs {
+        toolVersion = "3.0.1"
+        sourceSets = [sourceSets.main] // [sourceSets.main] for Java project
+        ignoreFailures = true
+        reportsDir = file("$project.buildDir/findbugsReports")
+        effort = "max"
+        reportLevel = "low"
+        includeFilter = file("$rootProject.projectDir/fsb-include.xml")
+        excludeFilter = file("$rootProject.projectDir/fsb-exclude.xml")
     }
 }
 
