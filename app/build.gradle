@@ -159,21 +159,20 @@ task copySecretsIfNotExists << {
     }
 }
 
-task findSecurityBugs(type: FindBugs) {
-
-    classes = fileTree(project.rootDir.absolutePath) .include("**/*.class")
-    source = fileTree(project.rootDir.absolutePath).include("**/*.java")
+task findbugs(type: FindBugs, dependsOn: assembleFree) {
+    description 'Find bugs mainly design flaws, bad practices, multithreaded correctness and code vulnerabilities.'
+    classes = fileTree("$project.buildDir/classes/java/main")
+    source = fileTree('src/main/java')
+    effort 'max'
+    reportLevel = "low"
     classpath = files()
-    pluginClasspath = project.configurations.findbugsPlugins
 
-    findbugs {
-        toolVersion = "3.0.1"
-        sourceSets = [sourceSets.main] // [sourceSets.main] for Java project
-        ignoreFailures = true
-        reportsDir = file("$project.buildDir/findbugsReports")
-        effort = "max"
-        reportLevel = "low"
+    reports {
+        xml.enabled = false
+        html.enabled = true
+        html.destination = "$project.buildDir/outputs/findbugs/findbugs.html"
     }
 }
+
 
 preBuild.dependsOn copySecretsIfNotExists 
