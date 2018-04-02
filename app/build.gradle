@@ -1,9 +1,25 @@
 apply plugin: 'com.android.application'
+apply plugin: 'findbugs'
 
 repositories {
     jcenter()
     maven { url "https://jitpack.io" }
     maven { url 'https://maven.google.com' }
+}
+
+findbugs {
+    ignoreFailures = false
+    toolVersion = "3.0.1"
+    sourceSets=[sourceSets.main]
+    excludeFilter = file("config/findbugs/excludeFilter.xml")
+    reportsDir = file("$project.buildDir/reports/findbugs")
+    effort = "max"
+}
+tasks.withType(FindBugs) {
+    reports {
+        xml.enabled false
+        html.enabled true
+    }
 }
 
 android {
