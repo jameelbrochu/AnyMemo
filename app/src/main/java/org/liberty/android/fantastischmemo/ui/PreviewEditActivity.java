@@ -268,6 +268,14 @@ public class PreviewEditActivity extends QACardActivity {
                 return true;
             }
 
+            case R.id.menuspeakhint:
+            {
+                if (getCurrentCard() != null) {
+                    return speakHint();
+                }
+                return true;
+            }
+
             case R.id.editmenu_settings_id:
             {
                 Intent myIntent = new Intent(this, SettingsScreen.class);
