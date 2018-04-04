@@ -174,6 +174,11 @@ public class StudyActivity extends QACardActivity {
                 return speakAnswer();
             }
 
+            case R.id.menuspeakhint:
+            {
+                return speakHint();
+            }
+
             case R.id.menusettings:
             {
                 gotoSettings();
@@ -431,7 +436,12 @@ public class StudyActivity extends QACardActivity {
         if (!isHintShown()) {
             onClickHintView();
         } else {
-            onClickHintView();
+            if((getOption().getSpeakingType() == Option.SpeakingType.AUTOTAP
+                    || getOption().getSpeakingType() == Option.SpeakingType.TAP)) {
+                speakHint();
+            } else {
+                onClickHintView();
+            }
         }
         return true;
     }
@@ -575,6 +585,7 @@ public class StudyActivity extends QACardActivity {
             if(!isAnswerShown()){
                 // Make sure the TTS is stop, or it will speak nothing.
                 speakQuestion();
+                speakHint();
             } else {
                 // Make sure the TTS is stop
                 speakAnswer();
