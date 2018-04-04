@@ -121,6 +121,7 @@ public class CardTTSUtil {
     public void stopSpeak() {
         questionTTS.stop();
         answerTTS.stop();
+        hintTTS.stop();
     }
 
     /*
