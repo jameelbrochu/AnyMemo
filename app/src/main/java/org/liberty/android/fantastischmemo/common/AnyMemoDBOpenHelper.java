@@ -340,9 +340,17 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
     }
 
     public void deleteMultipleChoiceCard(MultipleChoiceCard mcCard) {
-        db.delete(MultipleChoiceContract.MultipleChoiceCardTable.TABLE_NAME,
-                "id" + "=" + mcCard.getId(),
-                null);
+        Cursor res = db.rawQuery("SELECT * FROM " + MultipleChoiceContract.MultipleChoiceCardTable.TABLE_NAME,null);
+        int value = res.getColumnIndex("id");
+        if (value != -1) {
+            db.delete(MultipleChoiceContract.MultipleChoiceCardTable.TABLE_NAME,
+                    "id" + "=" + mcCard.getId(),
+                    null);
+        } else {
+            db.delete(MultipleChoiceContract.MultipleChoiceCardTable.TABLE_NAME,
+                    MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_ID + "=" + mcCard.getId(),
+                    null);
+        }
     }
 
     public List<MultipleChoiceCard> getAllMultipleChoiceCards() {
@@ -378,6 +386,12 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
     }
 
     public void updateMultipleChoiceId(String newId, String oldId) {
-        db.execSQL("update " + MultipleChoiceContract.MultipleChoiceCardTable.TABLE_NAME +" set id = " + newId + " where id = " + oldId);
+        Cursor res = db.rawQuery("SELECT * FROM " + MultipleChoiceContract.MultipleChoiceCardTable.TABLE_NAME,null);
+        int value = res.getColumnIndex("id");
+        if (value != -1) {
+            db.execSQL("update " + MultipleChoiceContract.MultipleChoiceCardTable.TABLE_NAME +" set id = " + newId + " where id = " + oldId);
+        } else {
+            db.execSQL("update " + MultipleChoiceContract.MultipleChoiceCardTable.TABLE_NAME + " set _id = " + newId + " where _id = " + oldId);
+        }
     }
 }
