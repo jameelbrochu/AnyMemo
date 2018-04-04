@@ -90,6 +90,7 @@ public class SettingsScreen extends BaseActivity {
     private AMSpinner qaRatioSpinner;
     private AMSpinner questionLocaleSpinner;
     private AMSpinner answerLocaleSpinner;
+    private AMSpinner hintLocaleSpinner;
     private EditText audioLocationEdit;
 
     private CheckBox colorCheckbox;
@@ -300,6 +301,8 @@ public class SettingsScreen extends BaseActivity {
 
             answerLocaleSpinner =  (AMSpinner)findViewById(R.id.answer_locale_spinner);
 
+            hintLocaleSpinner = (AMSpinner)findViewById(R.id.hint_locale_spinner);
+
             audioLocationEdit = (EditText) findViewById(R.id.settings_audio_location);
 
             // If we got no text, we will use the default location.
@@ -309,6 +312,10 @@ public class SettingsScreen extends BaseActivity {
 
             if (!Strings.isNullOrEmpty(setting.getAnswerAudio())) {
                 audioLocationEdit.setText(setting.getAnswerAudioLocation());
+            }
+
+            if (!Strings.isNullOrEmpty(setting.getHintAudio())) {
+                audioLocationEdit.setText(setting.getHintAudioLocation());
             }
 
             if (Strings.isNullOrEmpty(audioLocationEdit.getText().toString())) {
@@ -394,6 +401,7 @@ public class SettingsScreen extends BaseActivity {
         qaRatioSpinner.setOnTouchListener(spinnerOnTouchListener);
         questionLocaleSpinner.setOnTouchListener(spinnerOnTouchListener);
         answerLocaleSpinner.setOnTouchListener(spinnerOnTouchListener);
+        hintLocaleSpinner.setOnTouchListener(spinnerOnTouchListener);
         colorSpinner.setOnTouchListener(spinnerOnTouchListener);
 
         colorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -445,6 +453,7 @@ public class SettingsScreen extends BaseActivity {
         // Default US but need special care
         questionLocaleSpinner.selectItemFromValue(setting.getQuestionAudio(), 2);
         answerLocaleSpinner.selectItemFromValue(setting.getAnswerAudio(), 2);
+        hintLocaleSpinner.selectItemFromValue(setting.getHintAudio(), 2);
 
         if (!Strings.isNullOrEmpty(setting.getQuestionAudioLocation())) {
             // User audio
@@ -462,6 +471,13 @@ public class SettingsScreen extends BaseActivity {
             answerLocaleSpinner.setSelection(0);
         }
 
+        if (!Strings.isNullOrEmpty(setting.getHintAudioLocation())) {
+            //User audio
+            hintLocaleSpinner.setSelection(1);
+        } else if (Strings.isNullOrEmpty(setting.getHintAudio())) {
+            //Disabled
+            hintLocaleSpinner.setSelection(0);
+        }
 
         // Default to single sided
         styleSpinner.selectItemFromValue(setting.getCardStyle().toString(), 0);
@@ -558,6 +574,16 @@ public class SettingsScreen extends BaseActivity {
                 setting.setAnswerAudioLocation("");
             }
 
+            if (hintLocaleSpinner.getSelectedItemPosition() == 0) {
+                setting.setHintAudio("");
+                setting.setHintAudioLocation("");
+            } else if (hintLocaleSpinner.getSelectedItemPosition() == 1) {
+               setting.setHintAudioLocation(audioLocationEdit.getText().toString());
+               setting.setHintAudio(hintLocaleSpinner.getSelectedItemValue());
+            } else {
+                setting.setHintAudio(hintLocaleSpinner.getSelectedItemValue());
+                setting.setHintAudioLocation("");
+            }
 
             setting.setQuestionTextColor(colors.get(0));
             setting.setHintTextColor(colors.get(1));
