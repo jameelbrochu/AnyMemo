@@ -23,6 +23,7 @@ import org.liberty.android.fantastischmemo.entity.Card;
 import org.liberty.android.fantastischmemo.entity.Category;
 import org.liberty.android.fantastischmemo.entity.Deck;
 import org.liberty.android.fantastischmemo.entity.Filter;
+import org.liberty.android.fantastischmemo.entity.History;
 import org.liberty.android.fantastischmemo.entity.LearningData;
 import org.liberty.android.fantastischmemo.entity.MultipleChoiceCard;
 import org.liberty.android.fantastischmemo.entity.Setting;
@@ -377,7 +378,62 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
         }
     }
 
+
     public void updateMultipleChoiceId(String newId, String oldId) {
         db.execSQL("update " + MultipleChoiceContract.MultipleChoiceCardTable.TABLE_NAME +" set id = " + newId + " where id = " + oldId);
     }
+
+    private void addToHistoryList(Cursor c, List<History> list) {
+        if (c.moveToFirst()) {
+            do {
+                History history = new History();
+
+                history.setId((c.getLong(c.getColumnIndex("id"))));
+                history.setdbPath((c.getString(c.getColumnIndex("dbPath"))));
+                history.setMark((c.getDouble(c.getColumnIndex("mark"))));
+                history.setTimeStamp((c.getString(c.getColumnIndex("timeStamp"))));
+                list.add(history);
+            } while (c.moveToNext());
+        }
+    }
+
+    public List<History> getHistoryForDB(String dbPath){
+
+        List<History> histories = new ArrayList<>();
+
+        db = getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM  History WHERE dbPath = " + "'"+ dbPath + "'" , null);
+        addToHistoryList(c,histories);
+
+        c.close();
+
+        return histories;
+    }
+
+    public void insertHistory(History history, SQLiteDatabase db) {
+        ContentValues cv = new ContentValues();
+        cv.put("dbPath", history.getdbPath());
+        cv.put("mark", history.getMark());
+        cv.put("timeStamp", history.getTimeStamp());
+        long id = db.insert("History", null, cv);history.setId(id);
+
+    }
+
+    public void deleteHistory(History history) {
+        db.delete("History",
+                "id" + "=" + history.getId(),
+                null);
+    }
+
+    public int getCountHistoryforDB(String dbPath){
+        int count = 0;
+        db = getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM  History WHERE dbPath = " + "'"+ dbPath + "'" , null);
+        count = c.getColumnCount();
+
+        return count;
+
+    }
+
+
 }
