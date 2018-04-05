@@ -52,6 +52,9 @@ public class Card implements VersionableDomainObject, Parcelable {
     @DatabaseField(defaultValue = "false", width = 8192)
     private boolean favourite;
 
+    @DatabaseField(defaultValue = "false", width = 8192)
+    private boolean result;
+
     public Card() {}
 
 
@@ -125,6 +128,12 @@ public class Card implements VersionableDomainObject, Parcelable {
     public boolean getFavourite() {
         return this.favourite;
     }
+
+    public void setResult(boolean result){
+        this.result = result;
+    }
+
+    public boolean getResult() { return this.result; }
 
     public Date getCreationDate() {
         return creationDate;
