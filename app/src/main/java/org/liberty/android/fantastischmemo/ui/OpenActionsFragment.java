@@ -24,6 +24,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,11 +36,14 @@ import org.liberty.android.fantastischmemo.common.AnyMemoDBOpenHelper;
 import org.liberty.android.fantastischmemo.common.AnyMemoDBOpenHelperManager;
 import org.liberty.android.fantastischmemo.common.BaseActivity;
 import org.liberty.android.fantastischmemo.common.BaseDialogFragment;
+import org.liberty.android.fantastischmemo.dao.HistoryDao;
+import org.liberty.android.fantastischmemo.entity.History;
 import org.liberty.android.fantastischmemo.utils.AMFileUtil;
 import org.liberty.android.fantastischmemo.utils.AMPrefUtil;
 import org.liberty.android.fantastischmemo.utils.RecentListUtil;
 import org.liberty.android.fantastischmemo.utils.ShareUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -77,8 +81,12 @@ public class OpenActionsFragment extends BaseDialogFragment {
     public OpenActionsFragment() { }
 
     public AnyMemoDBOpenHelper getHistoryDbHelper(){
-        if (historyDbHelper == null)
-            return AnyMemoDBOpenHelperManager.getHelper(getContext(), historyDbPath);
+        if (historyDbHelper == null) {
+            historyDbHelper = AnyMemoDBOpenHelperManager.getHelper(getContext(), historyDbPath);
+            HistoryDao historyDao = historyDbHelper.getHistoryDao();
+            historyDao.setHelper(historyDbHelper);
+            return historyDbHelper;
+        }
         else
             return historyDbHelper;
     }
@@ -173,9 +181,11 @@ public class OpenActionsFragment extends BaseDialogFragment {
             }
 
             if(v == historyItem){
+                ArrayList<History> history = (ArrayList<History>) getHistoryDbHelper().getHistoryDao().getHistoryForDB(dbPath);
                 Intent myIntent = new Intent();
                 myIntent.setClass(mActivity, QuizHistoryActivity.class);
                 myIntent.putExtra(QuizHistoryActivity.EXTRA_DBPATH, historyDbPath);
+                myIntent.putParcelableArrayListExtra("HISTORY", history);
                 startActivity(myIntent);
             }
 

@@ -1,19 +1,15 @@
 package org.liberty.android.fantastischmemo.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import org.liberty.android.fantastischmemo.dao.HistoryDaoImpl;
-import org.liberty.android.fantastischmemo.dao.MultipleChoiceDaoImpl;
 
-import java.sql.Timestamp;
-
-/**
- * Created by SnegaT on 2018-04-05.
- */
-
-@DatabaseTable(tableName = "history", daoClass = HistoryDaoImpl.class)
-public class History {
+@DatabaseTable(tableName = "History", daoClass = HistoryDaoImpl.class)
+public class History implements Parcelable{
     @DatabaseField(generatedId = true)
     private long id;
 
@@ -65,4 +61,33 @@ public class History {
 
     public void setTimeStamp(long timeStamp) { this.timeStamp = timeStamp; }
 
+    protected History(Parcel in) {
+        dbPath = in.readString();
+        mark = in.readDouble();
+        timeStamp = in.readLong();
+    }
+
+    public static final Creator<History> CREATOR = new Creator<History>() {
+        @Override
+        public History createFromParcel(Parcel in) {
+            return new History(in);
+        }
+
+        @Override
+        public History[] newArray(int size) {
+            return new History[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(this.getdbPath());
+        parcel.writeDouble(this.getMark());
+        parcel.writeLong(this.getTimeStamp());
+    }
 }

@@ -29,6 +29,7 @@ import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Parcel;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -46,6 +47,7 @@ import org.liberty.android.fantastischmemo.R;
 import org.liberty.android.fantastischmemo.common.AnyMemoDBOpenHelper;
 import org.liberty.android.fantastischmemo.common.AnyMemoDBOpenHelperManager;
 import org.liberty.android.fantastischmemo.dao.HistoryDao;
+import org.liberty.android.fantastischmemo.dao.HistoryDaoImpl;
 import org.liberty.android.fantastischmemo.entity.Card;
 import org.liberty.android.fantastischmemo.entity.Category;
 import org.liberty.android.fantastischmemo.entity.History;
@@ -509,6 +511,7 @@ public class QuizActivity extends QACardActivity {
     private void AddToQuizHistory(int score){
         AnyMemoDBOpenHelper historyDbHelper = AnyMemoDBOpenHelperManager.getHelper(getApplicationContext(), historyDbPath);
         HistoryDao historyDao = historyDbHelper.getHistoryDao();
+        historyDao.setHelper(historyDbHelper);
         List<History> historyForDeck = historyDao.getHistoryForDB(getDbPath());
         int count = historyDao.count(getDbPath());
         if (count == 10){
@@ -526,6 +529,11 @@ public class QuizActivity extends QACardActivity {
         result.setMark(score);
         result.setTimeStamp(timeStamp);
         historyDao.insertHistory(result);
+
+        Parcel parcel = Parcel.obtain();
+        parcel.writeValue(result.getdbPath());
+        parcel.writeValue(result.getMark());
+        parcel.writeValue(result.getTimeStamp());
     }
 
     // Current flush is not functional. So this method only quit and does not flush
