@@ -55,7 +55,6 @@ public class PreviewEditMCActivity extends Activity {
 
     private void initializeData() {
         mcCards =  multipleChoiceCardDao.getAllMultipleChoiceCards();
-
     }
 
     private void initializeAdapter() {
@@ -65,11 +64,10 @@ public class PreviewEditMCActivity extends Activity {
                     .setCancelable(false)
                     .show();
         } else {
-            RecyclerViewAdapter mcAdapter = new RecyclerViewAdapter(this, mcCards);
+            RecyclerViewAdapter mcAdapter = new RecyclerViewAdapter(this, mcCards, dbPath);
             mcRV.setLayoutManager(new GridLayoutManager(this, 1));
             mcRV.setAdapter(mcAdapter);
         }
-
     }
 
     private View.OnClickListener addButtonListener =
@@ -82,5 +80,4 @@ public class PreviewEditMCActivity extends Activity {
                     startActivity(myIntent);
                 }
                 };
-
 }

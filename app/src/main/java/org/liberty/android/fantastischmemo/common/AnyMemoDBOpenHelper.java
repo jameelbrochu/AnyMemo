@@ -348,7 +348,7 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
                     null);
         } else {
             db.delete(MultipleChoiceContract.MultipleChoiceCardTable.TABLE_NAME,
-                    MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_ID + "=" + mcCard.getId(),
+                    "_id" + "=" + mcCard.getId(),
                     null);
         }
     }

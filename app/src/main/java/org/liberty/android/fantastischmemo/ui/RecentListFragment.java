@@ -289,6 +289,7 @@ public class RecentListFragment extends BaseFragment {
                 String nameWithoutDB = split[0];
 
                 if (nameWithoutDB.endsWith("MC")) {
+                    mcDao.setHelper(helper);
                     ri.dbInfo = context.getString((R.string.stat_mc_mode)) + " " +
                             getContext().getString(R.string.stat_total) + mcDao.getAllMultipleChoiceCards().size();
                 } else {
