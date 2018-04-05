@@ -188,7 +188,10 @@ public class OpenActionsFragment extends BaseDialogFragment {
             }
 
             if(v == historyItem){
-                
+                Intent myIntent = new Intent();
+                myIntent.setClass(mActivity, QuizHistoryActivity.class);
+                myIntent.putExtra(QuizHistoryActivity.EXTRA_DBPATH, historyDbPath);
+                startActivity(myIntent);
             }
 
             if (v == settingsItem) {

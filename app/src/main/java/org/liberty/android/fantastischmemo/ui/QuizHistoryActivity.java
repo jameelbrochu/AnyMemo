@@ -8,6 +8,8 @@ import org.liberty.android.fantastischmemo.R;
 
 public class QuizHistoryActivity extends AppCompatActivity {
 
+    public static final String EXTRA_DBPATH = "dbpath";
+
     private TextView averageTextView;
     private TextView attemptTextView;
 
