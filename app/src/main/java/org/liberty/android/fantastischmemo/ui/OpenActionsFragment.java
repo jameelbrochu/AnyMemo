@@ -93,6 +93,11 @@ public class OpenActionsFragment extends BaseDialogFragment {
         return null;
     }
 
+    public Double getAverage(String dbPath){
+        //Return a list of all quiz marks for the specific dbPath
+        return null;
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -183,7 +188,10 @@ public class OpenActionsFragment extends BaseDialogFragment {
             }
 
             if(v == historyItem){
-                
+                Intent myIntent = new Intent();
+                myIntent.setClass(mActivity, QuizHistoryActivity.class);
+                myIntent.putExtra(QuizHistoryActivity.EXTRA_DBPATH, historyDbPath);
+                startActivity(myIntent);
             }
 
             if (v == settingsItem) {
