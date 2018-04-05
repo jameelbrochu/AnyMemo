@@ -4,23 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="org.liberty.android.fantastischmemo.ui.QuizHistoryActivity">
-
-
-    <TextView
-        android:id="@+id/quiz_history_title"
-        android:layout_width="382dp"
-        android:layout_height="46dp"
-        android:layout_weight="1"
-        android:text="Quiz Average"
-        android:textSize="18sp"/>
 
     <TextView
         android:id="@+id/quiz_history_average"
         android:layout_width="382dp"
         android:layout_height="46dp"
         android:layout_weight="1"
-        android:textSize="18sp"/>
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/quiz_history_attempt"
@@ -31,4 +23,5 @@
         android:paddingRight="30dp"
         android:paddingTop="15dp"
         android:textSize="14sp" />
+
 </LinearLayout>
