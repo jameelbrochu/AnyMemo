@@ -20,10 +20,10 @@ public class History {
     @DatabaseField(defaultValue = "", width = 8192)
     private String dbPath;
 
-    @DatabaseField(defaultValue = "", width = 8192)
+    @DatabaseField(defaultValue = "0", width = 8192)
     private double mark;
 
-    @DatabaseField(defaultValue = "", width = 8192)
+    @DatabaseField(defaultValue = "0", width = 8192)
     private long timeStamp;
 
     public History() {}

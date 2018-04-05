@@ -74,6 +74,7 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, Category.class);
             TableUtils.createTable(connectionSource, LearningData.class);
             TableUtils.createTable(connectionSource, MultipleChoiceCard.class);
+            TableUtils.createTable(connectionSource, History.class);
 
 
             getSettingDao().create(new Setting());
@@ -205,7 +206,7 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
         }
 
         final String CREATE_HISTORY_TABLE = "create table " +
-                "History (" +
+                "history (" +
                 "id" + " integer primary key autoincrement, " +
                 "dbPath string, " +
                 "mark integer, " +
@@ -428,7 +429,7 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
         List<History> histories = new ArrayList<>();
 
         db = getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM  History WHERE dbPath = " + "'"+ dbPath + "'" , null);
+        Cursor c = db.rawQuery("SELECT * FROM  history WHERE dbPath = " + "'"+ dbPath + "'" , null);
         addToHistoryList(c,histories);
 
         c.close();
@@ -441,12 +442,13 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
         cv.put("dbPath", history.getdbPath());
         cv.put("mark", history.getMark());
         cv.put("timeStamp", history.getTimeStamp());
-        long id = db.insert("History", null, cv);history.setId(id);
+        long id = db.insert("history", null, cv);
+        history.setId(id);
 
     }
 
     public void deleteHistory(History history) {
-        db.delete("History",
+        db.delete("history",
                 "id" + "=" + history.getId(),
                 null);
     }
@@ -454,7 +456,7 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
     public int getCountHistoryforDB(String dbPath){
         int count = 0;
         db = getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM  History WHERE dbPath = " + "'"+ dbPath + "'" , null);
+        Cursor c = db.rawQuery("SELECT * FROM  history WHERE dbPath = " + "'"+ dbPath + "'" , null);
         count = c.getColumnCount();
 
         return count;
