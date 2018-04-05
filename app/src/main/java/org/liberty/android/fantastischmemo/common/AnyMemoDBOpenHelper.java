@@ -457,7 +457,7 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
         int count = 0;
         db = getReadableDatabase();
         Cursor c = db.rawQuery("SELECT * FROM  history WHERE dbPath = " + "'"+ dbPath + "'" , null);
-        count = c.getColumnCount();
+        count = c.getCount();
 
         return count;
 
