@@ -59,6 +59,7 @@ public class OpenActionsFragment extends BaseDialogFragment {
     private View statisticsItem;
     private View shareItem;
     private View deleteItem;
+    private View historyItem;
 
     /* quiz history */
     private String historyDbPath = "/sdcard/history.db";
@@ -128,6 +129,9 @@ public class OpenActionsFragment extends BaseDialogFragment {
         quizItem = v.findViewById(R.id.quiz);
         quizItem.setOnClickListener(buttonClickListener);
 
+        historyItem = v.findViewById(R.id.history);
+        historyItem.setOnClickListener(buttonClickListener);
+
         settingsItem = v.findViewById(R.id.settings);
         settingsItem.setOnClickListener(buttonClickListener);
 
@@ -181,6 +185,10 @@ public class OpenActionsFragment extends BaseDialogFragment {
                 df.setArguments(b);
                 df.show(mActivity.getSupportFragmentManager(), "QuizLauncherDialog");
                 recentListUtil.addToRecentList(dbPath);
+            }
+
+            if(v == historyItem){
+                
             }
 
             if (v == settingsItem) {
