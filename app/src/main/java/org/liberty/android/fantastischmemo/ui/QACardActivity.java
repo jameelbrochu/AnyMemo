@@ -866,6 +866,7 @@ public abstract class QACardActivity extends BaseActivity {
         public void onClick(View v) {
             if(!isAnswerShown) {
                 onClickHintText();
+                speakHint();
             }
         }
     };
