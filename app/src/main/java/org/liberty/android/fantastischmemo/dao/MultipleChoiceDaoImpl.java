@@ -118,5 +118,11 @@ public class MultipleChoiceDaoImpl extends AbstractHelperDaoImpl<MultipleChoiceC
         }
     }
 
+    @Override
+    public void updateMultipleChoiceCard(MultipleChoiceCard mcCard) {
+        AnyMemoDBOpenHelper dbHelper = getHelper();
+        dbHelper.updateMultipleChoiceCard(mcCard);
+    }
+
 
 }

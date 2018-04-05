@@ -394,4 +394,28 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
             db.execSQL("update " + MultipleChoiceContract.MultipleChoiceCardTable.TABLE_NAME + " set _id = " + newId + " where _id = " + oldId);
         }
     }
+
+    public void updateMultipleChoiceCard(MultipleChoiceCard card) {
+        Cursor res = db.rawQuery("SELECT * FROM " + MultipleChoiceContract.MultipleChoiceCardTable.TABLE_NAME,null);
+        int value = res.getColumnIndex("id");
+        if (value != -1) {
+            db.execSQL("update " + MultipleChoiceContract.MultipleChoiceCardTable.TABLE_NAME + " set " +
+                    MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_QUESTION + " = '" + card.getQuestion() +
+                    "' , " + MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_OPTION1 + " = '" + card.getOption1() +
+                    "' , " + MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_OPTION2 + " = '" + card.getOption2() +
+                    "' , " + MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_OPTION3 + " = '" + card.getOption3() +
+                    "' , " + MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_OPTION4 + " = '" + card.getOption4() +
+                    "' , " + MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_ANSWER + " = '" + card.getAnswer() +
+                    "' where id = " + card.getId());
+        } else {
+            db.execSQL("update " + MultipleChoiceContract.MultipleChoiceCardTable.TABLE_NAME + " set " +
+                    ", " + MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_QUESTION + " = '" + card.getQuestion() +
+                    "' , " + MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_OPTION1 + " = '" + card.getOption1() +
+                    "' , " + MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_OPTION2 + " = '" + card.getOption2() +
+                    "' , " + MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_OPTION3 + " = '" + card.getOption3() +
+                    "' , " + MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_OPTION4 + " = '" + card.getOption4() +
+                    "' , " + MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_ANSWER + " = '" + card.getAnswer() +
+                    "' where _id = " + card.getId());
+        }
+    }
 }
