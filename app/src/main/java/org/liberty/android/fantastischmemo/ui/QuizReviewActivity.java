@@ -51,7 +51,7 @@ public class QuizReviewActivity extends Activity {
                   //  + "\n\n");
         }
 
-        ArrayList<Card> combinedQuestions = new ArrayList<Card>();
+        ArrayList<Card> combinedQuestions = new ArrayList<>();
         if (all_forgotten_cards != null)
             combinedQuestions.addAll(all_forgotten_cards);
         if (all_remembered_cards!= null)
@@ -61,13 +61,13 @@ public class QuizReviewActivity extends Activity {
         for(int i=0; i < combinedQuestions.size(); i++) {
             Card c = combinedQuestions.get (i);
             if (c.getResult ( ) == true) {
-                quizQuestionsTextView.setTextColor(Color.parseColor("#ff00e676"));
-                quizQuestionsTextView.setText(quizQuestionsTextView.getText() + "Question " + Integer.toString(c.getId()) + ": " +
-                        c.getQuestion() + "\nAnswer: " + c.getAnswer() + "\n\n");
+                //quizQuestionsTextView.setTextColor(Color.parseColor("#ff00e676"));
+                quizQuestionsTextView.setText(quizQuestionsTextView.getText() + "<font color=\"green\">Question " + Integer.toString(c.getId()) + ": " +
+                        c.getQuestion() + "\nAnswer: " + c.getAnswer() + "</font>\n\n");
             } else {
-                quizQuestionsTextView.setTextColor(Color.parseColor("#ffff4444"));
-                quizQuestionsTextView.setText(quizQuestionsTextView.getText() + "Question " + Integer.toString(c.getId()) + ": " +
-                        c.getQuestion() + "\nAnswer: " + c.getAnswer() + "\n\n");
+                //quizQuestionsTextView.setTextColor(Color.parseColor("#ffff4444"));
+                quizQuestionsTextView.setText(quizQuestionsTextView.getText() + "<font color=\"red\">Question " + Integer.toString(c.getId()) + ": " +
+                        c.getQuestion() + "\nAnswer: " + c.getAnswer() + "</font>\n\n");
             }
         }
 

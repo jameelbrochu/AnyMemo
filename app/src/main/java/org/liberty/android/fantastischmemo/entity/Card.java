@@ -52,7 +52,6 @@ public class Card implements VersionableDomainObject, Parcelable {
     @DatabaseField(defaultValue = "false", width = 8192)
     private boolean favourite;
 
-    @DatabaseField(defaultValue = "false", width = 8192)
     private boolean result;
 
     public Card() {}
