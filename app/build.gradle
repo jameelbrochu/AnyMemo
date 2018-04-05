@@ -175,5 +175,4 @@ task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
     }
 }
 
-
 preBuild.dependsOn copySecretsIfNotExists 
