@@ -38,7 +38,7 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
 
     private final String dbPath;
 
-    private static final int CURRENT_VERSION = 8;
+    private static final int CURRENT_VERSION = 9;
 
     private CardDao cardDao = null;
 
@@ -199,6 +199,18 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
 
         if(oldVersion <= 7){
             database.execSQL(CREATE_MULTIPLE_CHOICE_TABLE);
+        }
+
+        final String CREATE_HISTORY_TABLE = "create table " +
+                "History (" +
+                "id" + " integer primary key autoincrement, " +
+                "dbPath string, " +
+                "mark integer, " +
+                "timeStamp integer" +
+                ")";
+
+        if(oldVersion <= 8){
+            database.execSQL(CREATE_HISTORY_TABLE);
         }
     }
 
@@ -391,7 +403,7 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
                 history.setId((c.getLong(c.getColumnIndex("id"))));
                 history.setdbPath((c.getString(c.getColumnIndex("dbPath"))));
                 history.setMark((c.getDouble(c.getColumnIndex("mark"))));
-                history.setTimeStamp((c.getString(c.getColumnIndex("timeStamp"))));
+                history.setTimeStamp((c.getLong(c.getColumnIndex("timeStamp"))));
                 list.add(history);
             } while (c.moveToNext());
         }

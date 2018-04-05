@@ -24,11 +24,11 @@ public class History {
     private double mark;
 
     @DatabaseField(defaultValue = "", width = 8192)
-    private String timeStamp;
+    private long timeStamp;
 
     public History() {}
 
-    public History(String dbPath, double mark, String timeStamp) {
+    public History(String dbPath, double mark, long timeStamp) {
         this.dbPath = dbPath;
         this.mark = mark;
         this.timeStamp = timeStamp;
@@ -61,8 +61,8 @@ public class History {
 
     public void setMark(double mark) { this.mark = mark; }
 
-    public String getTimeStamp() { return timeStamp; }
+    public long getTimeStamp() { return timeStamp; }
 
-    public void setTimeStamp(String timeStamp) { this.timeStamp = timeStamp; }
+    public void setTimeStamp(long timeStamp) { this.timeStamp = timeStamp; }
 
 }
