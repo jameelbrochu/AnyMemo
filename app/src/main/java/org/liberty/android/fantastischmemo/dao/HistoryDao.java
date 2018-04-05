@@ -4,19 +4,13 @@ import org.liberty.android.fantastischmemo.entity.History;
 
 import java.util.List;
 
-/**
- * Created by SnegaT on 2018-04-05.
- */
-
 public interface HistoryDao extends HelperDao<History, Integer> {
 
-    List<History> getHistoryForDB(String dbpath);
+    public List<History> getHistoryForDB(String dbpath);
 
-    History insertHistory(History history);
+    public History insertHistory(History history);
 
-    void deleteHistory(History history);
+    public void deleteHistory(History history);
 
-
-
-
+    public int count(String dbPath);
 }

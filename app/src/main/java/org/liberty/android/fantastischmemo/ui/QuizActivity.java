@@ -45,9 +45,10 @@ import com.google.common.base.Strings;
 import org.liberty.android.fantastischmemo.R;
 import org.liberty.android.fantastischmemo.common.AnyMemoDBOpenHelper;
 import org.liberty.android.fantastischmemo.common.AnyMemoDBOpenHelperManager;
-import org.liberty.android.fantastischmemo.dao.CardDao;
+import org.liberty.android.fantastischmemo.dao.HistoryDao;
 import org.liberty.android.fantastischmemo.entity.Card;
 import org.liberty.android.fantastischmemo.entity.Category;
+import org.liberty.android.fantastischmemo.entity.History;
 import org.liberty.android.fantastischmemo.entity.Option;
 import org.liberty.android.fantastischmemo.entity.Setting;
 import org.liberty.android.fantastischmemo.modules.AppComponents;
@@ -57,7 +58,6 @@ import org.liberty.android.fantastischmemo.scheduler.Scheduler;
 import org.liberty.android.fantastischmemo.ui.loader.DBLoader;
 import org.liberty.android.fantastischmemo.utils.DictionaryUtil;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,6 +99,8 @@ public class QuizActivity extends QACardActivity {
     private int timeInSeconds;
     private long timeLeftInMilliseconds;
     private boolean timerMode = false;
+
+    private String historyDbPath = "/sdcard/history.db";
 
     @Override
     public int getContentView() {
@@ -489,6 +491,7 @@ public class QuizActivity extends QACardActivity {
         TextView scoreView = (TextView) view.findViewById(R.id.score_text);
         int score = correct * 100 / totalQuizSize;
         //Create history entity and add to database here
+        AddToQuizHistory(score);
 
         scoreView.setText("" + score + "% (" + correct + "/" + totalQuizSize + ")");
         new AlertDialog.Builder(this)
@@ -503,6 +506,27 @@ public class QuizActivity extends QACardActivity {
                 .show();
     }
 
+    private void AddToQuizHistory(int score){
+        AnyMemoDBOpenHelper historyDbHelper = AnyMemoDBOpenHelperManager.getHelper(getApplicationContext(), historyDbPath);
+        HistoryDao historyDao = historyDbHelper.getHistoryDao();
+        List<History> historyForDeck = historyDao.getHistoryForDB(getDbPath());
+        int count = historyDao.count(getDbPath());
+        if (count == 10){
+            History oldest = historyForDeck.get(0);
+            for(History history : historyForDeck){
+                if(history.getTimeStamp() < oldest.getTimeStamp()){
+                    oldest = history;
+                }
+            }
+            historyDao.deleteHistory(oldest);
+        }
+        Long timeStamp = System.currentTimeMillis();
+        History result = new History();
+        result.setdbPath(getDbPath());
+        result.setMark(score);
+        result.setTimeStamp(timeStamp);
+        historyDao.insertHistory(result);
+    }
 
     // Current flush is not functional. So this method only quit and does not flush
     // the queue.

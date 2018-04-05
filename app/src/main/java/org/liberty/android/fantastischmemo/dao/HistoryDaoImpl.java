@@ -48,7 +48,7 @@ public class HistoryDaoImpl extends AbstractHelperDaoImpl<History, Integer> impl
     }
 
     public int delete(History history) {
-        if(history != null) {
+        if (history != null) {
             int res = super.delete(history);
         }
         return 0;
@@ -61,7 +61,7 @@ public class HistoryDaoImpl extends AbstractHelperDaoImpl<History, Integer> impl
     }
 
     @Override
-    public History insertHistory(History hist){
+    public History insertHistory(History hist) {
         AnyMemoDBOpenHelper dbHelper = getHelper();
         dbHelper.insertHistory(hist, dbHelper.getWritableDatabase());
         if (hist != null) {
@@ -71,7 +71,7 @@ public class HistoryDaoImpl extends AbstractHelperDaoImpl<History, Integer> impl
     }
 
     @Override
-    public void deleteHistory(History history){
+    public void deleteHistory(History history) {
 
         AnyMemoDBOpenHelper dbHelper = getHelper();
         long id = history.getId();
@@ -79,12 +79,11 @@ public class HistoryDaoImpl extends AbstractHelperDaoImpl<History, Integer> impl
 
     }
 
-
-
-
-
-
-
+    @Override
+    public int count(String dbPath) {
+        AnyMemoDBOpenHelper dbHelper = getHelper();
+        return dbHelper.getCountHistoryforDB(dbPath);
+    }
 
 
 }

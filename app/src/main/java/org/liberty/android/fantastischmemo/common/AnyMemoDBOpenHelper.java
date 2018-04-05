@@ -16,6 +16,7 @@ import org.liberty.android.fantastischmemo.dao.CardDao;
 import org.liberty.android.fantastischmemo.dao.CategoryDao;
 import org.liberty.android.fantastischmemo.dao.DeckDao;
 import org.liberty.android.fantastischmemo.dao.FilterDao;
+import org.liberty.android.fantastischmemo.dao.HistoryDao;
 import org.liberty.android.fantastischmemo.dao.LearningDataDao;
 import org.liberty.android.fantastischmemo.dao.MultipleChoiceCardDao;
 import org.liberty.android.fantastischmemo.dao.SettingDao;
@@ -53,6 +54,8 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
     private LearningDataDao learningDataDao = null;
 
     private MultipleChoiceCardDao multipleChoiceCardDao = null;
+
+    private HistoryDao historyDao = null;
 
     private boolean isReleased = false;
 
@@ -285,6 +288,17 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
                 categoryDao = getDao(Category.class);
             }
             return categoryDao;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public synchronized HistoryDao getHistoryDao(){
+        try {
+            if (historyDao == null) {
+                historyDao = getDao(History.class);
+            }
+            return historyDao;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

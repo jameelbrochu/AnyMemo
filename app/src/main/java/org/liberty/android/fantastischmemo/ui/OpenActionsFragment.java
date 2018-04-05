@@ -83,21 +83,6 @@ public class OpenActionsFragment extends BaseDialogFragment {
             return historyDbHelper;
     }
 
-    public void addMarkToHistory(int mark){
-        //Call method to add quiz result to db.
-        //Here, we need to ensure that we are story a maximum of 10 scores for each specific quiz
-    }
-
-    public List<Double> getAllQuizMarks(String dbPath){
-        //Return a list of all quiz marks for the specific dbPath
-        return null;
-    }
-
-    public Double getAverage(String dbPath){
-        //Return a list of all quiz marks for the specific dbPath
-        return null;
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
