@@ -92,6 +92,11 @@ public class OpenActionsFragment extends BaseDialogFragment {
         return null;
     }
 
+    public Double getAverage(String dbPath){
+        //Return a list of all quiz marks for the specific dbPath
+        return null;
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
