@@ -263,6 +263,7 @@
     <string name="center_text">Center</string>
     <string name="right_text">Right</string>
     <string name="recent_tab_text">Recent</string>
+    <string name="history_text">Quiz History</string>
     <string name="open_tab_text">Open</string>
     <string name="download_tab_text">Download</string>
     <string name="favourite_tab_text">Favourites</string>
