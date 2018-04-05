@@ -31,12 +31,16 @@ import android.view.ViewGroup;
 
 import org.liberty.android.fantastischmemo.R;
 import org.liberty.android.fantastischmemo.common.AMPrefKeys;
+import org.liberty.android.fantastischmemo.common.AnyMemoDBOpenHelper;
+import org.liberty.android.fantastischmemo.common.AnyMemoDBOpenHelperManager;
 import org.liberty.android.fantastischmemo.common.BaseActivity;
 import org.liberty.android.fantastischmemo.common.BaseDialogFragment;
 import org.liberty.android.fantastischmemo.utils.AMFileUtil;
 import org.liberty.android.fantastischmemo.utils.AMPrefUtil;
 import org.liberty.android.fantastischmemo.utils.RecentListUtil;
 import org.liberty.android.fantastischmemo.utils.ShareUtil;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -56,6 +60,10 @@ public class OpenActionsFragment extends BaseDialogFragment {
     private View shareItem;
     private View deleteItem;
 
+    /* quiz history */
+    private String historyDbPath = "/sdcard/history.db";
+    private AnyMemoDBOpenHelper historyDbHelper;
+
     @Inject AMFileUtil amFileUtil;
 
     @Inject RecentListUtil recentListUtil;
@@ -66,6 +74,23 @@ public class OpenActionsFragment extends BaseDialogFragment {
 
 
     public OpenActionsFragment() { }
+
+    public AnyMemoDBOpenHelper getHistoryDbHelper(){
+        if (historyDbHelper == null)
+            return AnyMemoDBOpenHelperManager.getHelper(getContext(), historyDbPath);
+        else
+            return historyDbHelper;
+    }
+
+    public void addMarkToHistory(int mark){
+        //Call method to add quiz result to db.
+        //Here, we need to ensure that we are story a maximum of 10 scores for each specific quiz
+    }
+
+    public List<Double> getAllQuizMarks(String dbPath){
+        //Return a list of all quiz marks for the specific dbPath
+        return null;
+    }
 
     @Override
     public void onAttach(Context context) {

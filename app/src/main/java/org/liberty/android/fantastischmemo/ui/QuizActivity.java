@@ -100,28 +100,6 @@ public class QuizActivity extends QACardActivity {
     private long timeLeftInMilliseconds;
     private boolean timerMode = false;
 
-    /* quiz history */
-    private String historyDbPath = "/sdcard/history.db";
-
-    private AnyMemoDBOpenHelper historyDbHelper;
-
-    public AnyMemoDBOpenHelper getHistoryDbHelper(){
-        if (historyDbHelper == null)
-            return AnyMemoDBOpenHelperManager.getHelper(getApplicationContext(), historyDbPath);
-        else
-            return historyDbHelper;
-    }
-
-    public void addMarkToHistory(int mark){
-        //Call method to add quiz result to db.
-        //Here, we need to ensure that we are story a maximum of 10 scores for each specific quiz
-    }
-
-    public List<Double> getAllQuizMarks(String dbPath){
-        //Return a list of all quiz marks for the specific dbPath
-        return null;
-    }
-
     @Override
     public int getContentView() {
         return R.layout.qa_card_layout_study;
