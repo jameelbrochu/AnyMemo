@@ -72,7 +72,7 @@ public class RecentListFragment extends BaseFragment {
 
     private RecyclerView recentListRecyclerView;
     private RecentListAdapter recentListAdapter;
-    public static String SHUFFLE_CARDS = "shufflecards";
+    public static final String SHUFFLE_CARDS = "shufflecards";
 
 
     // The version of recent list to synchronize multiple loader who writes the adapter

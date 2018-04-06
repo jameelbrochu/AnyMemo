@@ -51,8 +51,8 @@ public class CardMCEditor extends BaseActivity{
     private RadioButton option4Radio;
 
     private Button save;
-    public static String EXTRA_DBPATH_MC = "dbpath";
-    public static String EXTRA_MC = "mcCard";
+    public static final String EXTRA_DBPATH_MC = "dbpath";
+    public static final String EXTRA_MC = "mcCard";
     String dbPath;
     private AnyMemoDBOpenHelper dbOpenHelper;
     private MultipleChoiceCardDao multipleChoiceCardDao;

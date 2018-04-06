@@ -23,8 +23,8 @@ import java.util.List;
 
 public class MCStudyActivity extends AppCompatActivity {
 
-    public static String EXTRA_DBPATH_MC = "dbpath";
-    public static String SHUFFLE_CARDS_MC = "shuffle";
+    public static final String EXTRA_DBPATH_MC = "dbpath";
+    public static final String SHUFFLE_CARDS_MC = "shuffle";
 
     private TextView textViewId;
     private TextView textViewQuestion;

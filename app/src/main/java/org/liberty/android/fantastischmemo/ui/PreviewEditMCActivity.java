@@ -26,7 +26,7 @@ public class PreviewEditMCActivity extends Activity {
     private MultipleChoiceCardDao multipleChoiceCardDao;
     private AnyMemoDBOpenHelper dbOpenHelper;
     private FloatingActionButton addCardButton;
-    public static String EXTRA_DBPATH_MC = "dbpath";
+    public static final String EXTRA_DBPATH_MC = "dbpath";
     String dbPath;
 
     @Override

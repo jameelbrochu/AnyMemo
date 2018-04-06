@@ -303,7 +303,7 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
      * Override the finalize in case the helper is not release.
      */
     @Override
-    public void finalize() throws Throwable {
+    protected void finalize() throws Throwable {
         super.finalize();
         // If the finalize kicked in before the db is released.
         // force release the helper!

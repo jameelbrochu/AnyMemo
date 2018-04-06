@@ -30,7 +30,7 @@ import javax.inject.Inject;
 
 public class OpenActionsMCFragment extends BaseDialogFragment{
 
-    public static String EXTRA_DBPATH_MC = "dbpath";
+    public static final String EXTRA_DBPATH_MC = "dbpath";
     private BaseActivity mActivity;
 
     private String dbPath;
