@@ -79,8 +79,10 @@ public class MCStudyActivity extends AppCompatActivity {
 
         mcCardCountTotal = multipleChoiceCardList.size();
 
-        if (shuffle.equals("true")) {
-            Collections.shuffle(multipleChoiceCardList);
+        if (shuffle != null) {
+            if (shuffle.equals("true")) {
+                Collections.shuffle(multipleChoiceCardList);
+            }
         }
 
         showNextMultipleChoiceCard();
