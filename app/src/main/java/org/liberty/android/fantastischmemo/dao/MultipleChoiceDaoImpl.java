@@ -74,10 +74,8 @@ public class MultipleChoiceDaoImpl extends AbstractHelperDaoImpl<MultipleChoiceC
     public MultipleChoiceCard addMultipleChoiceCard(MultipleChoiceCard mcCard) {
         AnyMemoDBOpenHelper dbHelper = getHelper();
         dbHelper.insertMultipleChoiceCard(mcCard, dbHelper.getWritableDatabase());
-        if (mcCard != null) {
-            return mcCard;
-        }
-        return null;
+
+        return mcCard;
     }
 
     @Override
@@ -116,6 +114,12 @@ public class MultipleChoiceDaoImpl extends AbstractHelperDaoImpl<MultipleChoiceC
         } else {
             return getMultipleChoiceCard(currentCardId);
         }
+    }
+
+    @Override
+    public void updateMultipleChoiceCard(MultipleChoiceCard mcCard) {
+        AnyMemoDBOpenHelper dbHelper = getHelper();
+        dbHelper.updateMultipleChoiceCard(mcCard);
     }
 
 

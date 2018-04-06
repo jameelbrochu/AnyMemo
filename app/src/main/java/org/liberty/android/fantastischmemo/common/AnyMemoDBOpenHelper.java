@@ -303,7 +303,7 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
      * Override the finalize in case the helper is not release.
      */
     @Override
-    public void finalize() throws Throwable {
+    protected void finalize() throws Throwable {
         super.finalize();
         // If the finalize kicked in before the db is released.
         // force release the helper!
@@ -340,9 +340,17 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
     }
 
     public void deleteMultipleChoiceCard(MultipleChoiceCard mcCard) {
-        db.delete(MultipleChoiceContract.MultipleChoiceCardTable.TABLE_NAME,
-                "id" + "=" + mcCard.getId(),
-                null);
+        Cursor res = db.rawQuery("SELECT * FROM " + MultipleChoiceContract.MultipleChoiceCardTable.TABLE_NAME,null);
+        int value = res.getColumnIndex("id");
+        if (value != -1) {
+            db.delete(MultipleChoiceContract.MultipleChoiceCardTable.TABLE_NAME,
+                    "id" + "=" + mcCard.getId(),
+                    null);
+        } else {
+            db.delete(MultipleChoiceContract.MultipleChoiceCardTable.TABLE_NAME,
+                    "_id" + "=" + mcCard.getId(),
+                    null);
+        }
     }
 
     public List<MultipleChoiceCard> getAllMultipleChoiceCards() {
@@ -378,6 +386,30 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
     }
 
     public void updateMultipleChoiceId(String newId, String oldId) {
-        db.execSQL("update " + MultipleChoiceContract.MultipleChoiceCardTable.TABLE_NAME +" set id = " + newId + " where id = " + oldId);
+        Cursor res = db.rawQuery("SELECT * FROM " + MultipleChoiceContract.MultipleChoiceCardTable.TABLE_NAME, null);
+        int value = res.getColumnIndex("id");
+        if (value != -1) {
+            db.execSQL("update " + MultipleChoiceContract.MultipleChoiceCardTable.TABLE_NAME +" set id = " + newId + " where id = " + oldId);
+        } else {
+            db.execSQL("update " + MultipleChoiceContract.MultipleChoiceCardTable.TABLE_NAME + " set _id = " + newId + " where _id = " + oldId);
+        }
+    }
+
+    public void updateMultipleChoiceCard(MultipleChoiceCard card) {
+        Cursor res = db.rawQuery("SELECT * FROM " + MultipleChoiceContract.MultipleChoiceCardTable.TABLE_NAME, null);
+        int value = res.getColumnIndex("id");
+        String UPDATE_STATEMENT = "update " + MultipleChoiceContract.MultipleChoiceCardTable.TABLE_NAME + " set " +
+                MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_QUESTION + " = '" + card.getQuestion() +
+                "' , " + MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_OPTION1 + " = '" + card.getOption1() +
+                "' , " + MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_OPTION2 + " = '" + card.getOption2() +
+                "' , " + MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_OPTION3 + " = '" + card.getOption3() +
+                "' , " + MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_OPTION4 + " = '" + card.getOption4() +
+                "' , " + MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_ANSWER + " = '" + card.getAnswer();
+
+        if (value != -1) {
+            db.execSQL(UPDATE_STATEMENT + "' where id = " + card.getId());
+        } else {
+            db.execSQL(UPDATE_STATEMENT + "' where _id = " + card.getId());
+        }
     }
 }
