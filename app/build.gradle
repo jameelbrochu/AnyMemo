@@ -1,9 +1,18 @@
 apply plugin: 'com.android.application'
+apply plugin: 'findbugs'
 
 repositories {
     jcenter()
     maven { url "https://jitpack.io" }
     maven { url 'https://maven.google.com' }
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java']
+        }
+    }
 }
 
 android {
@@ -147,6 +156,22 @@ task copySecretsIfNotExists << {
             rename "AMSecrets.java.template", "AMSecrets.java"
             include "AMSecrets.java.template"
         }
+    }
+}
+
+task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
+    description 'Find bugs mainly design flaws, bad practices, multithreaded correctness and code vulnerabilities.'
+    classes = fileTree("$project.buildDir/intermediates/classes/dev/debug")
+    source = fileTree('src/main/java')
+    effort 'max'
+    reportLevel = "low"
+    classpath = files()
+    ignoreFailures = true
+
+    reports {
+        xml.enabled = true
+        html.enabled = false
+        html.destination = "$project.buildDir/outputs/findbugs/findbugs.xml"
     }
 }
 
