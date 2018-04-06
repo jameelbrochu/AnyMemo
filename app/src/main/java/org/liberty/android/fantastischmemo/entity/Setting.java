@@ -255,11 +255,11 @@ public class Setting implements Serializable, VersionableDomainObject {
         return !Strings.isNullOrEmpty(getAnswerAudio());
     }
 
-    public String getHintAudio(){return hintAudio;}
+    public String getHintAudio() {return hintAudio;}
 
-    public void setHintAudio(String hintAudio){this.hintAudio = hintAudio;}
+    public void setHintAudio(String hintAudio) {this.hintAudio = hintAudio;}
 
-    public boolean isHintAudioEnabled(){return !Strings.isNullOrEmpty(getHintAudio());}
+    public boolean isHintAudioEnabled() {return !Strings.isNullOrEmpty(getHintAudio());}
 
     public Integer getQuestionTextColor() {
         return this.questionTextColor;
@@ -449,9 +449,9 @@ public class Setting implements Serializable, VersionableDomainObject {
         this.answerAudioLocation = answerAudioLocation;
     }
 
-    public String getHintAudioLocation(){return hintAudioLocation;}
+    public String getHintAudioLocation() {return hintAudioLocation;}
 
-    public void setHintAudioLocation(String hintAudioLocation){
+    public void setHintAudioLocation(String hintAudioLocation) {
         this.hintAudioLocation = hintAudioLocation;
     }
     public boolean isDefaultColor() {

@@ -301,7 +301,7 @@ public class SettingsScreen extends BaseActivity {
 
             answerLocaleSpinner =  (AMSpinner)findViewById(R.id.answer_locale_spinner);
 
-            hintLocaleSpinner = (AMSpinner)findViewById(R.id.hint_locale_spinner);
+            hintLocaleSpinner = (AMSpinner) findViewById(R.id.hint_locale_spinner);
 
             audioLocationEdit = (EditText) findViewById(R.id.settings_audio_location);
 

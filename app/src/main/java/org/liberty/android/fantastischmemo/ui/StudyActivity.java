@@ -65,9 +65,9 @@ import javax.inject.Inject;
  * The StudyActivity is used for the classic way of learning cards.
  */
 public class StudyActivity extends QACardActivity {
-    public static String EXTRA_DBPATH = "dbpath";
-    public static String EXTRA_CATEGORY_ID = "category_id";
-    public static String EXTRA_START_CARD_ID = "start_card_id";
+    public final static String EXTRA_DBPATH = "dbpath";
+    public final static String EXTRA_CATEGORY_ID = "category_id";
+    public final static String EXTRA_START_CARD_ID = "start_card_id";
     private static final int LEARN_QUEUE_MANAGER_LOADER_ID = 10;
 
     private final int ACTIVITY_FILTER = 10;

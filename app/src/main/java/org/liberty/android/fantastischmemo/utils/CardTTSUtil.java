@@ -142,7 +142,7 @@ public class CardTTSUtil {
             answerTTS = null;
         }
 
-        if(hintTTS != null){
+        if(hintTTS != null) {
             hintTTS.destory();
             hintTTS = null;
         }
@@ -197,7 +197,7 @@ public class CardTTSUtil {
             answerTTS = new NullAnyMemoTTS();
         }
 
-        if (setting.isHintAudioEnabled()){
+        if (setting.isHintAudioEnabled()) {
             String ha = setting.getHintAudio();
             List<String> hintAudioSearchPath = new ArrayList<String>();
             hintAudioSearchPath.add(setting.getHintAudioLocation());

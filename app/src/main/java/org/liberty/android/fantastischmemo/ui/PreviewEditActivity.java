@@ -65,9 +65,9 @@ public class PreviewEditActivity extends QACardActivity {
     private final static String WEBSITE_HELP_EDIT = "https://anymemo.org/";
     private long totalCardCount = 0;
 
-    public static String EXTRA_DBPATH = "dbpath";
-    public static String EXTRA_CARD_ID = "id";
-    public static String EXTRA_CATEGORY = "category";
+    public final static String EXTRA_DBPATH = "dbpath";
+    public final static String EXTRA_CARD_ID = "id";
+    public final static String EXTRA_CATEGORY = "category";
 
     private static final String SEARCH_BY_ID_PATTERN = "#\\d+";
 
