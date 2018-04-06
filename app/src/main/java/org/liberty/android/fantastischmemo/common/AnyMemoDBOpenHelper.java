@@ -408,8 +408,8 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
                     "' , " + MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_ANSWER + " = '" + card.getAnswer() +
                     "' where id = " + card.getId());
         } else {
-            db.execSQL("update " + MultipleChoiceContract.MultipleChoiceCardTable.TABLE_NAME + " set " +
-                    ", " + MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_QUESTION + " = '" + card.getQuestion() +
+            db.execSQL("update " + MultipleChoiceContract.MultipleChoiceCardTable.TABLE_NAME + " set "
+                    + MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_QUESTION + " = '" + card.getQuestion() +
                     "' , " + MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_OPTION1 + " = '" + card.getOption1() +
                     "' , " + MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_OPTION2 + " = '" + card.getOption2() +
                     "' , " + MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_OPTION3 + " = '" + card.getOption3() +

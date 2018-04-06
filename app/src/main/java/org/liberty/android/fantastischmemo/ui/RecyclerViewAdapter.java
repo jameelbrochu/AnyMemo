@@ -1,8 +1,7 @@
 package org.liberty.android.fantastischmemo.ui;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -11,14 +10,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import org.liberty.android.fantastischmemo.R;
 import org.liberty.android.fantastischmemo.common.AnyMemoDBOpenHelper;
 import org.liberty.android.fantastischmemo.common.AnyMemoDBOpenHelperManager;
 import org.liberty.android.fantastischmemo.dao.MultipleChoiceCardDao;
-import org.liberty.android.fantastischmemo.entity.Card;
 import org.liberty.android.fantastischmemo.entity.MultipleChoiceCard;
 
 import java.util.List;
@@ -59,13 +56,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         dbOpenHelper = AnyMemoDBOpenHelperManager.getHelper(mContext, dbPath);
         multipleChoiceCardDao = dbOpenHelper.getMultipleChoiceDao();
         multipleChoiceCardDao.setHelper(dbOpenHelper);
-        // Set onClick listener here
+
         multipleChoiceHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               showListItemPopup(view, card);
-                notifyItemRemoved(position);
-                notifyDataSetChanged();
+                showListItemPopup(view, card, position);
             }
         });
     }
@@ -75,7 +70,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return mcCards.size();
     }
 
-    private void showListItemPopup(final View childView, final MultipleChoiceCard card) {
+    private void showListItemPopup(final View childView, final MultipleChoiceCard card, final int position) {
         View view = childView.findViewById(R.id.rv_mc_question);
         PopupMenu popup = new PopupMenu(mContext, view);
         MenuInflater inflater = popup.getMenuInflater();
@@ -83,11 +78,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
+                Intent myIntent = new Intent();
                 switch (menuItem.getItemId()) {
                     case R.id.delete_mc:
                         multipleChoiceCardDao.deleteMultipleChoiceCard(card);
+                        mcCards.remove(card);
+                        notifyItemRemoved(position);
+                        notifyItemRangeChanged(position, mcCards.size());
                         break;
                     case R.id.edit_mc:
+                        myIntent.setClass(mContext, CardMCEditor.class);
+                        myIntent.putExtra(CardMCEditor.EXTRA_DBPATH_MC, dbPath);
+                        myIntent.putExtra(CardMCEditor.EXTRA_MC, card);
+                        mContext.startActivity(myIntent);
                         break;
                 }
                 return true;
