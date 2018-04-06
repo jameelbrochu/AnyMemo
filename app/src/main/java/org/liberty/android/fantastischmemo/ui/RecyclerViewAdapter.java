@@ -92,7 +92,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                         myIntent.putExtra(CardMCEditor.EXTRA_MC, card);
                         mContext.startActivity(myIntent);
                         break;
-                    default: break;
+                    default:
+                        break;
                 }
                 return true;
             }

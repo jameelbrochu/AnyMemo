@@ -35,7 +35,7 @@ import org.liberty.android.fantastischmemo.entity.MultipleChoiceCard;
 
 import java.util.Objects;
 
-public class CardMCEditor extends BaseActivity{
+public class CardMCEditor extends BaseActivity {
 
     MultipleChoiceCard currentMCCard = new MultipleChoiceCard();
 
@@ -59,7 +59,7 @@ public class CardMCEditor extends BaseActivity{
     private MultipleChoiceCard cardToUpdate;
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.card_mc_editor_layout);
@@ -91,8 +91,8 @@ public class CardMCEditor extends BaseActivity{
         dbOpenHelper = AnyMemoDBOpenHelperManager.getHelper(getApplicationContext(), dbPath);
         multipleChoiceCardDao = dbOpenHelper.getMultipleChoiceDao();
         multipleChoiceCardDao.setHelper(dbOpenHelper);
-        setCard(currentMCCard);
-        updateCard(cardToUpdate);
+        setValuesOfCard(currentMCCard);
+        fillInfoOfExistingCard(cardToUpdate);
     }
 
     protected AnyMemoDBOpenHelper getDbOpenHelper() {
@@ -110,7 +110,7 @@ public class CardMCEditor extends BaseActivity{
         super.onConfigurationChanged(newConfig);
     }
 
-    public void setCard(MultipleChoiceCard card){
+    public void setValuesOfCard(MultipleChoiceCard card) {
 
         String questionMCCard = mcQuestion.getText().toString();
         String option1MCCard = mcOption1.getText().toString();
@@ -135,7 +135,7 @@ public class CardMCEditor extends BaseActivity{
         }
     }
 
-    public void updateCard(MultipleChoiceCard card) {
+    public void fillInfoOfExistingCard(MultipleChoiceCard card) {
         if (card != null ){
             mcQuestion.setText(card.getQuestion());
             mcOption1.setText(card.getOption1());
@@ -154,18 +154,17 @@ public class CardMCEditor extends BaseActivity{
             }
             cardToUpdate = card;
         }
-
     }
 
     View.OnClickListener saveOnClickListener = new View.OnClickListener() {
 
         @Override
         public void onClick(View v) {
-            if(cardToUpdate == null) {
-                setCard(currentMCCard);
+            if (cardToUpdate == null) {
+                setValuesOfCard(currentMCCard);
                 multipleChoiceCardDao.addMultipleChoiceCard(currentMCCard);
             } else {
-                setCard(cardToUpdate);
+                setValuesOfCard(cardToUpdate);
                 multipleChoiceCardDao.updateMultipleChoiceCard(cardToUpdate);
             }
             CardMCEditor.super.onBackPressed();

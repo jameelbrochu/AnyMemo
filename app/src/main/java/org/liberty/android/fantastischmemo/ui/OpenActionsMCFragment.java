@@ -50,7 +50,7 @@ public class OpenActionsMCFragment extends BaseDialogFragment{
     @Inject
     AMPrefUtil amPrefUtil;
 
-    public OpenActionsMCFragment(){}
+    public OpenActionsMCFragment() {}
 
     @Override
     public void onAttach(Context context) {
@@ -70,6 +70,7 @@ public class OpenActionsMCFragment extends BaseDialogFragment{
                              Bundle savedInstanceState) {
         getDialog().setCanceledOnTouchOutside(true);
         View v = inflater.inflate(R.layout.open_actions_mc_layout, container, false);
+
         studyItem = v.findViewById(R.id.study);
         studyItem.setOnClickListener(buttonClickListener);
 
@@ -101,13 +102,13 @@ public class OpenActionsMCFragment extends BaseDialogFragment{
                 recentListUtil.addToRecentList(dbPath);
             }
 
-            if(v == deleteItem) {
+            if (v == deleteItem) {
                 new AlertDialog.Builder(mActivity)
                         .setTitle(getString(R.string.delete_text))
                         .setMessage(getString(R.string.fb_delete_message))
                         .setPositiveButton(getString(R.string.delete_text), new DialogInterface.OnClickListener(){
                             @Override
-                            public void onClick(DialogInterface dialog, int which ){
+                            public void onClick(DialogInterface dialog, int which ) {
                                 dbOpenHelper = AnyMemoDBOpenHelperManager.getHelper(mActivity, dbPath);
                                 multipleChoiceCardDao = dbOpenHelper.getMultipleChoiceDao();
                                 multipleChoiceCardDao.setHelper(dbOpenHelper);
@@ -127,7 +128,6 @@ public class OpenActionsMCFragment extends BaseDialogFragment{
                         .setNegativeButton(getString(R.string.cancel_text), null)
                         .create()
                         .show();
-
             }
             dismiss();
         }
