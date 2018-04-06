@@ -169,9 +169,9 @@ task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
     ignoreFailures = true
 
     reports {
-        xml.enabled = true
-        html.enabled = false
-        html.destination = "$project.buildDir/outputs/findbugs/findbugs.xml"
+        xml.enabled = false
+        html.enabled = true
+        html.destination = "$project.buildDir/outputs/findbugs/findbugs.html"
     }
 }
 
