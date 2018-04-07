@@ -55,6 +55,9 @@ public class Setting implements Serializable, VersionableDomainObject {
     @DatabaseField(defaultValue = "US")
     private String answerAudio = "US";
 
+    @DatabaseField(defaultValue = "US")
+    private String hintAudio = "US";
+
     @DatabaseField
     private Integer questionTextColor = null;
 
@@ -104,6 +107,9 @@ public class Setting implements Serializable, VersionableDomainObject {
 
     @DatabaseField(defaultValue = "")
     private String answerAudioLocation = "";
+
+    @DatabaseField(defaultValue = "")
+    private String hintAudioLocation = "";
 
     @DatabaseField(format="yyyy-MM-dd HH:mm:ss.SSSSSS", dataType=DataType.DATE_STRING)
     private Date creationDate = new Date();
@@ -248,6 +254,12 @@ public class Setting implements Serializable, VersionableDomainObject {
     public boolean isAnswerAudioEnabled(){
         return !Strings.isNullOrEmpty(getAnswerAudio());
     }
+
+    public String getHintAudio() {return hintAudio;}
+
+    public void setHintAudio(String hintAudio) {this.hintAudio = hintAudio;}
+
+    public boolean isHintAudioEnabled() {return !Strings.isNullOrEmpty(getHintAudio());}
 
     public Integer getQuestionTextColor() {
         return this.questionTextColor;
@@ -437,6 +449,11 @@ public class Setting implements Serializable, VersionableDomainObject {
         this.answerAudioLocation = answerAudioLocation;
     }
 
+    public String getHintAudioLocation() {return hintAudioLocation;}
+
+    public void setHintAudioLocation(String hintAudioLocation) {
+        this.hintAudioLocation = hintAudioLocation;
+    }
     public boolean isDefaultColor() {
         return questionTextColor == null &&
                 answerTextColor == null &&

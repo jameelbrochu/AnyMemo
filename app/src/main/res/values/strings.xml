@@ -12,6 +12,7 @@
     <string name="settings_menu_text">Settings</string>
     <string name="speak_question_menu_text">Speak question</string>
     <string name="speak_answer_menu_text">Speak answer</string>
+    <string name="speak_hint_menu_text">Speak hint</string>
     <string name="undo_text">Undo</string>
     <string name="undo_fail_text">Unable to undo</string>
     <string name="undo_fail_message">You can only undo 1 card.</string>
@@ -68,6 +69,8 @@
     <string name="settings_question_locale_prompt">Locale</string>
     <string name="settings_answer_locale">Answer audio</string>
     <string name="settings_answer_locale_prompt">Locale</string>
+    <string name="settings_hint_locale">Hint audio</string>
+    <string name="settings_hint_locale_prompt">Locale</string>
     <string name="settings_html_display">Display in HTML</string>
     <string name="settings_ratio">Q/A display ratio</string>
     <string name="settings_wipe">Wipe all learning progress</string>
