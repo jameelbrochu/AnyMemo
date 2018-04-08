@@ -182,7 +182,7 @@ public class QuizActivity extends QACardActivity {
             @Override
             public void onFinish() {
                 mediaPlayer.stop();
-                if (getCurrentCard().getOrdinal() != totalQuizSize) {
+                if (getCurrentCard().getOrdinal() != totalQuizSize + 1) {
                     new AlertDialog.Builder(QuizActivity.this)
                             .setTitle(R.string.quiz_not_completed)
                             .setMessage("Would you like to try again?")
@@ -574,14 +574,14 @@ public class QuizActivity extends QACardActivity {
 
             // Stat data
             setCurrentCard(result);
+            if (result == null) {
+                stopTimer();
+                showCompleteNewDialog(totalQuizSize - reviewQueueSizeBeforeDequeue);
+                return;
+            }
             displayCard(false);
             setSmallTitle(getActivityTitleString());
 
-            if (result == null) {
-                stopTimer();
-                showCompleteAllDialog();
-                return;
-            }
 
             if (newQueueSizeBeforeDequeue <= 0 && !isNewCardsCompleted) {
                 stopTimer();
