@@ -26,20 +26,26 @@ public class QuizHistoryActivity extends AppCompatActivity {
         setContentView(R.layout.quiz_history_activity);
 
         ArrayList<History> histories = this.getIntent().getParcelableArrayListExtra("HISTORY");
-
-        Double average = computeAverage(histories);
-
         averageTextView = (TextView) findViewById(R.id.quiz_history_average);
-        averageTextView.setText("Average: " + average + "\n\n");
-
         attemptTextView = (TextView) findViewById(R.id.quiz_history_attempt);
 
-        int attempt = 1;
-        for(History history : histories){
-            String estDate = estDate(history.getTimeStamp());
-            attemptTextView.append("Attempt " + attempt + ": " + history.getMark() + "% (" + estDate + ")\n\n");
-            attempt++;
+        if (histories.size()>0) {
+            Double average = computeAverage(histories);
+
+            averageTextView.setText("Average: " + average + "\n\n");
+
+            int attempt = 1;
+            for(History history : histories){
+                String estDate = estDate(history.getTimeStamp());
+                attemptTextView.append("Attempt " + attempt + ": " + history.getMark() + "% (" + estDate + ")\n\n");
+                attempt++;
+            }
+
         }
+        else {
+            attemptTextView.setText("You have not attempted this quiz!");
+        }
+
     }
 
     private Double computeAverage(ArrayList<History> histories) {
