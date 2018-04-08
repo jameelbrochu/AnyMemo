@@ -7,10 +7,11 @@ import android.widget.TextView;
 import org.liberty.android.fantastischmemo.R;
 import org.liberty.android.fantastischmemo.entity.History;
 
-import java.lang.reflect.Array;
-import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class QuizHistoryActivity extends AppCompatActivity {
 
@@ -35,10 +36,9 @@ public class QuizHistoryActivity extends AppCompatActivity {
 
         int attempt = 1;
         for(History history : histories){
-            Timestamp timestamp = new Timestamp(history.getTimeStamp());
-            Date date = new Date(timestamp.getTime());
-
-            attemptTextView.setText("Attempt " + attempt + ": " + history.getMark() + "% (" + date + ")\n\n");
+            String estDate = estDate(history.getTimeStamp());
+            attemptTextView.append("Attempt " + attempt + ": " + history.getMark() + "% (" + estDate + ")\n\n");
+            attempt++;
         }
     }
 
@@ -47,6 +47,16 @@ public class QuizHistoryActivity extends AppCompatActivity {
         for(History history : histories){
             total += history.getMark();
         }
-        return total/histories.size();
+        return Math.floor((total/histories.size())*100)/100;
+    }
+
+    private String estDate(Long timeStamp){
+        //Daylight savings offset
+        long offset = ((1*1000)*60)*60;
+        Date date = new Date(timeStamp + offset);
+        DateFormat gmtFormat = new SimpleDateFormat();
+        TimeZone estTime = TimeZone.getTimeZone("EST");
+        gmtFormat.setTimeZone(estTime);
+        return gmtFormat.format(date);
     }
 }

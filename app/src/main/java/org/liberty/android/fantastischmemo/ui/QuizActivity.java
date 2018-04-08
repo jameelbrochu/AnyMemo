@@ -61,6 +61,7 @@ import org.liberty.android.fantastischmemo.ui.loader.DBLoader;
 import org.liberty.android.fantastischmemo.utils.DictionaryUtil;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -190,7 +191,7 @@ public class QuizActivity extends QACardActivity {
             @Override
             public void onFinish() {
                 mediaPlayer.stop();
-                if (getCurrentCard().getOrdinal() != totalQuizSize) {
+                if (getCurrentCard().getOrdinal() != totalQuizSize + 1) {
                     new AlertDialog.Builder(QuizActivity.this)
                             .setTitle(R.string.quiz_not_completed)
                             .setMessage("Would you like to try again?")
@@ -523,7 +524,8 @@ public class QuizActivity extends QACardActivity {
             }
             historyDao.deleteHistory(oldest);
         }
-        Long timeStamp = System.currentTimeMillis();
+        Date date = new Date();
+        Long timeStamp = date.getTime();
         History result = new History();
         result.setdbPath(getDbPath());
         result.setMark(score);
@@ -611,14 +613,15 @@ public class QuizActivity extends QACardActivity {
 
             // Stat data
             setCurrentCard(result);
-            displayCard(false);
-            setSmallTitle(getActivityTitleString());
 
             if (result == null) {
                 stopTimer();
-                showCompleteAllDialog();
+                showCompleteNewDialog(totalQuizSize - reviewQueueSizeBeforeDequeue);
                 return;
             }
+
+            displayCard(false);
+            setSmallTitle(getActivityTitleString());
 
             if (newQueueSizeBeforeDequeue <= 0 && !isNewCardsCompleted) {
                 stopTimer();
