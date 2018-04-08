@@ -613,15 +613,14 @@ public class QuizActivity extends QACardActivity {
 
             // Stat data
             setCurrentCard(result);
-
             if (result == null) {
                 stopTimer();
                 showCompleteNewDialog(totalQuizSize - reviewQueueSizeBeforeDequeue);
                 return;
             }
-
             displayCard(false);
             setSmallTitle(getActivityTitleString());
+
 
             if (newQueueSizeBeforeDequeue <= 0 && !isNewCardsCompleted) {
                 stopTimer();
