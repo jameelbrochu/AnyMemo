@@ -19,7 +19,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 package org.liberty.android.fantastischmemo.ui;
 
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
@@ -34,7 +33,9 @@ import org.liberty.android.fantastischmemo.common.BaseActivity;
 import org.liberty.android.fantastischmemo.dao.MultipleChoiceCardDao;
 import org.liberty.android.fantastischmemo.entity.MultipleChoiceCard;
 
-public class CardMCEditor extends BaseActivity{
+import java.util.Objects;
+
+public class CardMCEditor extends BaseActivity {
 
     MultipleChoiceCard currentMCCard = new MultipleChoiceCard();
 
@@ -50,19 +51,22 @@ public class CardMCEditor extends BaseActivity{
     private RadioButton option4Radio;
 
     private Button save;
-    public static String EXTRA_DBPATH_MC = "dbpath";
+    public static final String EXTRA_DBPATH_MC = "dbpath";
+    public static final String EXTRA_MC = "mcCard";
     String dbPath;
     private AnyMemoDBOpenHelper dbOpenHelper;
-
     private MultipleChoiceCardDao multipleChoiceCardDao;
+    private MultipleChoiceCard cardToUpdate;
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.card_mc_editor_layout);
 
         dbPath = getIntent().getExtras().getString(EXTRA_DBPATH_MC);
+
+        cardToUpdate = (MultipleChoiceCard) getIntent().getSerializableExtra(EXTRA_MC);
 
         mcQuestion = (EditText) findViewById(R.id.edit_dialog_question_mc_entry);
 
@@ -87,7 +91,8 @@ public class CardMCEditor extends BaseActivity{
         dbOpenHelper = AnyMemoDBOpenHelperManager.getHelper(getApplicationContext(), dbPath);
         multipleChoiceCardDao = dbOpenHelper.getMultipleChoiceDao();
         multipleChoiceCardDao.setHelper(dbOpenHelper);
-        updateViews();
+        setValuesOfCard(currentMCCard);
+        fillInfoOfExistingCard(cardToUpdate);
     }
 
     protected AnyMemoDBOpenHelper getDbOpenHelper() {
@@ -105,7 +110,7 @@ public class CardMCEditor extends BaseActivity{
         super.onConfigurationChanged(newConfig);
     }
 
-    public void updateViews(){
+    public void setValuesOfCard(MultipleChoiceCard card) {
 
         String questionMCCard = mcQuestion.getText().toString();
         String option1MCCard = mcOption1.getText().toString();
@@ -113,20 +118,41 @@ public class CardMCEditor extends BaseActivity{
         String option3MCCard = mcOption3.getText().toString();
         String option4MCCard = mcOption4.getText().toString();
 
-        currentMCCard.setQuestion(questionMCCard);
-        currentMCCard.setOption1(option1MCCard);
-        currentMCCard.setOption2(option2MCCard);
-        currentMCCard.setOption3(option3MCCard);
-        currentMCCard.setOption4(option4MCCard);
+        card.setQuestion(questionMCCard);
+        card.setOption1(option1MCCard);
+        card.setOption2(option2MCCard);
+        card.setOption3(option3MCCard);
+        card.setOption4(option4MCCard);
 
-        if(option1Radio.isChecked()){
-            currentMCCard.setAnswer(option1MCCard);
-        }else if(option2Radio.isChecked()){
-            currentMCCard.setAnswer(option2MCCard);
-        }else if(option3Radio.isChecked()){
-            currentMCCard.setAnswer(option3MCCard);
-        }else{
-            currentMCCard.setAnswer(option4MCCard);
+        if (option1Radio.isChecked()) {
+            card.setAnswer(option1MCCard);
+        } else if (option2Radio.isChecked()) {
+            card.setAnswer(option2MCCard);
+        } else if (option3Radio.isChecked()) {
+            card.setAnswer(option3MCCard);
+        } else {
+            card.setAnswer(option4MCCard);
+        }
+    }
+
+    public void fillInfoOfExistingCard(MultipleChoiceCard card) {
+        if (card != null ){
+            mcQuestion.setText(card.getQuestion());
+            mcOption1.setText(card.getOption1());
+            mcOption2.setText(card.getOption2());
+            mcOption3.setText(card.getOption3());
+            mcOption4.setText(card.getOption4());
+
+            if (Objects.equals(card.getAnswer(), mcOption1.getText().toString())) {
+                option1Radio.setChecked(true);
+            } else if (Objects.equals(card.getAnswer(), mcOption2.getText().toString())) {
+                option2Radio.setChecked(true);
+            } else if (Objects.equals(card.getAnswer(), mcOption3.getText().toString())) {
+                option3Radio.setChecked(true);
+            } else {
+                option4Radio.setChecked(true);
+            }
+            cardToUpdate = card;
         }
     }
 
@@ -134,9 +160,15 @@ public class CardMCEditor extends BaseActivity{
 
         @Override
         public void onClick(View v) {
-            updateViews();
-            multipleChoiceCardDao.addMultipleChoiceCard(currentMCCard);
+            if (cardToUpdate == null) {
+                setValuesOfCard(currentMCCard);
+                multipleChoiceCardDao.addMultipleChoiceCard(currentMCCard);
+            } else {
+                setValuesOfCard(cardToUpdate);
+                multipleChoiceCardDao.updateMultipleChoiceCard(cardToUpdate);
+            }
             CardMCEditor.super.onBackPressed();
+
         }
     };
 }
