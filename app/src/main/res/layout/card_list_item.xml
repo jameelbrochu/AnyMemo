@@ -33,4 +33,14 @@
         android:textSize="16sp"
         android:maxLines="9"
     />
+
+    <TextView
+        android:id="@+id/list_fav_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dip"
+        android:layout_marginRight="5dip"
+        android:textSize="16sp"
+        android:maxLines="9"
+        />
 </LinearLayout>

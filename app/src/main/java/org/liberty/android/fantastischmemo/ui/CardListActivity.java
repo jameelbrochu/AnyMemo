@@ -25,10 +25,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.Loader;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.PopupMenu;
@@ -482,6 +480,7 @@ public class CardListActivity extends BaseActivity {
                     .findViewById(R.id.item_question);
             TextView answerView = (TextView) convertView
                     .findViewById(R.id.item_answer);
+            TextView favView = (TextView) convertView.findViewById(R.id.list_fav_id);
 
             idView.setText("" + card.getOrdinal());
 
@@ -506,9 +505,9 @@ public class CardListActivity extends BaseActivity {
             }
 
             if (card.getFavourite()) {
-                convertView.setBackgroundColor(Color.parseColor("#C71585"));
+                favView.setBackgroundResource(android.R.drawable.btn_star_big_on);
             } else {
-                convertView.setBackgroundColor(getResources().getColor(BACKGROUND_COLOR));
+                favView.setVisibility(View.INVISIBLE);
             }
             return convertView;
         }
