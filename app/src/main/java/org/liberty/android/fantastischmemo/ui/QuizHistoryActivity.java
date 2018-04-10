@@ -29,7 +29,7 @@ public class QuizHistoryActivity extends AppCompatActivity {
         averageTextView = (TextView) findViewById(R.id.quiz_history_average);
         attemptTextView = (TextView) findViewById(R.id.quiz_history_attempt);
 
-        if (histories.size()>0) {
+        if (histories.size() > 0) {
             Double average = computeAverage(histories);
 
             averageTextView.setText("Average: " + average + "\n\n");
@@ -40,12 +40,10 @@ public class QuizHistoryActivity extends AppCompatActivity {
                 attemptTextView.append("Attempt " + attempt + ": " + history.getMark() + "% (" + estDate + ")\n\n");
                 attempt++;
             }
-
         }
         else {
             attemptTextView.setText("You have not attempted this quiz!");
         }
-
     }
 
     private Double computeAverage(ArrayList<History> histories) {
@@ -56,7 +54,7 @@ public class QuizHistoryActivity extends AppCompatActivity {
         return Math.floor((total/histories.size())*100)/100;
     }
 
-    private String estDate(Long timeStamp){
+    private String estDate(Long timeStamp) {
         //Daylight savings offset
         long offset = ((1*1000)*60)*60;
         Date date = new Date(timeStamp + offset);

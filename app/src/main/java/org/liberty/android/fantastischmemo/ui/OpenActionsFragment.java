@@ -80,7 +80,7 @@ public class OpenActionsFragment extends BaseDialogFragment {
 
     public OpenActionsFragment() { }
 
-    public AnyMemoDBOpenHelper getHistoryDbHelper(){
+    public AnyMemoDBOpenHelper getHistoryDbHelper() {
         if (historyDbHelper == null) {
             historyDbHelper = AnyMemoDBOpenHelperManager.getHelper(getContext(), historyDbPath);
             HistoryDao historyDao = historyDbHelper.getHistoryDao();
@@ -180,7 +180,7 @@ public class OpenActionsFragment extends BaseDialogFragment {
                 recentListUtil.addToRecentList(dbPath);
             }
 
-            if(v == historyItem){
+            if (v == historyItem) {
                 ArrayList<History> history = (ArrayList<History>) getHistoryDbHelper().getHistoryDao().getHistoryForDB(dbPath);
                 Intent myIntent = new Intent();
                 myIntent.setClass(mActivity, QuizHistoryActivity.class);

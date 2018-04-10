@@ -22,7 +22,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-public class HistoryDaoTest extends AbstractExistingDBTest{
+public class HistoryDaoTest extends AbstractExistingDBTest {
 
     private AnyMemoDBOpenHelper newDbHelper;
     private SQLiteDatabase db;
@@ -65,24 +65,24 @@ public class HistoryDaoTest extends AbstractExistingDBTest{
 
     @SmallTest
     @Test
-    public void testCountForDB(){
+    public void testCountForDB() {
         int count = newDbHelper.getCountHistoryforDB("/test");
         assertEquals(3, count);
     }
 
     @SmallTest
     @Test
-    public void testReadForDB(){
+    public void testReadForDB() {
         List<History> hist = newDbHelper.getHistoryForDB("/test");
         History hist1 = hist.get(0);
         assertEquals("/test", hist1.getdbPath());
-        assertEquals(100,hist1.getMark(), .99);
+        assertEquals(100, hist1.getMark(), .99);
         assertEquals(1233, hist1.getTimeStamp(), .99);
     }
 
     @SmallTest
     @Test
-    public void testDeleteForDB(){
+    public void testDeleteForDB() {
         List<History> hist = newDbHelper.getHistoryForDB("/test");
         History hist1 = hist.get(0);
         newDbHelper.deleteHistory(hist1);
@@ -92,15 +92,14 @@ public class HistoryDaoTest extends AbstractExistingDBTest{
 
     @SmallTest
     @Test
-    public void testCreateForDB(){
+    public void testCreateForDB() {
         History history = new History("/test2", 99, 1236);
         newDbHelper.insertHistory(history, db);
         List<History> hist = newDbHelper.getHistoryForDB("/test2");
         History hist1 = hist.get(0);
-        assertEquals(1,hist.size());
+        assertEquals(1, hist.size());
         assertEquals("/test2", hist1.getdbPath());
-        assertEquals(99,hist1.getMark(), .99);
+        assertEquals(99, hist1.getMark(), .99);
         assertEquals(1236, hist1.getTimeStamp(), .99);
-
     }
 }

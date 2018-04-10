@@ -509,21 +509,22 @@ public class QuizActivity extends QACardActivity {
                 .show();
     }
 
-    private void AddToQuizHistory(int score){
+    private void AddToQuizHistory(int score) {
         AnyMemoDBOpenHelper historyDbHelper = AnyMemoDBOpenHelperManager.getHelper(getApplicationContext(), historyDbPath);
         HistoryDao historyDao = historyDbHelper.getHistoryDao();
         historyDao.setHelper(historyDbHelper);
         List<History> historyForDeck = historyDao.getHistoryForDB(getDbPath());
         int count = historyDao.count(getDbPath());
-        if (count == 10){
+        if (count == 10) {
             History oldest = historyForDeck.get(0);
-            for(History history : historyForDeck){
-                if(history.getTimeStamp() < oldest.getTimeStamp()){
+            for (History history : historyForDeck) {
+                if (history.getTimeStamp() < oldest.getTimeStamp()) {
                     oldest = history;
                 }
             }
             historyDao.deleteHistory(oldest);
         }
+
         Date date = new Date();
         Long timeStamp = date.getTime();
         History result = new History();
@@ -618,6 +619,7 @@ public class QuizActivity extends QACardActivity {
                 showCompleteNewDialog(totalQuizSize - reviewQueueSizeBeforeDequeue);
                 return;
             }
+
             displayCard(false);
             setSmallTitle(getActivityTitleString());
 

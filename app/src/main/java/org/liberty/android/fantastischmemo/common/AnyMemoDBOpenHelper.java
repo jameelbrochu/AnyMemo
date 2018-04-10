@@ -205,21 +205,21 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
             database.execSQL(CREATE_MULTIPLE_CHOICE_TABLE);
         }
       
-        final String CREATE_HISTORY_TABLE = "create table " +
-                "history (" +
-                "id" + " integer primary key autoincrement, " +
-                "dbPath string, " +
-                "mark integer, " +
-                "timeStamp integer" +
-                ")";
-      
         if(oldVersion <= 8){
             database.execSQL("alter table settings add hintAudio String");
             database.execSQL("alter table settings add hintAudioLocation String");
         }
       
-        if(oldVersion <= 9){
+        if(oldVersion <= 9) {
+            final String CREATE_HISTORY_TABLE = "create table " +
+                    "history (" +
+                    "id" + " integer primary key autoincrement, " +
+                    "dbPath string, " +
+                    "mark integer, " +
+                    "timeStamp integer" +
+                    ")";
             database.execSQL(CREATE_HISTORY_TABLE);
+        }
     }
 
     @Override
@@ -298,7 +298,7 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
         }
     }
 
-    public synchronized HistoryDao getHistoryDao(){
+    public synchronized HistoryDao getHistoryDao() {
         try {
             if (historyDao == null) {
                 historyDao = getDao(History.class);
@@ -450,7 +450,6 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
         if (c.moveToFirst()) {
             do {
                 History history = new History();
-
                 history.setId((c.getLong(c.getColumnIndex("id"))));
                 history.setdbPath((c.getString(c.getColumnIndex("dbPath"))));
                 history.setMark((c.getDouble(c.getColumnIndex("mark"))));
@@ -480,7 +479,6 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
         cv.put("timeStamp", history.getTimeStamp());
         long id = db.insert("history", null, cv);
         history.setId(id);
-
     }
 
     public void deleteHistory(History history) {
@@ -489,15 +487,12 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
                 null);
     }
 
-    public int getCountHistoryforDB(String dbPath){
+    public int getCountHistoryforDB(String dbPath) {
         int count = 0;
         db = getReadableDatabase();
         Cursor c = db.rawQuery("SELECT * FROM  history WHERE dbPath = " + "'"+ dbPath + "'" , null);
         count = c.getCount();
 
         return count;
-
     }
-
-
 }

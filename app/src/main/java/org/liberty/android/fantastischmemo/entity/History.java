@@ -9,7 +9,7 @@ import com.j256.ormlite.table.DatabaseTable;
 import org.liberty.android.fantastischmemo.dao.HistoryDaoImpl;
 
 @DatabaseTable(tableName = "History", daoClass = HistoryDaoImpl.class)
-public class History implements Parcelable{
+public class History implements Parcelable {
     @DatabaseField(generatedId = true)
     private long id;
 
@@ -53,13 +53,21 @@ public class History implements Parcelable{
         }
     }
 
-    public double getMark() { return mark; }
+    public double getMark() {
+        return mark;
+    }
 
-    public void setMark(double mark) { this.mark = mark; }
+    public void setMark(double mark) {
+        this.mark = mark;
+    }
 
-    public long getTimeStamp() { return timeStamp; }
+    public long getTimeStamp() {
+        return timeStamp;
+    }
 
-    public void setTimeStamp(long timeStamp) { this.timeStamp = timeStamp; }
+    public void setTimeStamp(long timeStamp) {
+        this.timeStamp = timeStamp;
+    }
 
     protected History(Parcel in) {
         dbPath = in.readString();

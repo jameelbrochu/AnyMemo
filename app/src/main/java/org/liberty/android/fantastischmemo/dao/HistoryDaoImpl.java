@@ -41,7 +41,6 @@ public class HistoryDaoImpl extends AbstractHelperDaoImpl<History, Integer> impl
         this.helper = helper;
     }
 
-
     public int create(History history) {
         int res = super.create(history);
         return res;
@@ -72,11 +71,8 @@ public class HistoryDaoImpl extends AbstractHelperDaoImpl<History, Integer> impl
 
     @Override
     public void deleteHistory(History history) {
-
         AnyMemoDBOpenHelper dbHelper = getHelper();
-        long id = history.getId();
         dbHelper.deleteHistory(history);
-
     }
 
     @Override
@@ -84,6 +80,4 @@ public class HistoryDaoImpl extends AbstractHelperDaoImpl<History, Integer> impl
         AnyMemoDBOpenHelper dbHelper = getHelper();
         return dbHelper.getCountHistoryforDB(dbPath);
     }
-
-
 }
