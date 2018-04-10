@@ -57,6 +57,7 @@ public class OpenActionsMCFragment extends BaseDialogFragment{
         super.onAttach(context);
         mActivity = (BaseActivity) context;
     }
+
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
@@ -65,6 +66,7 @@ public class OpenActionsMCFragment extends BaseDialogFragment{
         dbPath = args.getString(EXTRA_DBPATH_MC);
         setStyle(DialogFragment.STYLE_NO_TITLE, 0);
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -72,63 +74,66 @@ public class OpenActionsMCFragment extends BaseDialogFragment{
         View v = inflater.inflate(R.layout.open_actions_mc_layout, container, false);
 
         studyItem = v.findViewById(R.id.study);
-        studyItem.setOnClickListener(buttonClickListener);
+        studyItem.setOnClickListener(studyClickListener);
 
         editItem = v.findViewById(R.id.edit);
-        editItem.setOnClickListener(buttonClickListener);
+        editItem.setOnClickListener(editClickListener);
 
         deleteItem = v.findViewById(R.id.delete);
-        deleteItem.setOnClickListener(buttonClickListener);
+        deleteItem.setOnClickListener(deleteClickListener);
 
         return v;
     }
-    private View.OnClickListener buttonClickListener = new View.OnClickListener() {
+
+    private View.OnClickListener studyClickListener = new View.OnClickListener() {
         public void onClick(View v) {
-            if (v == studyItem) {
-                Intent myIntent = new Intent();
-                myIntent.setClass(mActivity, MCStudyActivity.class);
-                myIntent.putExtra(MCStudyActivity.EXTRA_DBPATH_MC, dbPath);
-                startActivity(myIntent);
-                recentListUtil.addToRecentList(dbPath);
-            }
+            Intent myIntent = new Intent();
+            myIntent.setClass(mActivity, MCStudyActivity.class);
+            myIntent.putExtra(MCStudyActivity.EXTRA_DBPATH_MC, dbPath);
+            startActivity(myIntent);
+            recentListUtil.addToRecentList(dbPath);
+            dismiss();
+        }
+    };
 
-            if (v == editItem) {
-                Intent myIntent = new Intent();
-                myIntent.setClass(mActivity, PreviewEditMCActivity.class);
-                myIntent.putExtra(PreviewEditActivity.EXTRA_DBPATH, dbPath);
-                int startId = amPrefUtil.getSavedInt(AMPrefKeys.PREVIEW_EDIT_START_ID_PREFIX, dbPath, 1);
-                myIntent.putExtra(PreviewEditActivity.EXTRA_CARD_ID, startId);
-                startActivity(myIntent);
-                recentListUtil.addToRecentList(dbPath);
-            }
+    private View.OnClickListener editClickListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            Intent myIntent = new Intent();
+            myIntent.setClass(mActivity, PreviewEditMCActivity.class);
+            myIntent.putExtra(PreviewEditActivity.EXTRA_DBPATH, dbPath);
+            int startId = amPrefUtil.getSavedInt(AMPrefKeys.PREVIEW_EDIT_START_ID_PREFIX, dbPath, 1);
+            myIntent.putExtra(PreviewEditActivity.EXTRA_CARD_ID, startId);
+            startActivity(myIntent);
+            recentListUtil.addToRecentList(dbPath);
+            dismiss();
+        }
+    };
 
-            if (v == deleteItem) {
-                new AlertDialog.Builder(mActivity)
-                        .setTitle(getString(R.string.delete_text))
-                        .setMessage(getString(R.string.fb_delete_message))
-                        .setPositiveButton(getString(R.string.delete_text), new DialogInterface.OnClickListener(){
-                            @Override
-                            public void onClick(DialogInterface dialog, int which ) {
-                                dbOpenHelper = AnyMemoDBOpenHelperManager.getHelper(mActivity, dbPath);
-                                multipleChoiceCardDao = dbOpenHelper.getMultipleChoiceDao();
-                                multipleChoiceCardDao.setHelper(dbOpenHelper);
-                                multipleChoiceCards = multipleChoiceCardDao.getAllMultipleChoiceCards();
+    private View.OnClickListener deleteClickListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            new AlertDialog.Builder(mActivity)
+                    .setTitle(getString(R.string.delete_text))
+                    .setMessage(getString(R.string.fb_delete_message))
+                    .setPositiveButton(getString(R.string.delete_text), new DialogInterface.OnClickListener(){
+                        @Override
+                        public void onClick(DialogInterface dialog, int which ) {
+                            dbOpenHelper = AnyMemoDBOpenHelperManager.getHelper(mActivity, dbPath);
+                            multipleChoiceCardDao = dbOpenHelper.getMultipleChoiceDao();
+                            multipleChoiceCardDao.setHelper(dbOpenHelper);
+                            multipleChoiceCards = multipleChoiceCardDao.getAllMultipleChoiceCards();
 
-                                for (MultipleChoiceCard card : multipleChoiceCards) {
-                                    multipleChoiceCardDao.deleteMultipleChoiceCard(card);
-                                }
-
-                                amFileUtil.deleteDbSafe(dbPath);
-                                recentListUtil.deleteFromRecentList(dbPath);
-
-                            /* Refresh the list */
-                                mActivity.restartActivity();
+                            for (MultipleChoiceCard card : multipleChoiceCards) {
+                                multipleChoiceCardDao.deleteMultipleChoiceCard(card);
                             }
-                        })
-                        .setNegativeButton(getString(R.string.cancel_text), null)
-                        .create()
-                        .show();
-            }
+                            amFileUtil.deleteDbSafe(dbPath);
+                            recentListUtil.deleteFromRecentList(dbPath);
+                        /* Refresh the list */
+                            mActivity.restartActivity();
+                        }
+                    })
+                    .setNegativeButton(getString(R.string.cancel_text), null)
+                    .create()
+                    .show();
             dismiss();
         }
     };

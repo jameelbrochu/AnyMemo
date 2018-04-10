@@ -67,7 +67,6 @@ public class QuizActivity extends QACardActivity {
     public static String EXTRA_TIMER_MODE = "timer_id";
     public static String EXTRA_COUNTDOWN = "countdown_value";
 
-
     /* UI elements */
     private GradeButtonsFragment gradeButtonsFragment;
 
@@ -214,11 +213,9 @@ public class QuizActivity extends QACardActivity {
         if (secondsLeft < 10) {
             totalTimeLeftText += "0";
         }
-
         totalTimeLeftText += secondsLeft;
 
         countdownText.setText(totalTimeLeftText);
-
     }
 
     @Override
@@ -497,7 +494,6 @@ public class QuizActivity extends QACardActivity {
                 .setCancelable(false)
                 .show();
     }
-
 
     // Current flush is not functional. So this method only quit and does not flush
     // the queue.

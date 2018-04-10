@@ -37,13 +37,15 @@ public class PreviewEditMCActivity extends Activity {
         mcRV = (RecyclerView) findViewById(R.id.recyclerview_mc);
         addCardButton = (FloatingActionButton) findViewById(R.id.addCard);
         addCardButton.setOnClickListener(addButtonListener);
+        setDbOpenHelper();
+        initializeData();
+        initializeAdapter();
+    }
 
+    private void setDbOpenHelper() {
         dbOpenHelper = AnyMemoDBOpenHelperManager.getHelper(getApplicationContext(), dbPath);
         multipleChoiceCardDao = dbOpenHelper.getMultipleChoiceDao();
         multipleChoiceCardDao.setHelper(dbOpenHelper);
-
-        initializeData();
-        initializeAdapter();
     }
 
     @Override
