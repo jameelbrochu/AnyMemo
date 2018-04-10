@@ -504,7 +504,6 @@ public class QuizActivity extends QACardActivity {
                 .setNeutralButton(R.string.cancel_text, flushAndQuitListener)
                 .setNegativeButton(R.string.review_text, reviewScoreListener)
                 .setPositiveButton(R.string.restart_text, null)
-
                 .setCancelable(false)
                 .show();
     }
@@ -623,14 +622,12 @@ public class QuizActivity extends QACardActivity {
             displayCard(false);
             setSmallTitle(getActivityTitleString());
 
-
             if (newQueueSizeBeforeDequeue <= 0 && !isNewCardsCompleted) {
                 stopTimer();
                 showCompleteNewDialog(totalQuizSize - reviewQueueSizeBeforeDequeue);
                 isNewCardsCompleted = true;
 
             }
-
         }
     }
 

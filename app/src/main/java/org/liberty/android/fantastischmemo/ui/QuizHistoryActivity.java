@@ -35,7 +35,7 @@ public class QuizHistoryActivity extends AppCompatActivity {
             averageTextView.setText("Average: " + average + "\n\n");
 
             int attempt = 1;
-            for(History history : histories){
+            for (History history : histories) {
                 String estDate = estDate(history.getTimeStamp());
                 attemptTextView.append("Attempt " + attempt + ": " + history.getMark() + "% (" + estDate + ")\n\n");
                 attempt++;
@@ -48,7 +48,7 @@ public class QuizHistoryActivity extends AppCompatActivity {
 
     private Double computeAverage(ArrayList<History> histories) {
         double total = 0;
-        for(History history : histories){
+        for (History history : histories) {
             total += history.getMark();
         }
         return Math.floor((total/histories.size())*100)/100;
