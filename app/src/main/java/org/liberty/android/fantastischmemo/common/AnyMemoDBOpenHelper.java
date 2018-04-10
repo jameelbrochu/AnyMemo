@@ -201,16 +201,16 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
                 MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_OPTION4 + " string, " +
                 MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_ANSWER + " string " + ")";
 
-        if(oldVersion <= 7){
+        if (oldVersion <= 7) {
             database.execSQL(CREATE_MULTIPLE_CHOICE_TABLE);
         }
       
-        if(oldVersion <= 8){
+        if (oldVersion <= 8) {
             database.execSQL("alter table settings add hintAudio String");
             database.execSQL("alter table settings add hintAudioLocation String");
         }
       
-        if(oldVersion <= 9) {
+        if (oldVersion <= 9) {
             final String CREATE_HISTORY_TABLE = "create table " +
                     "history (" +
                     "id" + " integer primary key autoincrement, " +
@@ -417,7 +417,6 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
         }
     }
 
-
     public void updateMultipleChoiceId(String newId, String oldId) {
         Cursor res = db.rawQuery("SELECT * FROM " + MultipleChoiceContract.MultipleChoiceCardTable.TABLE_NAME, null);
         int value = res.getColumnIndex("id");
@@ -465,7 +464,7 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
 
         db = getReadableDatabase();
         Cursor c = db.rawQuery("SELECT * FROM  history WHERE dbPath = " + "'"+ dbPath + "'" , null);
-        addToHistoryList(c,histories);
+        addToHistoryList(c, histories);
 
         c.close();
 

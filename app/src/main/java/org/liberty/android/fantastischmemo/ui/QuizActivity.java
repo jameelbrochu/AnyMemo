@@ -494,7 +494,7 @@ public class QuizActivity extends QACardActivity {
         TextView scoreView = (TextView) view.findViewById(R.id.score_text);
         int score = correct * 100 / totalQuizSize;
         //Create history entity and add to database here
-        AddToQuizHistory(score);
+        addToQuizHistory(score);
 
         scoreView.setText("" + score + "% (" + correct + "/" + totalQuizSize + ")");
         new AlertDialog.Builder(this)
@@ -509,7 +509,7 @@ public class QuizActivity extends QACardActivity {
                 .show();
     }
 
-    private void AddToQuizHistory(int score) {
+    private void addToQuizHistory(int score) {
         AnyMemoDBOpenHelper historyDbHelper = AnyMemoDBOpenHelperManager.getHelper(getApplicationContext(), historyDbPath);
         HistoryDao historyDao = historyDbHelper.getHistoryDao();
         historyDao.setHelper(historyDbHelper);

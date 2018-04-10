@@ -71,8 +71,10 @@ public class HistoryDaoImpl extends AbstractHelperDaoImpl<History, Integer> impl
 
     @Override
     public void deleteHistory(History history) {
-        AnyMemoDBOpenHelper dbHelper = getHelper();
-        dbHelper.deleteHistory(history);
+        if (history != null) {
+            AnyMemoDBOpenHelper dbHelper = getHelper();
+            dbHelper.deleteHistory(history);
+        }
     }
 
     @Override
