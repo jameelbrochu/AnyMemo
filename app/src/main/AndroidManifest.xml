@@ -183,11 +183,7 @@
             android:label="@string/title_activity_quiz_review" />
         <activity
             android:name=".ui.PreviewEditMCActivity"
-            android:parentActivityName=".ui.AnyMemo">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.AnyMemo" />
-        </activity>
+            android:label="@string/title_activity_card_mc_list"/>
         <activity
             android:name=".ui.MCStudyActivity"
             android:parentActivityName=".ui.AnyMemo">

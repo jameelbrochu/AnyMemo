@@ -1,3 +1,4 @@
+/*
 package org.liberty.android.fantastischmemo.test.ui;
 
 
@@ -60,7 +61,8 @@ public class MC_AnswerNotSelected {
                         isDisplayed()));
         tabView.perform(click());
 
-       /* ViewInteraction viewPager = onView(
+       */
+/* ViewInteraction viewPager = onView(
                 allOf(withId(R.id.viewpager),
                         childAtPosition(
                                 allOf(withId(R.id.main_content),
@@ -69,7 +71,8 @@ public class MC_AnswerNotSelected {
                                                 0)),
                                 1),
                         isDisplayed()));
-        viewPager.perform(swipeLeft());*/
+        viewPager.perform(swipeLeft());*//*
+
 
         ViewInteraction recyclerView = onView(
                 allOf(withId(R.id.file_list),
@@ -183,3 +186,4 @@ public class MC_AnswerNotSelected {
         };
     }
 }
+*/
