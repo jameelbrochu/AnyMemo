@@ -75,7 +75,7 @@ public class QuizActivity extends QACardActivity {
     public static final String EXTRA_START_CARD_ID = "start_card_id";
     public static final String EXTRA_TIMER_MODE = "timer_id";
     public static final String EXTRA_COUNTDOWN = "countdown_value";
-
+    public MediaPlayer mediaPlayer;
 
 
     /* UI elements */
@@ -169,8 +169,8 @@ public class QuizActivity extends QACardActivity {
     }
 
     public void startTimer() {
+        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.countdown);
         this.countDownTimer = new CountDownTimer(timeLeftInMilliseconds, 1000) {
-            MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.countdown);
 
             @Override
             public void onTick(long millisUntilFinished) {
@@ -489,6 +489,11 @@ public class QuizActivity extends QACardActivity {
 
     /* Called when all new cards are completed. */
     private void showCompleteNewDialog(int correct) {
+        if(mediaPlayer !=null){
+            if(mediaPlayer.isPlaying()){
+                mediaPlayer.stop();
+            }
+        }
         LayoutInflater layoutInflater
                 = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(R.layout.quiz_summary_dialog, null);
