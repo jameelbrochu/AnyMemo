@@ -26,7 +26,7 @@ public class PreviewEditMCActivity extends Activity {
     private MultipleChoiceCardDao multipleChoiceCardDao;
     private AnyMemoDBOpenHelper dbOpenHelper;
     private FloatingActionButton addCardButton;
-    public static String EXTRA_DBPATH_MC = "dbpath";
+    public static final String EXTRA_DBPATH_MC = "dbpath";
     String dbPath;
 
     @Override
@@ -55,7 +55,6 @@ public class PreviewEditMCActivity extends Activity {
 
     private void initializeData() {
         mcCards =  multipleChoiceCardDao.getAllMultipleChoiceCards();
-
     }
 
     private void initializeAdapter() {
@@ -65,11 +64,10 @@ public class PreviewEditMCActivity extends Activity {
                     .setCancelable(false)
                     .show();
         } else {
-            RecyclerViewAdapter mcAdapter = new RecyclerViewAdapter(this, mcCards);
+            RecyclerViewAdapter mcAdapter = new RecyclerViewAdapter(this, mcCards, dbPath);
             mcRV.setLayoutManager(new GridLayoutManager(this, 1));
             mcRV.setAdapter(mcAdapter);
         }
-
     }
 
     private View.OnClickListener addButtonListener =
@@ -82,5 +80,4 @@ public class PreviewEditMCActivity extends Activity {
                     startActivity(myIntent);
                 }
                 };
-
 }

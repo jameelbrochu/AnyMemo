@@ -153,4 +153,16 @@ public class MultipleChoiceCardDaoTest extends AbstractExistingDBTest {
         assertEquals(prevCard.getId(),1);
     }
 
+    @SmallTest
+    @Test
+    public void testUpdateExistingMultipleChoiceCard() {
+        MultipleChoiceCard currentCard = multipleChoiceCardDao.getMultipleChoiceCard(2);
+        currentCard.setOption4("beige");
+        multipleChoiceCardDao.updateMultipleChoiceCard(currentCard);
+
+        MultipleChoiceCard updatedCard = multipleChoiceCardDao.getMultipleChoiceCard(2);
+        assertEquals(updatedCard.getId(), 2);
+        assertEquals(updatedCard.getOption4(), "beige");
+    }
+
 }

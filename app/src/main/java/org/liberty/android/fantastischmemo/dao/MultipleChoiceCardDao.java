@@ -20,6 +20,8 @@ public interface MultipleChoiceCardDao extends HelperDao<MultipleChoiceCard, Int
 
  MultipleChoiceCard getPrevMultipleChoiceCard(MultipleChoiceCard mcCard);
 
+ void updateMultipleChoiceCard(MultipleChoiceCard mcCard);
+
  AnyMemoDBOpenHelper getHelper();
 
  void setHelper(AnyMemoDBOpenHelper helper);

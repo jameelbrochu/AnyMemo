@@ -66,11 +66,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.inject.Inject;
 
+import static org.liberty.android.fantastischmemo.ui.MCStudyActivity.SHUFFLE_CARDS_MC;
+
 public class RecentListFragment extends BaseFragment {
 
     private RecyclerView recentListRecyclerView;
     private RecentListAdapter recentListAdapter;
-    public static String SHUFFLE_CARDS = "shufflecards";
+    public static final String SHUFFLE_CARDS = "shufflecards";
 
 
     // The version of recent list to synchronize multiple loader who writes the adapter
@@ -289,6 +291,7 @@ public class RecentListFragment extends BaseFragment {
                 String nameWithoutDB = split[0];
 
                 if (nameWithoutDB.endsWith("MC")) {
+                    mcDao.setHelper(helper);
                     ri.dbInfo = context.getString((R.string.stat_mc_mode)) + " " +
                             getContext().getString(R.string.stat_total) + mcDao.getAllMultipleChoiceCards().size();
                 } else {
@@ -385,6 +388,7 @@ public class RecentListFragment extends BaseFragment {
                         myIntent.setClass(context, MCStudyActivity.class);
                         String dbPath = currentItem.dbPath;
                         myIntent.putExtra(MCStudyActivity.EXTRA_DBPATH_MC, dbPath);
+                        myIntent.putExtra(SHUFFLE_CARDS_MC, shuffle);
                         recentListUtil.addToRecentList(dbPath);
                         context.startActivity(myIntent);
 
@@ -411,13 +415,23 @@ public class RecentListFragment extends BaseFragment {
                 @Override
                 public void onClick(View v) {
                     String shuffle = "true";
-
-                    if (getSelectedItemCount() == 0) {
+                    String s = currentItem.dbPath;
+                    String[] split = s.split(".db");
+                    String nameWithoutDB = split[0];
+                    if (getSelectedItemCount() == 0 && !nameWithoutDB.endsWith("_MC")) {
                         Intent myIntent = new Intent();
                         myIntent.setClass(context, StudyActivity.class);
                         String dbPath = currentItem.dbPath;
                         myIntent.putExtra(StudyActivity.EXTRA_DBPATH, dbPath);
                         myIntent.putExtra(SHUFFLE_CARDS, shuffle);
+                        recentListUtil.addToRecentList(dbPath);
+                        context.startActivity(myIntent);
+                    } else if (getSelectedItemCount() == 0 && nameWithoutDB.endsWith("_MC"))  {
+                        Intent myIntent = new Intent();
+                        myIntent.setClass(context, MCStudyActivity.class);
+                        String dbPath = currentItem.dbPath;
+                        myIntent.putExtra(MCStudyActivity.EXTRA_DBPATH_MC, dbPath);
+                        myIntent.putExtra(SHUFFLE_CARDS_MC, shuffle);
                         recentListUtil.addToRecentList(dbPath);
                         context.startActivity(myIntent);
                     } else {

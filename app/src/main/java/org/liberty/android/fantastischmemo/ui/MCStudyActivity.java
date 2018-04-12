@@ -23,7 +23,8 @@ import java.util.List;
 
 public class MCStudyActivity extends AppCompatActivity {
 
-    public static String EXTRA_DBPATH_MC = "dbpath";
+    public static final String EXTRA_DBPATH_MC = "dbpath";
+    public static final String SHUFFLE_CARDS_MC = "shuffle";
 
     private TextView textViewId;
     private TextView textViewQuestion;
@@ -49,6 +50,7 @@ public class MCStudyActivity extends AppCompatActivity {
     MultipleChoiceCardDao multipleChoiceCardDao;
     AnyMemoDBOpenHelper dbOpenHelper;
     String dbPath;
+    String shuffle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +58,7 @@ public class MCStudyActivity extends AppCompatActivity {
         setContentView(R.layout.mc_study_activity);
 
         dbPath = getIntent().getExtras().getString(EXTRA_DBPATH_MC);
-
+        shuffle = getIntent().getStringExtra(SHUFFLE_CARDS_MC);
         textViewId = (TextView)findViewById(R.id.mc_text_view_id);
         textViewScore = (TextView)findViewById(R.id.mc_text_view_score);
         textViewQuestion = (TextView)findViewById(R.id.mc_text_view_question);
@@ -76,7 +78,12 @@ public class MCStudyActivity extends AppCompatActivity {
         multipleChoiceCardList = multipleChoiceCardDao.getAllMultipleChoiceCards();
 
         mcCardCountTotal = multipleChoiceCardList.size();
-        Collections.shuffle(multipleChoiceCardList);
+
+        if (shuffle != null) {
+            if (shuffle.equals("true")) {
+                Collections.shuffle(multipleChoiceCardList);
+            }
+        }
 
         showNextMultipleChoiceCard();
 
