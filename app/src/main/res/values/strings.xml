@@ -498,4 +498,5 @@
     <string-array name="optionsMC">
 
     </string-array>
+    <string name="title_activity_quiz_review_adapter">QuizReviewAdapter</string>
 </resources>
