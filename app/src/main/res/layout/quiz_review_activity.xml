@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="8dp"
-        tools:context="org.liberty.android.fantastischmemo.ui.QuizReviewActivity">
+        tools:context="org.liberty.android.fantastischmemo.ui.quiz.QuizReviewActivity">
 
         <TextView
             android:id="@+id/quiz_review_title"

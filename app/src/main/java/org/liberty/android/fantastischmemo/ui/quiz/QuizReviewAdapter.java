@@ -1,4 +1,4 @@
-package org.liberty.android.fantastischmemo.ui;
+package org.liberty.android.fantastischmemo.ui.quiz;
 
 import android.content.Context;
 import android.graphics.Color;

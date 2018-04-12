@@ -56,6 +56,9 @@ import org.liberty.android.fantastischmemo.common.BaseFragment;
 import org.liberty.android.fantastischmemo.dao.CardDao;
 import org.liberty.android.fantastischmemo.dao.MultipleChoiceCardDao;
 import org.liberty.android.fantastischmemo.ui.helper.SelectableAdapter;
+import org.liberty.android.fantastischmemo.ui.multipleChoice.CardMCEditor;
+import org.liberty.android.fantastischmemo.ui.multipleChoice.MCStudyActivity;
+import org.liberty.android.fantastischmemo.ui.multipleChoice.PreviewEditMCActivity;
 import org.liberty.android.fantastischmemo.utils.DatabaseUtil;
 import org.liberty.android.fantastischmemo.utils.RecentListActionModeUtil;
 import org.liberty.android.fantastischmemo.utils.RecentListUtil;
@@ -66,7 +69,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.inject.Inject;
 
-import static org.liberty.android.fantastischmemo.ui.MCStudyActivity.SHUFFLE_CARDS_MC;
+import static org.liberty.android.fantastischmemo.ui.multipleChoice.MCStudyActivity.SHUFFLE_CARDS_MC;
 
 public class RecentListFragment extends BaseFragment {
 

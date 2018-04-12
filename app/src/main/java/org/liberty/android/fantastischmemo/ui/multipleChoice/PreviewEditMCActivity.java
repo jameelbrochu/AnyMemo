@@ -1,4 +1,4 @@
-package org.liberty.android.fantastischmemo.ui;
+package org.liberty.android.fantastischmemo.ui.multipleChoice;
 
 import android.app.Activity;
 import android.app.AlertDialog;

@@ -47,7 +47,6 @@ import org.liberty.android.fantastischmemo.R;
 import org.liberty.android.fantastischmemo.common.AnyMemoDBOpenHelper;
 import org.liberty.android.fantastischmemo.common.AnyMemoDBOpenHelperManager;
 import org.liberty.android.fantastischmemo.dao.HistoryDao;
-import org.liberty.android.fantastischmemo.dao.HistoryDaoImpl;
 import org.liberty.android.fantastischmemo.entity.Card;
 import org.liberty.android.fantastischmemo.entity.Category;
 import org.liberty.android.fantastischmemo.entity.History;
@@ -58,6 +57,7 @@ import org.liberty.android.fantastischmemo.queue.QueueManager;
 import org.liberty.android.fantastischmemo.queue.QuizQueueManager;
 import org.liberty.android.fantastischmemo.scheduler.Scheduler;
 import org.liberty.android.fantastischmemo.ui.loader.DBLoader;
+import org.liberty.android.fantastischmemo.ui.quiz.QuizReviewActivity;
 import org.liberty.android.fantastischmemo.utils.DictionaryUtil;
 
 import java.util.ArrayList;

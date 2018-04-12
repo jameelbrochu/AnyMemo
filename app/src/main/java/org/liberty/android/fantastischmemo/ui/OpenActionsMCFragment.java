@@ -18,10 +18,11 @@ import org.liberty.android.fantastischmemo.common.BaseActivity;
 import org.liberty.android.fantastischmemo.common.BaseDialogFragment;
 import org.liberty.android.fantastischmemo.dao.MultipleChoiceCardDao;
 import org.liberty.android.fantastischmemo.entity.MultipleChoiceCard;
+import org.liberty.android.fantastischmemo.ui.multipleChoice.MCStudyActivity;
+import org.liberty.android.fantastischmemo.ui.multipleChoice.PreviewEditMCActivity;
 import org.liberty.android.fantastischmemo.utils.AMFileUtil;
 import org.liberty.android.fantastischmemo.utils.AMPrefUtil;
 import org.liberty.android.fantastischmemo.utils.RecentListUtil;
-import org.liberty.android.fantastischmemo.utils.ShareUtil;
 
 import java.util.ArrayList;
 import java.util.List;

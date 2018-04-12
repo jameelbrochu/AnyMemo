@@ -1,4 +1,4 @@
-package org.liberty.android.fantastischmemo.ui;
+package org.liberty.android.fantastischmemo.ui.multipleChoice;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
