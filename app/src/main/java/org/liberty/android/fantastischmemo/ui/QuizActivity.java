@@ -57,6 +57,7 @@ import org.liberty.android.fantastischmemo.modules.AppComponents;
 import org.liberty.android.fantastischmemo.queue.QueueManager;
 import org.liberty.android.fantastischmemo.queue.QuizQueueManager;
 import org.liberty.android.fantastischmemo.scheduler.Scheduler;
+import org.liberty.android.fantastischmemo.ui.helper.HistoryHelper;
 import org.liberty.android.fantastischmemo.ui.loader.DBLoader;
 import org.liberty.android.fantastischmemo.utils.DictionaryUtil;
 
@@ -514,23 +515,8 @@ public class QuizActivity extends QACardActivity {
         historyDao.setHelper(historyDbHelper);
         List<History> historyForDeck = historyDao.getHistoryForDB(getDbPath());
         int count = historyDao.count(getDbPath());
-        if (count == 10) {
-            History oldest = historyForDeck.get(0);
-            for (History history : historyForDeck) {
-                if (history.getTimeStamp() < oldest.getTimeStamp()) {
-                    oldest = history;
-                }
-            }
-            historyDao.deleteHistory(oldest);
-        }
-
-        Date date = new Date();
-        Long timeStamp = date.getTime();
-        History result = new History();
-        result.setdbPath(getDbPath());
-        result.setMark(score);
-        result.setTimeStamp(timeStamp);
-        historyDao.insertHistory(result);
+        String dbPath = getDbPath();
+        History result = HistoryHelper.addToHistory(score, count, historyForDeck, dbPath, historyDao);
 
         Parcel parcel = Parcel.obtain();
         parcel.writeValue(result.getdbPath());

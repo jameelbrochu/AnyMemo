@@ -211,7 +211,7 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
         }
       
         if (oldVersion <= 9) {
-            final String CREATE_HISTORY_TABLE = "create table " +
+            final String CREATE_HISTORY_TABLE = "create table if not exists " +
                     "history (" +
                     "id" + " integer primary key autoincrement, " +
                     "dbPath string, " +
