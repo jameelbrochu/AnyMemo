@@ -34,40 +34,35 @@ public class QuizReviewActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.quiz_review_activity);
-        try {
-            all_forgotten_cards = this.getIntent().getParcelableArrayListExtra(FORGOT_CARDS);
-            all_remembered_cards = this.getIntent().getParcelableArrayListExtra(REMEMBERED_CARDS);
-            quizScore = this.getIntent().getStringExtra(QUIZ_SCORE);
-        }
-        catch (NullPointerException e) {
-            e.getMessage();
-        }
-        titleTextView = (TextView) findViewById(R.id.quiz_review_title);
+        all_forgotten_cards = this.getIntent().getParcelableArrayListExtra(FORGOT_CARDS);
+        all_remembered_cards = this.getIntent().getParcelableArrayListExtra(REMEMBERED_CARDS);
+        quizScore = this.getIntent().getStringExtra(QUIZ_SCORE);
+        titleTextView = (TextView)findViewById(R.id.quiz_review_title);
         titleTextView.setText("Quiz Review");
-        quizRV = (RecyclerView) findViewById(R.id.recyclerview_quiz);
+        quizRV = (RecyclerView)findViewById(R.id.recyclerview_quiz);
         quizScoreTextView = (TextView)findViewById(R.id.quiz_score);
         quizScoreTextView.setText("Score: " + quizScore);
 
-        for(int i=0; i < all_forgotten_cards.size(); i++) {
-            Card c = all_forgotten_cards.get(i);
+        for (Card c : all_forgotten_cards) {
             c.setResult(false);
         }
 
-        for(int i=0; i < all_remembered_cards.size(); i++) {
-            Card c = all_remembered_cards.get(i);
+        for (Card c : all_remembered_cards) {
             c.setResult(true);
         }
 
-        if (all_forgotten_cards != null)
+        if (all_forgotten_cards != null) {
             combinedQuestions.addAll(all_forgotten_cards);
-        if (all_remembered_cards!= null)
+        }
+        if (all_remembered_cards!= null) {
             combinedQuestions.addAll(all_remembered_cards);
+        }
 
         Collections.sort(combinedQuestions, new Comparator<Card>() {
             @Override
             //ascending sorting of ArrayList
-            public int compare(Card card, Card t1) {
-                return Integer.valueOf(card.getId().compareTo(t1.getId()));
+            public int compare(Card card1, Card card2) {
+                return Integer.valueOf(card1.getId().compareTo(card2.getId()));
             }
         });
 
@@ -75,8 +70,6 @@ public class QuizReviewActivity extends Activity {
         QuizReviewAdapter mcAdapter = new QuizReviewAdapter(this, combinedQuestions);
         quizRV.setLayoutManager(new GridLayoutManager(this, 1));
         quizRV.setAdapter(mcAdapter);
-
-
     }
 
 }

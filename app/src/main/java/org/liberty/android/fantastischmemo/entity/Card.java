@@ -128,9 +128,7 @@ public class Card implements VersionableDomainObject, Parcelable {
         return this.favourite;
     }
 
-    public void setResult(boolean result){
-        this.result = result;
-    }
+    public void setResult(boolean result) { this.result = result; }
 
     public boolean getResult() { return this.result; }
 
