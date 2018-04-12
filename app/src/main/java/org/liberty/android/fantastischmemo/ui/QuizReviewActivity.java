@@ -28,11 +28,6 @@ public class QuizReviewActivity extends Activity {
     String quizScore;
 
     private TextView titleTextView;
-    private TextView forgotTextView;
-    private TextView rememberedTextView;
-
-    private TextView forgotQuestionsTextView;
-    private TextView rememberQuestionsTextView;
     private TextView quizScoreTextView;
 
 
@@ -49,45 +44,37 @@ public class QuizReviewActivity extends Activity {
         quizScoreTextView = (TextView)findViewById(R.id.quiz_score);
         quizScoreTextView.setText("Score: " + quizScore);
 
-        for (Card c : all_forgotten_cards) {
-            c.setResult(false);
-        }
-
-        for (Card c : all_remembered_cards) {
-            c.setResult(true);
-    private void setForgotCards() {
-        for(int i=0; i < all_forgotten_cards.size(); i++) {
-            Card c = all_forgotten_cards.get(i);
-            forgotQuestionsTextView.setText(forgotQuestionsTextView.getText() + "Question " + Integer.toString(c.getId()) + ": " + c.getQuestion() + "\nAnswer: " + c.getAnswer()
-                    + "\n\n");
-        }
-    }
-
-        if (all_forgotten_cards != null) {
-            combinedQuestions.addAll(all_forgotten_cards);
-        }
-        if (all_remembered_cards!= null) {
-            combinedQuestions.addAll(all_remembered_cards);
-        }
-
+        setForgotCards();
+        setRememberedCards();
         Collections.sort(combinedQuestions, new Comparator<Card>() {
-            @Override
-            //ascending sorting of ArrayList
-            public int compare(Card card1, Card card2) {
-                return Integer.valueOf(card1.getId().compareTo(card2.getId()));
-            }
-        });
+                @Override
+                //ascending sorting of ArrayList
+                public int compare(Card card1, Card card2) {
+                    return Integer.valueOf(card1.getId().compareTo(card2.getId()));
+                }
+            });
 
         //initialize adapter
         QuizReviewAdapter mcAdapter = new QuizReviewAdapter(this, combinedQuestions);
         quizRV.setLayoutManager(new GridLayoutManager(this, 1));
         quizRV.setAdapter(mcAdapter);
-    private void setRememberedCards() {
-        for(int i=0; i < all_remembered_cards.size(); i++) {
-            Card c = all_remembered_cards.get(i);
-            rememberQuestionsTextView.setText(rememberQuestionsTextView.getText() + "Question " + Integer.toString(c.getId()) + ": " + c.getQuestion() + "\nAnswer: " + c.getAnswer()
-                    + "\n\n");
+    }
+
+    private void setForgotCards() {
+        for (Card c : all_forgotten_cards) {
+            c.setResult(false);
+        }
+        if (all_forgotten_cards != null) {
+            combinedQuestions.addAll(all_forgotten_cards);
         }
     }
 
+    private void setRememberedCards() {
+        for (Card c : all_remembered_cards) {
+            c.setResult(true);
+        }
+        if (all_remembered_cards!= null) {
+            combinedQuestions.addAll(all_remembered_cards);
+        }
+    }
 }
