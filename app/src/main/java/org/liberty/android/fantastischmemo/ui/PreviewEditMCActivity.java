@@ -64,7 +64,7 @@ public class PreviewEditMCActivity extends Activity {
                     .setCancelable(false)
                     .show();
         } else {
-            MultipleChoiceAdapter mcAdapter = new MultipleChoiceAdapter(this, mcCards);
+            MultipleChoiceAdapter mcAdapter = new MultipleChoiceAdapter(this, mcCards, dbPath);
             mcRV.setLayoutManager(new GridLayoutManager(this, 1));
             mcRV.setAdapter(mcAdapter);
         }

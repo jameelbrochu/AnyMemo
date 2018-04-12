@@ -28,7 +28,7 @@ public class MultipleChoiceAdapter extends RecyclerView.Adapter<MultipleChoiceAd
     private AnyMemoDBOpenHelper dbOpenHelper;
     private String dbPath;
 
-    public MultipleChoiceAdapter(Context mContext, List<MultipleChoiceCard> mCards) {
+    public MultipleChoiceAdapter(Context mContext, List<MultipleChoiceCard> mCards, String dbPath) {
         this.mContext = mContext;
         this.mcCards = mCards;
         this.dbPath = dbPath;
