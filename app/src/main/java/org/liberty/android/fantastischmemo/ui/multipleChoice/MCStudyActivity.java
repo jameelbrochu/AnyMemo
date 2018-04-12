@@ -118,7 +118,7 @@ public class MCStudyActivity extends AppCompatActivity {
         rbOption4.setEnabled(true);
         textViewMessage.setText("");
 
-        if(mcCardCounter < mcCardCountTotal) {
+        if (mcCardCounter < mcCardCountTotal) {
             currentMCCard = multipleChoiceCardList.get(mcCardCounter);
             textViewQuestion.setText(currentMCCard.getQuestion());
             rbOption1.setText(currentMCCard.getOption1());

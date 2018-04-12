@@ -62,7 +62,6 @@ import org.liberty.android.fantastischmemo.ui.quiz.QuizReviewActivity;
 import org.liberty.android.fantastischmemo.utils.DictionaryUtil;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -117,7 +116,6 @@ public class QuizActivity extends QACardActivity {
         super.onPostInit();
         setting = getSetting();
         option = getOption();
-
         createQueue();
 
         // Keep track the initial total quiz size.
