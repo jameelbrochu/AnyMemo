@@ -55,4 +55,15 @@ public class UpgradeHelper {
         database.execSQL("alter table settings add hintAudio String");
         database.execSQL("alter table settings add hintAudioLocation String");
     }
+
+    protected void dbVersionNineUpgrade(SQLiteDatabase database) {
+        final String CREATE_HISTORY_TABLE = "create table " +
+                "history (" +
+                "id" + " integer primary key autoincrement, " +
+                "dbPath string, " +
+                "mark integer, " +
+                "timeStamp integer" +
+                ")";
+        database.execSQL(CREATE_HISTORY_TABLE);
+    }
 }

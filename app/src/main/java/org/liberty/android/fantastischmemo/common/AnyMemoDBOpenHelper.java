@@ -146,14 +146,7 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
             helper.dbVersionEightUpgrade(database);
         }
         if (oldVersion <= 9) {
-            final String CREATE_HISTORY_TABLE = "create table " +
-                    "history (" +
-                    "id" + " integer primary key autoincrement, " +
-                    "dbPath string, " +
-                    "mark integer, " +
-                    "timeStamp integer" +
-                    ")";
-            database.execSQL(CREATE_HISTORY_TABLE);
+            helper.dbVersionNineUpgrade(database);
         }
     }
 
