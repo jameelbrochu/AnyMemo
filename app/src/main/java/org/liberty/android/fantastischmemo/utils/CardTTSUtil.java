@@ -56,6 +56,8 @@ public class CardTTSUtil {
 
     private AnyMemoTTS answerTTS;
 
+    private AnyMemoTTS hintTTS;
+
     private Setting setting;
 
     private Context context;
@@ -101,9 +103,25 @@ public class CardTTSUtil {
         answerTTS.sayText(card.getAnswer(), onTextToSpeechCompletedListener);
     }
 
+    /*
+    * This will speak the hint of the card and will not
+    * set a callback for speaking completion.
+    */
+    public void speakCardHint(Card card){
+        Preconditions.checkNotNull(card);
+        speakCardHint(card, null);
+    }
+
+    public void speakCardHint(Card card, AnyMemoTTS.OnTextToSpeechCompletedListener onTextToSpeechCompletedListener){
+        Preconditions.checkNotNull(card);
+        stopSpeak();
+        hintTTS.sayText(card.getHint(), onTextToSpeechCompletedListener);
+    }
+
     public void stopSpeak() {
         questionTTS.stop();
         answerTTS.stop();
+        hintTTS.stop();
     }
 
     /*
@@ -123,6 +141,11 @@ public class CardTTSUtil {
             answerTTS.destory();
             answerTTS = null;
         }
+
+        if(hintTTS != null) {
+            hintTTS.destory();
+            hintTTS = null;
+        }
         settingDao = null;
     }
 
@@ -133,7 +156,7 @@ public class CardTTSUtil {
     @Override
     public void finalize() throws Throwable {
         try {
-            if (questionTTS != null || answerTTS != null) {
+            if (questionTTS != null || answerTTS != null || hintTTS != null) {
                 Log.w(TAG, "release() must be called explicitly to clean up CardTTSUtil.");
                 release();
             }
@@ -172,6 +195,18 @@ public class CardTTSUtil {
             answerTTS = new AnyMemoTTSImpl(context, aa, answerAudioSearchPath);
         }  else {
             answerTTS = new NullAnyMemoTTS();
+        }
+
+        if (setting.isHintAudioEnabled()) {
+            String ha = setting.getHintAudio();
+            List<String> hintAudioSearchPath = new ArrayList<String>();
+            hintAudioSearchPath.add(setting.getHintAudioLocation());
+            hintAudioSearchPath.add(setting.getHintAudioLocation() + "/" + dbName);
+            hintAudioSearchPath.add(defaultLocation + "/" + dbName);
+            hintAudioSearchPath.add(defaultLocation);
+            hintTTS = new AnyMemoTTSImpl(context, ha, hintAudioSearchPath);
+        } else {
+            hintTTS = new NullAnyMemoTTS();
         }
     }
 

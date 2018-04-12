@@ -107,6 +107,15 @@ public class SettingTest extends AbstractExistingDBTest {
 
     @SmallTest
     @Test
+    public void testHintAudio() throws Exception {
+        Setting setting = getCurrentSetting();
+        setting.setHintAudio("DE");
+        Setting savedSetting = setSetting(setting);
+        assertEquals("DE", savedSetting.getHintAudio());
+    }
+
+    @SmallTest
+    @Test
     public void testQuestionTextColor() throws Exception {
         Setting setting = getCurrentSetting();
         setting.setQuestionTextColor(Color.RED);
@@ -247,6 +256,15 @@ public class SettingTest extends AbstractExistingDBTest {
         setting.setAnswerAudioLocation("/sdcard/");
         Setting savedSetting = setSetting(setting);
         assertEquals("/sdcard/", savedSetting.getAnswerAudioLocation());
+    }
+
+    @SmallTest
+    @Test
+    public void testHintAudioLocation() throws Exception {
+        Setting setting = getCurrentSetting();
+        setting.setHintAudioLocation("/sdcard/");
+        Setting savedSetting = setSetting(setting);
+        assertEquals("/sdcard/", savedSetting.getHintAudioLocation());
     }
 
     private Setting getCurrentSetting() throws SQLException {
