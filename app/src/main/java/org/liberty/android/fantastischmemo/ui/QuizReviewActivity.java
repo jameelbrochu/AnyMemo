@@ -2,62 +2,79 @@ package org.liberty.android.fantastischmemo.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
 import org.liberty.android.fantastischmemo.R;
 import org.liberty.android.fantastischmemo.entity.Card;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class QuizReviewActivity extends Activity {
 
-    public static String FORGOT_CARDS = "FORGOT_CARDS";
-    public static String REMEMBERED_CARDS = "REMEMBERED_CARDS";
+    private List<Card> combinedQuestions = new ArrayList<>();
+    private RecyclerView quizRV;
+
+    public static final String FORGOT_CARDS = "FORGOT_CARDS";
+    public static final String REMEMBERED_CARDS = "REMEMBERED_CARDS";
+    public static final String QUIZ_SCORE = "QUIZ_SCORE";
 
     ArrayList<Card> all_forgotten_cards = new ArrayList<>();
     ArrayList<Card> all_remembered_cards = new ArrayList<>();
-
+    String quizScore;
 
     private TextView titleTextView;
-    private TextView forgotTextView;
-    private TextView rememberedTextView;
+    private TextView quizScoreTextView;
 
-    private TextView forgotQuestionsTextView;
-    private TextView rememberQuestionsTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.quiz_review_activity);
-
         all_forgotten_cards = this.getIntent().getParcelableArrayListExtra(FORGOT_CARDS);
         all_remembered_cards = this.getIntent().getParcelableArrayListExtra(REMEMBERED_CARDS);
-        titleTextView = (TextView) findViewById(R.id.quiz_review_title);
+        quizScore = this.getIntent().getStringExtra(QUIZ_SCORE);
+        titleTextView = (TextView)findViewById(R.id.quiz_review_title);
         titleTextView.setText("Quiz Review");
-        forgotTextView = (TextView) findViewById(R.id.quiz_forgot_title);
-        forgotTextView.setText("Forgot");
-        forgotQuestionsTextView = (TextView) findViewById(R.id.quiz_forgot_questions);
-        rememberedTextView = (TextView) findViewById(R.id.quiz_remembered_title);
-        rememberedTextView.setText("Remembered");
-        rememberQuestionsTextView = (TextView)findViewById(R.id.quiz_remember_questions);
+        quizRV = (RecyclerView)findViewById(R.id.recyclerview_quiz);
+        quizScoreTextView = (TextView)findViewById(R.id.quiz_score);
+        quizScoreTextView.setText("Score: " + quizScore);
+
         setForgotCards();
         setRememberedCards();
+        Collections.sort(combinedQuestions, new Comparator<Card>() {
+                @Override
+                //ascending sorting of ArrayList
+                public int compare(Card card1, Card card2) {
+                    return Integer.valueOf(card1.getId().compareTo(card2.getId()));
+                }
+            });
+
+        //initialize adapter
+        QuizReviewAdapter mcAdapter = new QuizReviewAdapter(this, combinedQuestions);
+        quizRV.setLayoutManager(new GridLayoutManager(this, 1));
+        quizRV.setAdapter(mcAdapter);
     }
 
     private void setForgotCards() {
-        for(int i=0; i < all_forgotten_cards.size(); i++) {
-            Card c = all_forgotten_cards.get(i);
-            forgotQuestionsTextView.setText(forgotQuestionsTextView.getText() + "Question " + Integer.toString(c.getId()) + ": " + c.getQuestion() + "\nAnswer: " + c.getAnswer()
-                    + "\n\n");
+        for (Card c : all_forgotten_cards) {
+            c.setResult(false);
+        }
+        if (all_forgotten_cards != null) {
+            combinedQuestions.addAll(all_forgotten_cards);
         }
     }
 
     private void setRememberedCards() {
-        for(int i=0; i < all_remembered_cards.size(); i++) {
-            Card c = all_remembered_cards.get(i);
-            rememberQuestionsTextView.setText(rememberQuestionsTextView.getText() + "Question " + Integer.toString(c.getId()) + ": " + c.getQuestion() + "\nAnswer: " + c.getAnswer()
-                    + "\n\n");
+        for (Card c : all_remembered_cards) {
+            c.setResult(true);
+        }
+        if (all_remembered_cards!= null) {
+            combinedQuestions.addAll(all_remembered_cards);
         }
     }
-
 }
