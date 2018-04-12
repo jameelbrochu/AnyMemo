@@ -29,6 +29,7 @@ import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Parcel;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -43,8 +44,13 @@ import android.widget.Toast;
 import com.google.common.base.Strings;
 
 import org.liberty.android.fantastischmemo.R;
+import org.liberty.android.fantastischmemo.common.AnyMemoDBOpenHelper;
+import org.liberty.android.fantastischmemo.common.AnyMemoDBOpenHelperManager;
+import org.liberty.android.fantastischmemo.dao.HistoryDao;
+import org.liberty.android.fantastischmemo.dao.HistoryDaoImpl;
 import org.liberty.android.fantastischmemo.entity.Card;
 import org.liberty.android.fantastischmemo.entity.Category;
+import org.liberty.android.fantastischmemo.entity.History;
 import org.liberty.android.fantastischmemo.entity.Option;
 import org.liberty.android.fantastischmemo.entity.Setting;
 import org.liberty.android.fantastischmemo.modules.AppComponents;
@@ -55,17 +61,19 @@ import org.liberty.android.fantastischmemo.ui.loader.DBLoader;
 import org.liberty.android.fantastischmemo.utils.DictionaryUtil;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 
 public class QuizActivity extends QACardActivity {
-    public static String EXTRA_CATEGORY_ID = "category_id";
-    public static String EXTRA_START_CARD_ORD = "start_card_ord";
-    public static String EXTRA_QUIZ_SIZE = "quiz_size";
-    public static String EXTRA_SHUFFLE_CARDS = "shuffle_cards";
-    public static String EXTRA_START_CARD_ID = "start_card_id";
-    public static String EXTRA_TIMER_MODE = "timer_id";
-    public static String EXTRA_COUNTDOWN = "countdown_value";
+    public static final String EXTRA_CATEGORY_ID = "category_id";
+    public static final String EXTRA_START_CARD_ORD = "start_card_ord";
+    public static final String EXTRA_QUIZ_SIZE = "quiz_size";
+    public static final String EXTRA_SHUFFLE_CARDS = "shuffle_cards";
+    public static final String EXTRA_START_CARD_ID = "start_card_id";
+    public static final String EXTRA_TIMER_MODE = "timer_id";
+    public static final String EXTRA_COUNTDOWN = "countdown_value";
 
 
     /* UI elements */
@@ -96,6 +104,7 @@ public class QuizActivity extends QACardActivity {
     private long timeLeftInMilliseconds;
     private boolean timerMode = false;
 
+    private String historyDbPath = "/sdcard/history.db";
 
     @Override
     public int getContentView() {
@@ -183,7 +192,7 @@ public class QuizActivity extends QACardActivity {
             @Override
             public void onFinish() {
                 mediaPlayer.stop();
-                if (getCurrentCard().getOrdinal() != totalQuizSize) {
+                if (getCurrentCard().getOrdinal() != totalQuizSize + 1) {
                     new AlertDialog.Builder(QuizActivity.this)
                             .setTitle(R.string.quiz_not_completed)
                             .setMessage("Would you like to try again?")
@@ -486,6 +495,8 @@ public class QuizActivity extends QACardActivity {
         TextView scoreView = (TextView) view.findViewById(R.id.score_text);
         int score = correct * 100 / totalQuizSize;
         quizScore = "" + score + "% (" + correct + "/" + totalQuizSize + ")";
+        //Create history entity and add to database here
+        addToQuizHistory(score);
 
         scoreView.setText("" + score + "% (" + correct + "/" + totalQuizSize + ")");
         new AlertDialog.Builder(this)
@@ -495,11 +506,39 @@ public class QuizActivity extends QACardActivity {
                 .setNeutralButton(R.string.cancel_text, flushAndQuitListener)
                 .setNegativeButton(R.string.review_text, reviewScoreListener)
                 .setPositiveButton(R.string.restart_text, null)
-
                 .setCancelable(false)
                 .show();
     }
 
+    private void addToQuizHistory(int score) {
+        AnyMemoDBOpenHelper historyDbHelper = AnyMemoDBOpenHelperManager.getHelper(getApplicationContext(), historyDbPath);
+        HistoryDao historyDao = historyDbHelper.getHistoryDao();
+        historyDao.setHelper(historyDbHelper);
+        List<History> historyForDeck = historyDao.getHistoryForDB(getDbPath());
+        int count = historyDao.count(getDbPath());
+        if (count == 10) {
+            History oldest = historyForDeck.get(0);
+            for (History history : historyForDeck) {
+                if (history.getTimeStamp() < oldest.getTimeStamp()) {
+                    oldest = history;
+                }
+            }
+            historyDao.deleteHistory(oldest);
+        }
+
+        Date date = new Date();
+        Long timeStamp = date.getTime();
+        History result = new History();
+        result.setdbPath(getDbPath());
+        result.setMark(score);
+        result.setTimeStamp(timeStamp);
+        historyDao.insertHistory(result);
+
+        Parcel parcel = Parcel.obtain();
+        parcel.writeValue(result.getdbPath());
+        parcel.writeValue(result.getMark());
+        parcel.writeValue(result.getTimeStamp());
+    }
 
     // Current flush is not functional. So this method only quit and does not flush
     // the queue.
@@ -577,14 +616,14 @@ public class QuizActivity extends QACardActivity {
 
             // Stat data
             setCurrentCard(result);
-            displayCard(false);
-            setSmallTitle(getActivityTitleString());
-
             if (result == null) {
                 stopTimer();
-                showCompleteAllDialog();
+                showCompleteNewDialog(totalQuizSize - reviewQueueSizeBeforeDequeue);
                 return;
             }
+
+            displayCard(false);
+            setSmallTitle(getActivityTitleString());
 
             if (newQueueSizeBeforeDequeue <= 0 && !isNewCardsCompleted) {
                 stopTimer();
@@ -592,7 +631,6 @@ public class QuizActivity extends QACardActivity {
                 isNewCardsCompleted = true;
 
             }
-
         }
     }
 

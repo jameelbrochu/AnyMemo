@@ -6,8 +6,12 @@ import com.j256.ormlite.table.DatabaseTable;
 
 import org.liberty.android.fantastischmemo.dao.MultipleChoiceDaoImpl;
 
+import java.io.Serializable;
+
 @DatabaseTable(tableName = "multipleChoiceCards", daoClass = MultipleChoiceDaoImpl.class)
-public class MultipleChoiceCard  {
+public class MultipleChoiceCard implements Serializable {
+
+    private static final long serialVersionUID = 2112975910834873118L;
 
     @DatabaseField(generatedId = true)
     private long id;

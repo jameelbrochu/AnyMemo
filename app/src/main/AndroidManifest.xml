@@ -203,6 +203,7 @@
         <activity
             android:name=".ui.CardMCEditor"
             android:label="@string/title_activity_card_mc" />
+        <activity android:name=".ui.QuizHistoryActivity"></activity>
     </application>
 
 </manifest>

@@ -65,9 +65,9 @@ import javax.inject.Inject;
  * The StudyActivity is used for the classic way of learning cards.
  */
 public class StudyActivity extends QACardActivity {
-    public static String EXTRA_DBPATH = "dbpath";
-    public static String EXTRA_CATEGORY_ID = "category_id";
-    public static String EXTRA_START_CARD_ID = "start_card_id";
+    public final static String EXTRA_DBPATH = "dbpath";
+    public final static String EXTRA_CATEGORY_ID = "category_id";
+    public final static String EXTRA_START_CARD_ID = "start_card_id";
     private static final int LEARN_QUEUE_MANAGER_LOADER_ID = 10;
 
     private final int ACTIVITY_FILTER = 10;
@@ -172,6 +172,11 @@ public class StudyActivity extends QACardActivity {
             case R.id.menuspeakanswer:
             {
                 return speakAnswer();
+            }
+
+            case R.id.menuspeakhint:
+            {
+                return speakHint();
             }
 
             case R.id.menusettings:
@@ -431,7 +436,12 @@ public class StudyActivity extends QACardActivity {
         if (!isHintShown()) {
             onClickHintView();
         } else {
-            onClickHintView();
+            if((getOption().getSpeakingType() == Option.SpeakingType.AUTOTAP
+                    || getOption().getSpeakingType() == Option.SpeakingType.TAP)) {
+                speakHint();
+            } else {
+                onClickHintView();
+            }
         }
         return true;
     }
@@ -575,6 +585,7 @@ public class StudyActivity extends QACardActivity {
             if(!isAnswerShown()){
                 // Make sure the TTS is stop, or it will speak nothing.
                 speakQuestion();
+                speakHint();
             } else {
                 // Make sure the TTS is stop
                 speakAnswer();

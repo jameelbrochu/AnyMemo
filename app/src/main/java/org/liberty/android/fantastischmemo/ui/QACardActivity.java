@@ -636,6 +636,11 @@ public abstract class QACardActivity extends BaseActivity {
         return true;
     }
 
+    protected boolean speakHint() {
+        cardTTSUtil.speakCardHint(getCurrentCard());
+        return true;
+    }
+
     private void loadGestures() {
         gestureLibrary = GestureLibraries.fromRawResource(this, R.raw.gestures);
         if (!gestureLibrary.load()) {
@@ -690,7 +695,9 @@ public abstract class QACardActivity extends BaseActivity {
         return true;
     }
     protected boolean onClickHintText() {
-        //show hint
+        if (!onClickHintView()) {
+            speakHint();
+        }
         return true;
     }
 
@@ -859,6 +866,7 @@ public abstract class QACardActivity extends BaseActivity {
         public void onClick(View v) {
             if(!isAnswerShown) {
                 onClickHintText();
+                speakHint();
             }
         }
     };
