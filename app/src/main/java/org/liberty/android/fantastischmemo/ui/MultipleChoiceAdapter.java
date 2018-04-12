@@ -13,12 +13,12 @@ import org.liberty.android.fantastischmemo.entity.MultipleChoiceCard;
 
 import java.util.List;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MultipleChoiceHolder> {
+public class MultipleChoiceAdapter extends RecyclerView.Adapter<MultipleChoiceAdapter.MultipleChoiceHolder> {
 
     private Context mContext;
     private List<MultipleChoiceCard> mcCards;
 
-    public RecyclerViewAdapter(Context mContext, List<MultipleChoiceCard> mCards) {
+    public MultipleChoiceAdapter(Context mContext, List<MultipleChoiceCard> mCards) {
         this.mContext = mContext;
         this.mcCards = mCards;
     }
@@ -56,7 +56,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         TextView option3Text;
         TextView option4Text;
         TextView answerText;
-        CardView cardView ;
+        CardView cardView;
 
         public MultipleChoiceHolder(View itemView) {
             super(itemView);

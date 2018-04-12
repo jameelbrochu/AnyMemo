@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
-    <supports-screens android:anyDensity="true"/>
+    <supports-screens android:anyDensity="true" />
 
     <application
         android:name=".common.AMApplication"
@@ -191,13 +191,16 @@
         <activity
             android:name=".ui.MCStudyActivity"
             android:parentActivityName=".ui.AnyMemo">
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".ui.AnyMemo" />
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.AnyMemo" />
         </activity>
         <activity
             android:name=".ui.CardMCEditor"
             android:label="@string/title_activity_card_mc" />
+        <activity
+            android:name=".ui.QuizReviewAdapter"
+            android:label="@string/title_activity_quiz_review_adapter"></activity>
     </application>
 
 </manifest>

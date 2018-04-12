@@ -1,16 +1,23 @@
 package org.liberty.android.fantastischmemo.ui;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
 import org.liberty.android.fantastischmemo.R;
 import org.liberty.android.fantastischmemo.entity.Card;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class QuizReviewActivity extends Activity {
+
+    private List<Card> combinedQuestions = new ArrayList<>();
+    private RecyclerView quizRV;
 
     public static String FORGOT_CARDS = "FORGOT_CARDS";
     public static String REMEMBERED_CARDS = "REMEMBERED_CARDS";
@@ -20,7 +27,7 @@ public class QuizReviewActivity extends Activity {
 
 
     private TextView titleTextView;
-    private TextView quizQuestionsTextView;
+    private TextView quizScoreTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,41 +42,28 @@ public class QuizReviewActivity extends Activity {
         }
         titleTextView = (TextView) findViewById(R.id.quiz_review_title);
         titleTextView.setText("Quiz Review");
-        quizQuestionsTextView = (TextView)findViewById(R.id.quiz_questions);
+        quizRV = (RecyclerView) findViewById(R.id.recyclerview_quiz);
+        quizScoreTextView = (TextView)findViewById(R.id.quiz_score);
 
         for(int i=0; i < all_forgotten_cards.size(); i++) {
             Card c = all_forgotten_cards.get(i);
             c.setResult(false);
-            //forgotQuestionsTextView.setText(forgotQuestionsTextView.getText() + "Question " + Integer.toString(c.getId()) + ": " + c.getQuestion() + "\nAnswer: " + c.getAnswer()
-                   // + "\n\n");
         }
 
         for(int i=0; i < all_remembered_cards.size(); i++) {
             Card c = all_remembered_cards.get(i);
             c.setResult(true);
-            //rememberQuestionsTextView.setText(rememberQuestionsTextView.getText() + "Question " + Integer.toString(c.getId()) + ": " + c.getQuestion() + "\nAnswer: " + c.getAnswer()
-                  //  + "\n\n");
         }
 
-        ArrayList<Card> combinedQuestions = new ArrayList<>();
         if (all_forgotten_cards != null)
             combinedQuestions.addAll(all_forgotten_cards);
         if (all_remembered_cards!= null)
             combinedQuestions.addAll(all_remembered_cards);
 
-
-        for(int i=0; i < combinedQuestions.size(); i++) {
-            Card c = combinedQuestions.get (i);
-            if (c.getResult ( ) == true) {
-                //quizQuestionsTextView.setTextColor(Color.parseColor("#ff00e676"));
-                quizQuestionsTextView.setText(quizQuestionsTextView.getText() + "<font color=\"green\">Question " + Integer.toString(c.getId()) + ": " +
-                        c.getQuestion() + "\nAnswer: " + c.getAnswer() + "</font>\n\n");
-            } else {
-                //quizQuestionsTextView.setTextColor(Color.parseColor("#ffff4444"));
-                quizQuestionsTextView.setText(quizQuestionsTextView.getText() + "<font color=\"red\">Question " + Integer.toString(c.getId()) + ": " +
-                        c.getQuestion() + "\nAnswer: " + c.getAnswer() + "</font>\n\n");
-            }
-        }
+        //initialize adapter
+        QuizReviewAdapter mcAdapter = new QuizReviewAdapter(this, combinedQuestions);
+        quizRV.setLayoutManager(new GridLayoutManager(this, 1));
+        quizRV.setAdapter(mcAdapter);
 
 
     }
