@@ -24,6 +24,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,17 +32,24 @@ import android.view.ViewGroup;
 
 import org.liberty.android.fantastischmemo.R;
 import org.liberty.android.fantastischmemo.common.AMPrefKeys;
+import org.liberty.android.fantastischmemo.common.AnyMemoDBOpenHelper;
+import org.liberty.android.fantastischmemo.common.AnyMemoDBOpenHelperManager;
 import org.liberty.android.fantastischmemo.common.BaseActivity;
 import org.liberty.android.fantastischmemo.common.BaseDialogFragment;
+import org.liberty.android.fantastischmemo.dao.HistoryDao;
+import org.liberty.android.fantastischmemo.entity.History;
 import org.liberty.android.fantastischmemo.utils.AMFileUtil;
 import org.liberty.android.fantastischmemo.utils.AMPrefUtil;
 import org.liberty.android.fantastischmemo.utils.RecentListUtil;
 import org.liberty.android.fantastischmemo.utils.ShareUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 public class OpenActionsFragment extends BaseDialogFragment {
-    public static String EXTRA_DBPATH = "dbpath";
+    public static final String EXTRA_DBPATH = "dbpath";
     private BaseActivity mActivity;
 
     private String dbPath;
@@ -55,6 +63,11 @@ public class OpenActionsFragment extends BaseDialogFragment {
     private View statisticsItem;
     private View shareItem;
     private View deleteItem;
+    private View historyItem;
+
+    /* quiz history */
+    private String historyDbPath = "/sdcard/history.db";
+    private AnyMemoDBOpenHelper historyDbHelper;
 
     @Inject AMFileUtil amFileUtil;
 
@@ -66,6 +79,17 @@ public class OpenActionsFragment extends BaseDialogFragment {
 
 
     public OpenActionsFragment() { }
+
+    public AnyMemoDBOpenHelper getHistoryDbHelper() {
+        if (historyDbHelper == null) {
+            historyDbHelper = AnyMemoDBOpenHelperManager.getHelper(getContext(), historyDbPath);
+            HistoryDao historyDao = historyDbHelper.getHistoryDao();
+            historyDao.setHelper(historyDbHelper);
+            return historyDbHelper;
+        }
+        else
+            return historyDbHelper;
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -97,6 +121,9 @@ public class OpenActionsFragment extends BaseDialogFragment {
 
         quizItem = v.findViewById(R.id.quiz);
         quizItem.setOnClickListener(buttonClickListener);
+
+        historyItem = v.findViewById(R.id.history);
+        historyItem.setOnClickListener(buttonClickListener);
 
         settingsItem = v.findViewById(R.id.settings);
         settingsItem.setOnClickListener(buttonClickListener);
@@ -151,6 +178,15 @@ public class OpenActionsFragment extends BaseDialogFragment {
                 df.setArguments(b);
                 df.show(mActivity.getSupportFragmentManager(), "QuizLauncherDialog");
                 recentListUtil.addToRecentList(dbPath);
+            }
+
+            if (v == historyItem) {
+                ArrayList<History> history = (ArrayList<History>) getHistoryDbHelper().getHistoryDao().getHistoryForDB(dbPath);
+                Intent myIntent = new Intent();
+                myIntent.setClass(mActivity, QuizHistoryActivity.class);
+                myIntent.putExtra(QuizHistoryActivity.EXTRA_DBPATH, historyDbPath);
+                myIntent.putParcelableArrayListExtra("HISTORY", history);
+                startActivity(myIntent);
             }
 
             if (v == settingsItem) {

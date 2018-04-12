@@ -16,6 +16,7 @@ import org.liberty.android.fantastischmemo.dao.CardDao;
 import org.liberty.android.fantastischmemo.dao.CategoryDao;
 import org.liberty.android.fantastischmemo.dao.DeckDao;
 import org.liberty.android.fantastischmemo.dao.FilterDao;
+import org.liberty.android.fantastischmemo.dao.HistoryDao;
 import org.liberty.android.fantastischmemo.dao.LearningDataDao;
 import org.liberty.android.fantastischmemo.dao.MultipleChoiceCardDao;
 import org.liberty.android.fantastischmemo.dao.SettingDao;
@@ -23,6 +24,7 @@ import org.liberty.android.fantastischmemo.entity.Card;
 import org.liberty.android.fantastischmemo.entity.Category;
 import org.liberty.android.fantastischmemo.entity.Deck;
 import org.liberty.android.fantastischmemo.entity.Filter;
+import org.liberty.android.fantastischmemo.entity.History;
 import org.liberty.android.fantastischmemo.entity.LearningData;
 import org.liberty.android.fantastischmemo.entity.MultipleChoiceCard;
 import org.liberty.android.fantastischmemo.entity.Setting;
@@ -37,7 +39,7 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
 
     private final String dbPath;
 
-    private static final int CURRENT_VERSION = 9;
+    private static final int CURRENT_VERSION = 10;
 
     private CardDao cardDao = null;
 
@@ -52,6 +54,8 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
     private LearningDataDao learningDataDao = null;
 
     private MultipleChoiceCardDao multipleChoiceCardDao = null;
+
+    private HistoryDao historyDao = null;
 
     private boolean isReleased = false;
 
@@ -70,6 +74,7 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, Category.class);
             TableUtils.createTable(connectionSource, LearningData.class);
             TableUtils.createTable(connectionSource, MultipleChoiceCard.class);
+            TableUtils.createTable(connectionSource, History.class);
 
 
             getSettingDao().create(new Setting());
@@ -196,13 +201,24 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
                 MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_OPTION4 + " string, " +
                 MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_ANSWER + " string " + ")";
 
-        if(oldVersion <= 7){
+        if (oldVersion <= 7) {
             database.execSQL(CREATE_MULTIPLE_CHOICE_TABLE);
         }
-
-        if(oldVersion <= 8){
+      
+        if (oldVersion <= 8) {
             database.execSQL("alter table settings add hintAudio String");
             database.execSQL("alter table settings add hintAudioLocation String");
+        }
+      
+        if (oldVersion <= 9) {
+            final String CREATE_HISTORY_TABLE = "create table " +
+                    "history (" +
+                    "id" + " integer primary key autoincrement, " +
+                    "dbPath string, " +
+                    "mark integer, " +
+                    "timeStamp integer" +
+                    ")";
+            database.execSQL(CREATE_HISTORY_TABLE);
         }
     }
 
@@ -277,6 +293,17 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
                 categoryDao = getDao(Category.class);
             }
             return categoryDao;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public synchronized HistoryDao getHistoryDao() {
+        try {
+            if (historyDao == null) {
+                historyDao = getDao(History.class);
+            }
+            return historyDao;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -416,5 +443,55 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
         } else {
             db.execSQL(UPDATE_STATEMENT + "' where _id = " + card.getId());
         }
+    }
+
+    private void addToHistoryList(Cursor c, List<History> list) {
+        if (c.moveToFirst()) {
+            do {
+                History history = new History();
+                history.setId((c.getLong(c.getColumnIndex("id"))));
+                history.setdbPath((c.getString(c.getColumnIndex("dbPath"))));
+                history.setMark((c.getDouble(c.getColumnIndex("mark"))));
+                history.setTimeStamp((c.getLong(c.getColumnIndex("timeStamp"))));
+                list.add(history);
+            } while (c.moveToNext());
+        }
+    }
+
+    public List<History> getHistoryForDB(String dbPath){
+
+        List<History> histories = new ArrayList<>();
+
+        db = getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM  history WHERE dbPath = " + "'"+ dbPath + "'" , null);
+        addToHistoryList(c, histories);
+
+        c.close();
+
+        return histories;
+    }
+
+    public void insertHistory(History history, SQLiteDatabase db) {
+        ContentValues cv = new ContentValues();
+        cv.put("dbPath", history.getdbPath());
+        cv.put("mark", history.getMark());
+        cv.put("timeStamp", history.getTimeStamp());
+        long id = db.insert("history", null, cv);
+        history.setId(id);
+    }
+
+    public void deleteHistory(History history) {
+        db.delete("history",
+                "id" + "=" + history.getId(),
+                null);
+    }
+
+    public int getCountHistoryforDB(String dbPath) {
+        int count = 0;
+        db = getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM  history WHERE dbPath = " + "'"+ dbPath + "'" , null);
+        count = c.getCount();
+
+        return count;
     }
 }
