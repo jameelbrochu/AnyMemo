@@ -43,11 +43,11 @@ public class QuizReviewActivity extends Activity {
         quizScoreTextView = (TextView)findViewById(R.id.quiz_score);
         quizScoreTextView.setText("Score: " + quizScore);
 
-        for (Card c: all_forgotten_cards) {
+        for (Card c : all_forgotten_cards) {
             c.setResult(false);
         }
 
-        for (Card c: all_remembered_cards) {
+        for (Card c : all_remembered_cards) {
             c.setResult(true);
         }
 
