@@ -20,7 +20,7 @@ import org.liberty.android.fantastischmemo.entity.MultipleChoiceCard;
 
 import java.util.List;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MultipleChoiceHolder> {
+public class MultipleChoiceAdapter extends RecyclerView.Adapter<MultipleChoiceAdapter.MultipleChoiceHolder> {
 
     private Context mContext;
     private List<MultipleChoiceCard> mcCards;
@@ -28,7 +28,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private AnyMemoDBOpenHelper dbOpenHelper;
     private String dbPath;
 
-    public RecyclerViewAdapter(Context mContext, List<MultipleChoiceCard> mCards, String dbPath) {
+    public MultipleChoiceAdapter(Context mContext, List<MultipleChoiceCard> mCards, String dbPath) {
         this.mContext = mContext;
         this.mcCards = mCards;
         this.dbPath = dbPath;
@@ -109,18 +109,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         TextView option3Text;
         TextView option4Text;
         TextView answerText;
-        CardView cardView ;
+        CardView cardView;
 
         public MultipleChoiceHolder(View itemView) {
             super(itemView);
 
-            questionText = (TextView) itemView.findViewById(R.id.rv_mc_question);
-            option1Text = (TextView) itemView.findViewById(R.id.rv_mc_option1);
-            option2Text = (TextView) itemView.findViewById(R.id.rv_mc_option2);
-            option3Text = (TextView) itemView.findViewById(R.id.rv_mc_option3);
-            option4Text = (TextView) itemView.findViewById(R.id.rv_mc_option4);
-            answerText = (TextView) itemView.findViewById(R.id.rv_mc_answer);
-            cardView = (CardView) itemView.findViewById(R.id.cardview_id);
+            questionText = (TextView)itemView.findViewById(R.id.rv_mc_question);
+            option1Text = (TextView)itemView.findViewById(R.id.rv_mc_option1);
+            option2Text = (TextView)itemView.findViewById(R.id.rv_mc_option2);
+            option3Text = (TextView)itemView.findViewById(R.id.rv_mc_option3);
+            option4Text = (TextView)itemView.findViewById(R.id.rv_mc_option4);
+            answerText = (TextView)itemView.findViewById(R.id.rv_mc_answer);
+            cardView = (CardView)itemView.findViewById(R.id.cardview_id);
         }
     }
 }
