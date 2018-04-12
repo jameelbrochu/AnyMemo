@@ -48,7 +48,7 @@ public class QuizReviewActivity extends Activity {
         }
 
         for (Card c: all_remembered_cards) {
-            c.setResult(false);
+            c.setResult(true);
         }
 
         if (all_forgotten_cards != null) {
