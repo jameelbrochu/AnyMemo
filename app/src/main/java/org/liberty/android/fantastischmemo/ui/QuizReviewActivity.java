@@ -19,9 +19,9 @@ public class QuizReviewActivity extends Activity {
     private List<Card> combinedQuestions = new ArrayList<>();
     private RecyclerView quizRV;
 
-    public static String FORGOT_CARDS = "FORGOT_CARDS";
-    public static String REMEMBERED_CARDS = "REMEMBERED_CARDS";
-    public static String QUIZ_SCORE = "QUIZ_SCORE";
+    public static final String FORGOT_CARDS = "FORGOT_CARDS";
+    public static final String REMEMBERED_CARDS = "REMEMBERED_CARDS";
+    public static final String QUIZ_SCORE = "QUIZ_SCORE";
 
     ArrayList<Card> all_forgotten_cards = new ArrayList<>();
     ArrayList<Card> all_remembered_cards = new ArrayList<>();
