@@ -56,6 +56,7 @@ import org.liberty.android.fantastischmemo.common.BaseActivity;
 import org.liberty.android.fantastischmemo.dao.SettingDao;
 import org.liberty.android.fantastischmemo.entity.Setting;
 import org.liberty.android.fantastischmemo.entity.Setting.CardField;
+import org.liberty.android.fantastischmemo.ui.helper.SettingHelper;
 import org.liberty.android.fantastischmemo.ui.loader.MultipleLoaderManager;
 import org.liberty.android.fantastischmemo.ui.loader.SettingLoader;
 import org.liberty.android.fantastischmemo.ui.widgets.AMSpinner;
@@ -329,14 +330,7 @@ public class SettingsScreen extends BaseActivity {
             colorSpinner =  (AMSpinner)findViewById(R.id.color_item_spinner);
             colorButton = (Button) findViewById(R.id.settings_color_button);
             colorButton.setOnClickListener(settingFieldOnClickListener);
-            colors = new ArrayList<Integer>(5);
-            colors.add(setting.getQuestionTextColor());
-            colors.add(setting.getHintTextColor());
-            colors.add(setting.getAnswerTextColor());
-            colors.add(setting.getQuestionBackgroundColor());
-            colors.add(setting.getHintBackgroundColor());
-            colors.add(setting.getAnswerBackgroundColor());
-            colors.add(setting.getSeparatorColor());
+            colors = SettingHelper.setColors(setting);
 
             qTypefaceCheckbox = (CheckBox) findViewById(R.id.checkbox_typeface_question);
             qTypefaceCheckbox.setOnClickListener(settingFieldOnClickListener);
@@ -534,10 +528,7 @@ public class SettingsScreen extends BaseActivity {
         @Override
         public void onPreExecute() {
             progressDialog = new ProgressDialog(SettingsScreen.this);
-            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            progressDialog.setTitle(getString(R.string.loading_please_wait));
-            progressDialog.setMessage(getString(R.string.loading_save));
-            progressDialog.setCancelable(false);
+            progressDialog = SettingHelper.setProgressDialog(progressDialog, getString(R.string.loading_please_wait), getString(R.string.loading_save));
             progressDialog.show();
 
             setting.setQuestionFontSize(Integer.valueOf(questionFontSizeSpinner.getSelectedItemValue()));
@@ -578,20 +569,14 @@ public class SettingsScreen extends BaseActivity {
                 setting.setHintAudio("");
                 setting.setHintAudioLocation("");
             } else if (hintLocaleSpinner.getSelectedItemPosition() == 1) {
-               setting.setHintAudioLocation(audioLocationEdit.getText().toString());
-               setting.setHintAudio(hintLocaleSpinner.getSelectedItemValue());
+                setting.setHintAudioLocation(audioLocationEdit.getText().toString());
+                setting.setHintAudio(hintLocaleSpinner.getSelectedItemValue());
             } else {
                 setting.setHintAudio(hintLocaleSpinner.getSelectedItemValue());
                 setting.setHintAudioLocation("");
             }
 
-            setting.setQuestionTextColor(colors.get(0));
-            setting.setHintTextColor(colors.get(1));
-            setting.setAnswerTextColor(colors.get(2));
-            setting.setQuestionBackgroundColor(colors.get(3));
-            setting.setHintBackgroundColor(colors.get(4));
-            setting.setAnswerBackgroundColor(colors.get(5));
-            setting.setSeparatorColor(colors.get(6));
+            setting = SettingHelper.setValues(setting, colors);
 
             if (!qTypefaceCheckbox.isChecked()) {
                 setting.setQuestionFont("");
@@ -632,10 +617,7 @@ public class SettingsScreen extends BaseActivity {
         @Override
         public void onPreExecute() {
             progressDialog = new ProgressDialog(SettingsScreen.this);
-            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            progressDialog.setTitle(getString(R.string.loading_please_wait));
-            progressDialog.setMessage(getString(R.string.loading_database));
-            progressDialog.setCancelable(false);
+            progressDialog = SettingHelper.setProgressDialog(progressDialog, getString(R.string.loading_please_wait),getString(R.string.loading_database));
             progressDialog.show();
         }
 
@@ -776,10 +758,7 @@ public class SettingsScreen extends BaseActivity {
 
             if (v == qTypefaceEdit) {
                 FileBrowserFragment df = new FileBrowserFragment();
-                Bundle b = new Bundle();
-                b.putString(FileBrowserFragment.EXTRA_FILE_EXTENSIONS, ".ttf");
-                b.putString(FileBrowserFragment.EXTRA_DEFAULT_ROOT, AMEnv.DEFAULT_ROOT_PATH);
-                b.putBoolean(FileBrowserFragment.EXTRA_DISMISS_ON_SELECT, true);
+                Bundle b = SettingHelper.setQuestionBundle(new Bundle());
                 df.setArguments(b);
                 df.setOnFileClickListener(qTypefaceEditFbListener);
                 df.show(getSupportFragmentManager(), "qTypefaceEditFB");
@@ -787,10 +766,7 @@ public class SettingsScreen extends BaseActivity {
 
             if (v == aTypefaceEdit) {
                 FileBrowserFragment df = new FileBrowserFragment();
-                Bundle b = new Bundle();
-                b.putString(FileBrowserFragment.EXTRA_FILE_EXTENSIONS, ".ttf");
-                b.putString(FileBrowserFragment.EXTRA_DEFAULT_ROOT, AMEnv.DEFAULT_ROOT_PATH);
-                b.putBoolean(FileBrowserFragment.EXTRA_DISMISS_ON_SELECT, true);
+                Bundle b = SettingHelper.setQuestionBundle(new Bundle());
                 df.setArguments(b);
                 df.setOnFileClickListener(aTypefaceEditFbListener);
                 df.show(getSupportFragmentManager(), "aTypefaceEditFB");
@@ -816,7 +792,6 @@ public class SettingsScreen extends BaseActivity {
         }
     };
 
-
     private FileBrowserFragment.OnFileClickListener qTypefaceEditFbListener
         = new FileBrowserFragment.OnFileClickListener() {
             public void onClick(File file) {
@@ -832,4 +807,3 @@ public class SettingsScreen extends BaseActivity {
         };
 
 }
-
