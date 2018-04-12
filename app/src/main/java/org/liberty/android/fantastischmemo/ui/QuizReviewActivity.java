@@ -21,10 +21,11 @@ public class QuizReviewActivity extends Activity {
 
     public static String FORGOT_CARDS = "FORGOT_CARDS";
     public static String REMEMBERED_CARDS = "REMEMBERED_CARDS";
+    public static String QUIZ_SCORE = "QUIZ_SCORE";
 
     ArrayList<Card> all_forgotten_cards = new ArrayList<>();
     ArrayList<Card> all_remembered_cards = new ArrayList<>();
-
+    String quizScore;
 
     private TextView titleTextView;
     private TextView quizScoreTextView;
@@ -36,6 +37,7 @@ public class QuizReviewActivity extends Activity {
         try {
             all_forgotten_cards = this.getIntent().getParcelableArrayListExtra(FORGOT_CARDS);
             all_remembered_cards = this.getIntent().getParcelableArrayListExtra(REMEMBERED_CARDS);
+            quizScore = this.getIntent().getStringExtra(QUIZ_SCORE);
         }
         catch (NullPointerException e) {
             e.getMessage();
@@ -44,6 +46,7 @@ public class QuizReviewActivity extends Activity {
         titleTextView.setText("Quiz Review");
         quizRV = (RecyclerView) findViewById(R.id.recyclerview_quiz);
         quizScoreTextView = (TextView)findViewById(R.id.quiz_score);
+        quizScoreTextView.setText("Score: " + quizScore);
 
         for(int i=0; i < all_forgotten_cards.size(); i++) {
             Card c = all_forgotten_cards.get(i);
@@ -59,6 +62,14 @@ public class QuizReviewActivity extends Activity {
             combinedQuestions.addAll(all_forgotten_cards);
         if (all_remembered_cards!= null)
             combinedQuestions.addAll(all_remembered_cards);
+
+        Collections.sort(combinedQuestions, new Comparator<Card>() {
+            @Override
+            //ascending sorting of ArrayList
+            public int compare(Card card, Card t1) {
+                return Integer.valueOf(card.getId().compareTo(t1.getId()));
+            }
+        });
 
         //initialize adapter
         QuizReviewAdapter mcAdapter = new QuizReviewAdapter(this, combinedQuestions);

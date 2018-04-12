@@ -88,6 +88,7 @@ public class QuizActivity extends QACardActivity {
     private boolean isNewCardsCompleted = false;
     private boolean shuffleCards = false;
     private int totalQuizSize = -1;
+    private String quizScore;
 
     private TextView countdownText;
     private CountDownTimer countDownTimer;
@@ -484,6 +485,7 @@ public class QuizActivity extends QACardActivity {
         View view = layoutInflater.inflate(R.layout.quiz_summary_dialog, null);
         TextView scoreView = (TextView) view.findViewById(R.id.score_text);
         int score = correct * 100 / totalQuizSize;
+        quizScore = "" + score + "% (" + correct + "/" + totalQuizSize + ")";
 
         scoreView.setText("" + score + "% (" + correct + "/" + totalQuizSize + ")");
         new AlertDialog.Builder(this)
@@ -520,6 +522,7 @@ public class QuizActivity extends QACardActivity {
 
                     intent.putParcelableArrayListExtra("FORGOT_CARDS", forgottenCards);
                     intent.putParcelableArrayListExtra("REMEMBERED_CARDS", rememberedCards);
+                    intent.putExtra("QUIZ_SCORE", quizScore);
                     startActivity(intent);
                 }
             };
