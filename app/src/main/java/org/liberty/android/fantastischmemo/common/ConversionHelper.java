@@ -3,7 +3,7 @@ package org.liberty.android.fantastischmemo.common;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-public class VersionHelper {
+public class ConversionHelper {
 
     protected void setUnusedFields(SQLiteDatabase database) {
         database.execSQL("update cards"
