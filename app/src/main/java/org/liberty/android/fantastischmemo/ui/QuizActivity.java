@@ -77,6 +77,7 @@ public class QuizActivity extends QACardActivity {
     public static final String EXTRA_COUNTDOWN = "countdown_value";
 
 
+
     /* UI elements */
     private GradeButtonsFragment gradeButtonsFragment;
 
@@ -169,7 +170,6 @@ public class QuizActivity extends QACardActivity {
 
     public void startTimer() {
         this.countDownTimer = new CountDownTimer(timeLeftInMilliseconds, 1000) {
-
             MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.countdown);
 
             @Override
