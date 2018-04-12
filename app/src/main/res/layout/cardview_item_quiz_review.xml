@@ -4,7 +4,10 @@
     android:id="@+id/quiz_cardview_id"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
     cardview:cardBackgroundColor="@android:color/transparent"
     cardview:cardElevation="0dp">
 

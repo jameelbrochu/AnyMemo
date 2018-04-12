@@ -180,7 +180,12 @@
 
         <activity
             android:name=".ui.QuizReviewActivity"
-            android:label="@string/title_activity_quiz_review" />
+            android:parentActivityName=".ui.AnyMemo">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.AnyMemo" />
+        </activity>
+
         <activity
             android:name=".ui.PreviewEditMCActivity"
             android:parentActivityName=".ui.AnyMemo">
@@ -198,9 +203,6 @@
         <activity
             android:name=".ui.CardMCEditor"
             android:label="@string/title_activity_card_mc" />
-        <activity
-            android:name=".ui.QuizReviewAdapter"
-            android:label="@string/title_activity_quiz_review_adapter"></activity>
     </application>
 
 </manifest>
