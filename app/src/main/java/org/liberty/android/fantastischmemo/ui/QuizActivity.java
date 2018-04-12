@@ -494,7 +494,7 @@ public class QuizActivity extends QACardActivity {
         View view = layoutInflater.inflate(R.layout.quiz_summary_dialog, null);
         TextView scoreView = (TextView) view.findViewById(R.id.score_text);
         int score = correct * 100 / totalQuizSize;
-        quizScore = "" + score + "% (" + correct + "/" + totalQuizSize + ")";
+        quizScore = Integer.toString(score) + "% (" + correct + "/" + totalQuizSize + ")";
         //Create history entity and add to database here
         addToQuizHistory(score);
 

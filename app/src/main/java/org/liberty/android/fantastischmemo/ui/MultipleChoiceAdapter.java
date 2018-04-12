@@ -114,13 +114,13 @@ public class MultipleChoiceAdapter extends RecyclerView.Adapter<MultipleChoiceAd
         public MultipleChoiceHolder(View itemView) {
             super(itemView);
 
-            questionText = (TextView) itemView.findViewById(R.id.rv_mc_question);
-            option1Text = (TextView) itemView.findViewById(R.id.rv_mc_option1);
-            option2Text = (TextView) itemView.findViewById(R.id.rv_mc_option2);
-            option3Text = (TextView) itemView.findViewById(R.id.rv_mc_option3);
-            option4Text = (TextView) itemView.findViewById(R.id.rv_mc_option4);
-            answerText = (TextView) itemView.findViewById(R.id.rv_mc_answer);
-            cardView = (CardView) itemView.findViewById(R.id.cardview_id);
+            questionText = (TextView)itemView.findViewById(R.id.rv_mc_question);
+            option1Text = (TextView)itemView.findViewById(R.id.rv_mc_option1);
+            option2Text = (TextView)itemView.findViewById(R.id.rv_mc_option2);
+            option3Text = (TextView)itemView.findViewById(R.id.rv_mc_option3);
+            option4Text = (TextView)itemView.findViewById(R.id.rv_mc_option4);
+            answerText = (TextView)itemView.findViewById(R.id.rv_mc_answer);
+            cardView = (CardView)itemView.findViewById(R.id.cardview_id);
         }
     }
 

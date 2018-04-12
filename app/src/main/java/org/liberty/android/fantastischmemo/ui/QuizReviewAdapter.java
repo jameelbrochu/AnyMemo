@@ -37,10 +37,10 @@ public class QuizReviewAdapter extends RecyclerView.Adapter<QuizReviewAdapter.Qu
         quizHolder.quizQuestionText.setText("Question " + cards.get(position).getId() + ": " + cards.get(position).getQuestion());
         quizHolder.quizAnswerText.setText("Answer: " + cards.get(position).getAnswer());
 
-        if(cards.get(position).getResult() == false) {
+        if (cards.get(position).getResult() == false) {
             quizHolder.quizQuestionText.setTextColor(Color.parseColor("#ffff4444"));
             quizHolder.quizAnswerText.setTextColor(Color.parseColor("#ffff4444"));
-        } else if(cards.get(position).getResult() == true) {
+        } else if (cards.get(position).getResult() == true) {
             quizHolder.quizQuestionText.setTextColor(Color.parseColor("#ff00e676"));
             quizHolder.quizAnswerText.setTextColor(Color.parseColor("#ff00e676"));
         }
@@ -60,9 +60,9 @@ public class QuizReviewAdapter extends RecyclerView.Adapter<QuizReviewAdapter.Qu
         public QuizHolder(View itemView) {
             super(itemView);
 
-            quizQuestionText = (TextView) itemView.findViewById(R.id.rv_quiz_question);
-            quizAnswerText = (TextView) itemView.findViewById(R.id.rv_quiz_answer);
-            cardView = (CardView) itemView.findViewById(R.id.quiz_cardview_id);
+            quizQuestionText = (TextView)itemView.findViewById(R.id.rv_quiz_question);
+            quizAnswerText = (TextView)itemView.findViewById(R.id.rv_quiz_answer);
+            cardView = (CardView)itemView.findViewById(R.id.quiz_cardview_id);
         }
     }
 
