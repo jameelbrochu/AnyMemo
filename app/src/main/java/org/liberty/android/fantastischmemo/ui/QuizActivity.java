@@ -47,7 +47,6 @@ import org.liberty.android.fantastischmemo.R;
 import org.liberty.android.fantastischmemo.common.AnyMemoDBOpenHelper;
 import org.liberty.android.fantastischmemo.common.AnyMemoDBOpenHelperManager;
 import org.liberty.android.fantastischmemo.dao.HistoryDao;
-import org.liberty.android.fantastischmemo.dao.HistoryDaoImpl;
 import org.liberty.android.fantastischmemo.entity.Card;
 import org.liberty.android.fantastischmemo.entity.Category;
 import org.liberty.android.fantastischmemo.entity.History;
@@ -57,11 +56,12 @@ import org.liberty.android.fantastischmemo.modules.AppComponents;
 import org.liberty.android.fantastischmemo.queue.QueueManager;
 import org.liberty.android.fantastischmemo.queue.QuizQueueManager;
 import org.liberty.android.fantastischmemo.scheduler.Scheduler;
+import org.liberty.android.fantastischmemo.ui.helper.HistoryHelper;
 import org.liberty.android.fantastischmemo.ui.loader.DBLoader;
+import org.liberty.android.fantastischmemo.ui.quiz.QuizReviewActivity;
 import org.liberty.android.fantastischmemo.utils.DictionaryUtil;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -74,7 +74,7 @@ public class QuizActivity extends QACardActivity {
     public static final String EXTRA_START_CARD_ID = "start_card_id";
     public static final String EXTRA_TIMER_MODE = "timer_id";
     public static final String EXTRA_COUNTDOWN = "countdown_value";
-
+    public MediaPlayer mediaPlayer;
 
     /* UI elements */
     private GradeButtonsFragment gradeButtonsFragment;
@@ -116,7 +116,6 @@ public class QuizActivity extends QACardActivity {
         super.onPostInit();
         setting = getSetting();
         option = getOption();
-
         createQueue();
 
         // Keep track the initial total quiz size.
@@ -168,9 +167,8 @@ public class QuizActivity extends QACardActivity {
     }
 
     public void startTimer() {
+        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.countdown);
         this.countDownTimer = new CountDownTimer(timeLeftInMilliseconds, 1000) {
-
-            MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.countdown);
 
             @Override
             public void onTick(long millisUntilFinished) {
@@ -224,11 +222,9 @@ public class QuizActivity extends QACardActivity {
         if (secondsLeft < 10) {
             totalTimeLeftText += "0";
         }
-
         totalTimeLeftText += secondsLeft;
 
         countdownText.setText(totalTimeLeftText);
-
     }
 
     @Override
@@ -489,6 +485,11 @@ public class QuizActivity extends QACardActivity {
 
     /* Called when all new cards are completed. */
     private void showCompleteNewDialog(int correct) {
+        if (mediaPlayer !=null) {
+            if (mediaPlayer.isPlaying()) {
+                mediaPlayer.stop();
+            }
+        }
         LayoutInflater layoutInflater
                 = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(R.layout.quiz_summary_dialog, null);
@@ -516,23 +517,8 @@ public class QuizActivity extends QACardActivity {
         historyDao.setHelper(historyDbHelper);
         List<History> historyForDeck = historyDao.getHistoryForDB(getDbPath());
         int count = historyDao.count(getDbPath());
-        if (count == 10) {
-            History oldest = historyForDeck.get(0);
-            for (History history : historyForDeck) {
-                if (history.getTimeStamp() < oldest.getTimeStamp()) {
-                    oldest = history;
-                }
-            }
-            historyDao.deleteHistory(oldest);
-        }
-
-        Date date = new Date();
-        Long timeStamp = date.getTime();
-        History result = new History();
-        result.setdbPath(getDbPath());
-        result.setMark(score);
-        result.setTimeStamp(timeStamp);
-        historyDao.insertHistory(result);
+        String dbPath = getDbPath();
+        History result = HistoryHelper.addToHistory(score, count, historyForDeck, dbPath, historyDao);
 
         Parcel parcel = Parcel.obtain();
         parcel.writeValue(result.getdbPath());

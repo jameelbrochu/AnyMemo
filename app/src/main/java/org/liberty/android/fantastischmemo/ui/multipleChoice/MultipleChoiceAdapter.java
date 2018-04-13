@@ -1,4 +1,4 @@
-package org.liberty.android.fantastischmemo.ui;
+package org.liberty.android.fantastischmemo.ui.multipleChoice;
 
 import android.content.Context;
 import android.content.Intent;
@@ -123,5 +123,4 @@ public class MultipleChoiceAdapter extends RecyclerView.Adapter<MultipleChoiceAd
             cardView = (CardView)itemView.findViewById(R.id.cardview_id);
         }
     }
-
 }

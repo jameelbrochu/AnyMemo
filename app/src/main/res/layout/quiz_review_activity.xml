@@ -13,19 +13,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="8dp"
-        tools:context="org.liberty.android.fantastischmemo.ui.QuizReviewActivity">
-
-        <TextView
-            android:id="@+id/quiz_review_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="15dp"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp"
-            android:paddingTop="15dp"
-            android:text="Quiz Review"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+        tools:context="org.liberty.android.fantastischmemo.ui.quiz.QuizReviewActivity">
 
         <android.support.design.widget.CoordinatorLayout
             android:id="@+id/main_content"

@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp"
-        tools:context="org.liberty.android.fantastischmemo.ui.MCStudyActivity">
+        tools:context="org.liberty.android.fantastischmemo.ui.multipleChoice.MCStudyActivity">
 
         <TextView
             android:id="@+id/mc_text_view_id"

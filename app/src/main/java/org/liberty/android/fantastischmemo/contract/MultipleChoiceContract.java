@@ -1,7 +1,5 @@
 package org.liberty.android.fantastischmemo.contract;
 
-import android.provider.BaseColumns;
-
 /*org.liberty.android.fantastischmemo.contract is used as a container for different constants that are used in the multiple
 choice card table */
 public final class MultipleChoiceContract {

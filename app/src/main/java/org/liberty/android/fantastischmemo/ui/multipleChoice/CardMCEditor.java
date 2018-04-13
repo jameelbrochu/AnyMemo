@@ -17,7 +17,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
-package org.liberty.android.fantastischmemo.ui;
+package org.liberty.android.fantastischmemo.ui.multipleChoice;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -65,34 +65,28 @@ public class CardMCEditor extends BaseActivity {
         setContentView(R.layout.card_mc_editor_layout);
 
         dbPath = getIntent().getExtras().getString(EXTRA_DBPATH_MC);
-
         cardToUpdate = (MultipleChoiceCard) getIntent().getSerializableExtra(EXTRA_MC);
-
         mcQuestion = (EditText) findViewById(R.id.edit_dialog_question_mc_entry);
-
         mcOption1 = (EditText) findViewById(R.id.edit_dialog_option1_entry);
-
         mcOption2 = (EditText) findViewById(R.id.edit_dialog_option2_entry);
-
         mcOption3 = (EditText) findViewById(R.id.edit_dialog_option3_entry);
-
         mcOption4 = (EditText) findViewById(R.id.edit_dialog_option4_entry);
-
         option1Radio = (RadioButton) findViewById(R.id.op_radio_1);
-
         option2Radio = (RadioButton) findViewById(R.id.op_radio_2);
-
         option3Radio = (RadioButton) findViewById(R.id.op_radio_3);
-
         option4Radio = (RadioButton) findViewById(R.id.op_radio_4);
-
         save = (Button) findViewById(R.id.save_mc);
         save.setOnClickListener(saveOnClickListener);
+
+        setDbOpenHelper();
+        setValuesOfCard(currentMCCard);
+        fillInfoOfExistingCard(cardToUpdate);
+    }
+
+    private void setDbOpenHelper() {
         dbOpenHelper = AnyMemoDBOpenHelperManager.getHelper(getApplicationContext(), dbPath);
         multipleChoiceCardDao = dbOpenHelper.getMultipleChoiceDao();
         multipleChoiceCardDao.setHelper(dbOpenHelper);
-        setValuesOfCard(currentMCCard);
-        fillInfoOfExistingCard(cardToUpdate);
     }
 
     protected AnyMemoDBOpenHelper getDbOpenHelper() {
@@ -157,7 +151,6 @@ public class CardMCEditor extends BaseActivity {
     }
 
     View.OnClickListener saveOnClickListener = new View.OnClickListener() {
-
         @Override
         public void onClick(View v) {
             if (cardToUpdate == null) {
@@ -168,7 +161,6 @@ public class CardMCEditor extends BaseActivity {
                 multipleChoiceCardDao.updateMultipleChoiceCard(cardToUpdate);
             }
             CardMCEditor.super.onBackPressed();
-
         }
     };
 }
