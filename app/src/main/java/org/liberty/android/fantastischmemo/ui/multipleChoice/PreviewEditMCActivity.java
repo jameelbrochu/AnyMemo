@@ -1,10 +1,10 @@
 package org.liberty.android.fantastischmemo.ui.multipleChoice;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class PreviewEditMCActivity extends Activity {
+public class PreviewEditMCActivity extends AppCompatActivity {
 
     private List<MultipleChoiceCard> mcCards = new ArrayList<>();
     private RecyclerView mcRV;

@@ -180,6 +180,7 @@
 
         <activity
             android:name=".ui.quiz.QuizReviewActivity"
+            android:label="@string/title_activity_quiz_review"
             android:parentActivityName=".ui.AnyMemo">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -188,9 +189,15 @@
 
         <activity
             android:name=".ui.multipleChoice.PreviewEditMCActivity"
-            android:label="@string/title_activity_card_mc_list"/>
+            android:label="@string/title_activity_card_mc_list"
+            android:parentActivityName=".ui.AnyMemo">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.AnyMemo" />
+        </activity>
         <activity
             android:name=".ui.multipleChoice.MCStudyActivity"
+            android:label="@string/title_activity_mc_study_activity"
             android:parentActivityName=".ui.AnyMemo">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
