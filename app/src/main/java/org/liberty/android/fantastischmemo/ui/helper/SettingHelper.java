@@ -62,28 +62,6 @@ public class SettingHelper {
         return b;
     }
 
-    public static Setting setHintAudio(Setting setting, String audioLocation, String audio){
-        setting.setHintAudio(audioLocation);
-        setting.setHintAudioLocation(audio);
-
-        return setting;
-    }
-
-    public static Setting setAnswerAudio(Setting setting, String answerLocation, String answer){
-        setting.setHintAudio(answerLocation);
-        setting.setHintAudioLocation(answer);
-
-        return setting;
-    }
-
-    public static Setting setQuestionAudio(Setting setting, String questionLocation, String question){
-        setting.setHintAudio(questionLocation);
-        setting.setHintAudioLocation(question);
-
-        return setting;
-    }
-
-
     public static ProgressDialog setProgressDialog(ProgressDialog progressDialog, String title, String message){
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setTitle(title);

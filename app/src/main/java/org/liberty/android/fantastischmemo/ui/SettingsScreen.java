@@ -766,7 +766,7 @@ public class SettingsScreen extends BaseActivity {
 
             if (v == aTypefaceEdit) {
                 FileBrowserFragment df = new FileBrowserFragment();
-                Bundle b = SettingHelper.setQuestionBundle(new Bundle());
+                Bundle b = SettingHelper.setAnswerBundle(new Bundle());
                 df.setArguments(b);
                 df.setOnFileClickListener(aTypefaceEditFbListener);
                 df.show(getSupportFragmentManager(), "aTypefaceEditFB");
