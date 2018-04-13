@@ -96,65 +96,24 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
 
         // This is old database
         if (isOldDatabase) {
+            ConversionHelper helper = new ConversionHelper();
             // copy all cards
-            database.execSQL("insert into cards (ordinal, question, answer, note)" +
-                    " select _id as ordinal, question, answer, note from dict_tbl");
-
+            helper.copyAllCards(database);
 
             // Make sure the count matches in old database;
-            int count_dict = 0, count_learn = 0;
-            Cursor result = database.rawQuery("SELECT _id FROM dict_tbl", null);
-            count_dict = result.getCount();
-            result.close();
-            result = database.rawQuery("SELECT _id FROM learn_tbl", null);
-            count_learn = result.getCount();
-            result.close();
-            if(count_learn != count_dict){
-                database.execSQL("DELETE FROM learn_tbl");
-                database.execSQL("INSERT INTO learn_tbl(_id) SELECT _id FROM dict_tbl");
-                database.execSQL("UPDATE learn_tbl SET date_learn = '2010-01-01', interval = 0, grade = 0, easiness = 2.5, acq_reps = 0, ret_reps  = 0, lapses = 0, acq_reps_since_lapse = 0, ret_reps_since_lapse = 0");
-            }
+            helper.ensureCountMatches(database);
 
             // copy learning data
-            database.execSQL("update cards set learningData_id = ("
-                + " select _id as learningData_id"
-                + " from learn_tbl where learn_tbl._id = cards.id)");
-            database.execSQL("insert into learning_data (acqReps, acqRepsSinceLapse, easiness,"
-                + " grade, lapses, lastLearnDate, nextLearnDate, retReps, "
-                + " retRepsSinceLapse)"
-                + " select acq_reps as acqReps , acq_reps_since_lapse as acqRepsSinceLapse,"
-                + " easiness, grade, lapses,"
-                + " date_learn || ' 00:00:00.000000' as lastLearnDate,"
-                + " datetime(julianday(date_learn) + interval) || '.000000' as nextLearnDate,"
-                + " ret_reps as retReps, ret_reps_since_lapse as retRepsSinceLapse"
-                + " from learn_tbl");
-
+            helper.copyLearningData(database);
 
             // copy categories
-            database.execSQL("insert into categories (name)"
-                + " select category as name from dict_tbl where category != ''"
-                + " and category is not null"
-                + " group by category");
-            database.execSQL("update cards set category_id = ("
-                + " select id as category_id from categories as cat"
-                + " join dict_tbl as dic on dic.category = cat.name"
-                + " where cards.id = dic._id)");
+            helper.copyCategories(database);
 
             // Update category if the category is null
-            database.execSQL("update cards "
-                    + " set category_id = 1"
-                    + " where category_id is null");
-
-            database.execSQL("update cards set updateDate='2010-01-01 00:00:00.000000'," +
-                    "creationDate='2010-01-01 00:00:00.000000'");
-            database.execSQL("update categories set updateDate='2010-01-01 00:00:00.000000'");
-            database.execSQL("update learning_data set updateDate='2010-01-01 00:00:00.000000'");
+            helper.updateCategory(database);
 
             // Set unused fields
-            database.execSQL("update cards"
-                + " set cardType = 0");
-
-
+            helper.setUnusedFields(database);
         }
     }
 
@@ -162,63 +121,32 @@ public class AnyMemoDBOpenHelper extends OrmLiteSqliteOpenHelper {
     public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
         Log.v(TAG, "Old version" + oldVersion + " new version: " + newVersion);
 
+        UpgradeHelper helper = new UpgradeHelper();
+
         // Update possible card with null category field
         if (oldVersion <= 2) {
-            database.execSQL("update cards "
-                    + " set category_id = 1"
-                    + " where category_id is null");
+            helper.dbVersionTwoUpgrade(database);
         }
         if (oldVersion <= 3) {
-            database.execSQL("update settings set questionTextColor = ? where questionTextColor = ?", new Object[] {null, 0xFFBEBEBE});
-            database.execSQL("update settings set answerTextColor = ? where answerTextColor = ?", new Object[] {null, 0xFFBEBEBE} );
-            database.execSQL("update settings set questionBackgroundColor = ? where questionBackgroundColor = ?", new Object[] {null, 0xFF000000});
-            database.execSQL("update settings set answerBackgroundColor = ? where answerBackgroundColor = ?", new Object[] {null, 0xFF000000});
+            helper.dbVersionThreeUpgrade(database);
         }
         if (oldVersion <= 4) {
-            try {
-                database.execSQL("alter table learning_data add column firstLearnDate VARCHAR");
-                database.execSQL("update learning_data set firstLearnDate='2010-01-01 00:00:00.000000'");
-            } catch (android.database.SQLException e) {
-                Log.e(TAG, "Upgrading failed, the column firstLearnData might already exists.", e);
-            }
+            helper.dbVersionFourUpgrade(database, TAG);
         }
         if (oldVersion <= 5) {
-            database.execSQL("alter table cards add hint String");
+            helper.dbVersionFiveUpgrade(database);
         }
-
         if(oldVersion <=6 ){
-            database.execSQL("alter table cards add favourite Boolean");
-            database.execSQL("alter table settings add hintToggle Boolean");
+            helper.dbVersionSixUpgrade(database);
         }
-
-        final String CREATE_MULTIPLE_CHOICE_TABLE = "create table " +
-                MultipleChoiceContract.MultipleChoiceCardTable.TABLE_NAME + " (" +
-                "_id" + " integer primary key autoincrement, " +
-                MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_QUESTION + " string, " +
-                MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_OPTION1 + " string, " +
-                MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_OPTION2 + " string, " +
-                MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_OPTION3 + " string, " +
-                MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_OPTION4 + " string, " +
-                MultipleChoiceContract.MultipleChoiceCardTable.COLUMN_ANSWER + " string " + ")";
-
-        if (oldVersion <= 7) {
-            database.execSQL(CREATE_MULTIPLE_CHOICE_TABLE);
+        if(oldVersion <= 7){
+            helper.dbVersionSevenUpgrade(database);
         }
-      
-        if (oldVersion <= 8) {
-            database.execSQL("alter table settings add hintAudio String");
-            database.execSQL("alter table settings add hintAudioLocation String");
+        if(oldVersion <= 8){
+            helper.dbVersionEightUpgrade(database);
         }
-      
         if (oldVersion <= 9) {
-            final String CREATE_HISTORY_TABLE = "create table " +
-                    "history (" +
-                    "id" + " integer primary key autoincrement, " +
-                    "dbPath string, " +
-                    "mark integer, " +
-                    "timeStamp integer" +
-                    ")";
-            database.execSQL(CREATE_HISTORY_TABLE);
+            helper.dbVersionNineUpgrade(database);
         }
     }
 

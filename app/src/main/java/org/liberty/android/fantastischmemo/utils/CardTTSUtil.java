@@ -171,6 +171,12 @@ public class CardTTSUtil {
         String defaultLocation = AMEnv.DEFAULT_AUDIO_PATH;
         String dbName = FilenameUtils.getName(dbPath);
 
+        initQuestionSettings(dbName, defaultLocation);
+        initAnswerSettings(dbName, defaultLocation);
+        initHintSettings(dbName, defaultLocation);
+    }
+
+    private void initQuestionSettings(String dbName, String defaultLocation) {
         if (setting.isQuestionAudioEnabled()) {
             String qa = setting.getQuestionAudio();
             List<String> questionAudioSearchPath = new ArrayList<String>();
@@ -183,7 +189,9 @@ public class CardTTSUtil {
         } else {
             questionTTS = new NullAnyMemoTTS();
         }
+    }
 
+    private void initAnswerSettings(String dbName, String defaultLocation) {
         if (setting.isAnswerAudioEnabled()) {
             String aa = setting.getAnswerAudio();
             List<String> answerAudioSearchPath = new ArrayList<String>();
@@ -196,7 +204,9 @@ public class CardTTSUtil {
         }  else {
             answerTTS = new NullAnyMemoTTS();
         }
+    }
 
+    private void initHintSettings(String dbName, String defaultLocation) {
         if (setting.isHintAudioEnabled()) {
             String ha = setting.getHintAudio();
             List<String> hintAudioSearchPath = new ArrayList<String>();

@@ -56,6 +56,9 @@ import org.liberty.android.fantastischmemo.common.BaseFragment;
 import org.liberty.android.fantastischmemo.dao.CardDao;
 import org.liberty.android.fantastischmemo.dao.MultipleChoiceCardDao;
 import org.liberty.android.fantastischmemo.ui.helper.SelectableAdapter;
+import org.liberty.android.fantastischmemo.ui.multipleChoice.CardMCEditor;
+import org.liberty.android.fantastischmemo.ui.multipleChoice.MCStudyActivity;
+import org.liberty.android.fantastischmemo.ui.multipleChoice.PreviewEditMCActivity;
 import org.liberty.android.fantastischmemo.utils.DatabaseUtil;
 import org.liberty.android.fantastischmemo.utils.RecentListActionModeUtil;
 import org.liberty.android.fantastischmemo.utils.RecentListUtil;
@@ -66,7 +69,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.inject.Inject;
 
-import static org.liberty.android.fantastischmemo.ui.MCStudyActivity.SHUFFLE_CARDS_MC;
+import static org.liberty.android.fantastischmemo.ui.multipleChoice.MCStudyActivity.SHUFFLE_CARDS_MC;
 
 public class RecentListFragment extends BaseFragment {
 
@@ -369,32 +372,7 @@ public class RecentListFragment extends BaseFragment {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String s = currentItem.dbPath;
-                    String[] split = s.split(".db");
-                    String nameWithoutDB = split[0];
-                    String shuffle = "false";
-
-                    if (getSelectedItemCount() == 0 && !nameWithoutDB.endsWith("_MC")) {
-                        Intent myIntent = new Intent();
-                        myIntent.setClass(context, StudyActivity.class);
-                        String dbPath = currentItem.dbPath;
-                        myIntent.putExtra(StudyActivity.EXTRA_DBPATH, dbPath);
-                        myIntent.putExtra(SHUFFLE_CARDS, shuffle);
-                        recentListUtil.addToRecentList(dbPath);
-                        context.startActivity(myIntent);
-
-                    } else if (getSelectedItemCount() == 0 && nameWithoutDB.endsWith("_MC")) {
-                        Intent myIntent = new Intent();
-                        myIntent.setClass(context, MCStudyActivity.class);
-                        String dbPath = currentItem.dbPath;
-                        myIntent.putExtra(MCStudyActivity.EXTRA_DBPATH_MC, dbPath);
-                        myIntent.putExtra(SHUFFLE_CARDS_MC, shuffle);
-                        recentListUtil.addToRecentList(dbPath);
-                        context.startActivity(myIntent);
-
-                    } else {
-                        toggleSelection(position);
-                    }
+                    setItemView(currentItem, position);
                     recentListActionModeUtil.updateActionMode(getSelectedItemCount());
                 }
             });
@@ -414,29 +392,7 @@ public class RecentListFragment extends BaseFragment {
             holder.shuffleButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String shuffle = "true";
-                    String s = currentItem.dbPath;
-                    String[] split = s.split(".db");
-                    String nameWithoutDB = split[0];
-                    if (getSelectedItemCount() == 0 && !nameWithoutDB.endsWith("_MC")) {
-                        Intent myIntent = new Intent();
-                        myIntent.setClass(context, StudyActivity.class);
-                        String dbPath = currentItem.dbPath;
-                        myIntent.putExtra(StudyActivity.EXTRA_DBPATH, dbPath);
-                        myIntent.putExtra(SHUFFLE_CARDS, shuffle);
-                        recentListUtil.addToRecentList(dbPath);
-                        context.startActivity(myIntent);
-                    } else if (getSelectedItemCount() == 0 && nameWithoutDB.endsWith("_MC"))  {
-                        Intent myIntent = new Intent();
-                        myIntent.setClass(context, MCStudyActivity.class);
-                        String dbPath = currentItem.dbPath;
-                        myIntent.putExtra(MCStudyActivity.EXTRA_DBPATH_MC, dbPath);
-                        myIntent.putExtra(SHUFFLE_CARDS_MC, shuffle);
-                        recentListUtil.addToRecentList(dbPath);
-                        context.startActivity(myIntent);
-                    } else {
-                        toggleSelection(position);
-                    }
+                    setShuffleButton(currentItem, position);
                     recentListActionModeUtil.updateActionMode(getSelectedItemCount());
                 }
             });
@@ -447,7 +403,6 @@ public class RecentListFragment extends BaseFragment {
                     if (getSelectedItemCount() == 0) {
                         recentListActionModeUtil.startActionMode();
                     }
-
                     toggleSelection(position);
                     recentListActionModeUtil.updateActionMode(getSelectedItemCount());
                     return true;
@@ -456,33 +411,93 @@ public class RecentListFragment extends BaseFragment {
             holder.moreButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String s = currentItem.dbPath;
-                    String[] split = s.split(".db");
-                    String nameWithoutDB = split[0];
-
-                    if(nameWithoutDB.endsWith("_MC")) {
-                        String dbPath = currentItem.dbPath;
-                        DialogFragment df = new OpenActionsMCFragment();
-                        Bundle b = new Bundle();
-                        b.putString(OpenActionsMCFragment.EXTRA_DBPATH_MC, dbPath);
-                        b.putString(CardMCEditor.EXTRA_DBPATH_MC, dbPath);
-                        b.putString(PreviewEditMCActivity.EXTRA_DBPATH_MC, dbPath);
-                        b.putString(MCStudyActivity.EXTRA_DBPATH_MC, dbPath);
-                        df.setArguments(b);
-                        df.show(((FragmentActivity) context).getSupportFragmentManager(), "OpenActionsMC");
-                    } else {
-                        String dbPath = currentItem.dbPath;
-                        DialogFragment df = new OpenActionsFragment();
-                        Bundle b = new Bundle();
-                        b.putString(OpenActionsFragment.EXTRA_DBPATH, dbPath);
-                        df.setArguments(b);
-                        df.show(((FragmentActivity) context).getSupportFragmentManager(), "OpenActions");
-                    }
+                    setMoreButton(currentItem);
                 }
             });
 
             holder.selectedOverlay.setVisibility(isSelected(position) ? View.VISIBLE : View.INVISIBLE);
         }
+
+        private void setItemView(RecentItem currentItem, int position) {
+            String s = currentItem.dbPath;
+            String[] split = s.split(".db");
+            String nameWithoutDB = split[0];
+            String shuffle = "false";
+
+            if (getSelectedItemCount() == 0 && !nameWithoutDB.endsWith("_MC")) {
+                Intent myIntent = new Intent();
+                myIntent.setClass(context, StudyActivity.class);
+                String dbPath = currentItem.dbPath;
+                myIntent.putExtra(StudyActivity.EXTRA_DBPATH, dbPath);
+                myIntent.putExtra(SHUFFLE_CARDS, shuffle);
+                recentListUtil.addToRecentList(dbPath);
+                context.startActivity(myIntent);
+
+            } else if (getSelectedItemCount() == 0 && nameWithoutDB.endsWith("_MC")) {
+                Intent myIntent = new Intent();
+                myIntent.setClass(context, MCStudyActivity.class);
+                String dbPath = currentItem.dbPath;
+                myIntent.putExtra(MCStudyActivity.EXTRA_DBPATH_MC, dbPath);
+                myIntent.putExtra(SHUFFLE_CARDS_MC, shuffle);
+                recentListUtil.addToRecentList(dbPath);
+                context.startActivity(myIntent);
+
+            } else {
+                toggleSelection(position);
+            }
+        }
+
+        private void setShuffleButton(RecentItem currentItem, int position) {
+            String shuffle = "true";
+            String s = currentItem.dbPath;
+            String[] split = s.split(".db");
+            String nameWithoutDB = split[0];
+            if (getSelectedItemCount() == 0 && !nameWithoutDB.endsWith("_MC")) {
+                Intent myIntent = new Intent();
+                myIntent.setClass(context, StudyActivity.class);
+                String dbPath = currentItem.dbPath;
+                myIntent.putExtra(StudyActivity.EXTRA_DBPATH, dbPath);
+                myIntent.putExtra(SHUFFLE_CARDS, shuffle);
+                recentListUtil.addToRecentList(dbPath);
+                context.startActivity(myIntent);
+            } else if (getSelectedItemCount() == 0 && nameWithoutDB.endsWith("_MC")) {
+                Intent myIntent = new Intent();
+                myIntent.setClass(context, MCStudyActivity.class);
+                String dbPath = currentItem.dbPath;
+                myIntent.putExtra(MCStudyActivity.EXTRA_DBPATH_MC, dbPath);
+                myIntent.putExtra(SHUFFLE_CARDS_MC, shuffle);
+                recentListUtil.addToRecentList(dbPath);
+                context.startActivity(myIntent);
+            } else {
+                toggleSelection(position);
+            }
+        }
+
+        private void setMoreButton(RecentItem currentItem) {
+            String s = currentItem.dbPath;
+            String[] split = s.split(".db");
+            String nameWithoutDB = split[0];
+
+            if (nameWithoutDB.endsWith("_MC")) {
+                String dbPath = currentItem.dbPath;
+                DialogFragment df = new OpenActionsMCFragment();
+                Bundle b = new Bundle();
+                b.putString(OpenActionsMCFragment.EXTRA_DBPATH_MC, dbPath);
+                b.putString(CardMCEditor.EXTRA_DBPATH_MC, dbPath);
+                b.putString(PreviewEditMCActivity.EXTRA_DBPATH_MC, dbPath);
+                b.putString(MCStudyActivity.EXTRA_DBPATH_MC, dbPath);
+                df.setArguments(b);
+                df.show(((FragmentActivity) context).getSupportFragmentManager(), "OpenActionsMC");
+            } else {
+                String dbPath = currentItem.dbPath;
+                DialogFragment df = new OpenActionsFragment();
+                Bundle b = new Bundle();
+                b.putString(OpenActionsFragment.EXTRA_DBPATH, dbPath);
+                df.setArguments(b);
+                df.show(((FragmentActivity) context).getSupportFragmentManager(), "OpenActions");
+            }
+        }
+
         @Override public int getItemCount() {
             return items.size();
         }

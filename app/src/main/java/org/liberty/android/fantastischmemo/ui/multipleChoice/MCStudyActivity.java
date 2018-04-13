@@ -1,4 +1,4 @@
-package org.liberty.android.fantastischmemo.ui;
+package org.liberty.android.fantastischmemo.ui.multipleChoice;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -76,32 +76,35 @@ public class MCStudyActivity extends AppCompatActivity {
         multipleChoiceCardDao = dbOpenHelper.getMultipleChoiceDao();
         multipleChoiceCardDao.setHelper(dbOpenHelper);
         multipleChoiceCardList = multipleChoiceCardDao.getAllMultipleChoiceCards();
-
         mcCardCountTotal = multipleChoiceCardList.size();
 
+        buttonConfirmNext.setOnClickListener(confirmListener);
+        isShuffle();
+        showNextMultipleChoiceCard();
+    }
+
+    private void isShuffle() {
         if (shuffle != null) {
             if (shuffle.equals("true")) {
                 Collections.shuffle(multipleChoiceCardList);
             }
         }
-
-        showNextMultipleChoiceCard();
-
-        buttonConfirmNext.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                if(!answered) {
-                    if(rbOption1.isChecked() || rbOption2.isChecked() || rbOption3.isChecked() || rbOption4.isChecked()) {
-                        checkAnswer();
-                    } else {
-                        Toast.makeText(MCStudyActivity.this, "Please select an answer.", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    showNextMultipleChoiceCard();
-                }
-            }
-        });
     }
+
+    private View.OnClickListener confirmListener = new View.OnClickListener(){
+        @Override
+        public void onClick(View v) {
+            if(!answered) {
+                if(rbOption1.isChecked() || rbOption2.isChecked() || rbOption3.isChecked() || rbOption4.isChecked()) {
+                    checkAnswer();
+                } else {
+                    Toast.makeText(MCStudyActivity.this, "Please select an answer.", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                showNextMultipleChoiceCard();
+            }
+        }
+    };
 
     private void showNextMultipleChoiceCard() {
         rbOption1.setTextColor(textColorDefaultRb);
@@ -115,9 +118,8 @@ public class MCStudyActivity extends AppCompatActivity {
         rbOption4.setEnabled(true);
         textViewMessage.setText("");
 
-        if(mcCardCounter < mcCardCountTotal) {
+        if (mcCardCounter < mcCardCountTotal) {
             currentMCCard = multipleChoiceCardList.get(mcCardCounter);
-
             textViewQuestion.setText(currentMCCard.getQuestion());
             rbOption1.setText(currentMCCard.getOption1());
             rbOption2.setText(currentMCCard.getOption2());
@@ -164,7 +166,7 @@ public class MCStudyActivity extends AppCompatActivity {
         showSolution();
     }
 
-    private void showSolution() {
+    private void setInitStudyFields() {
         rbOption1.setTextColor(Color.parseColor("#ffff4444"));
         rbOption2.setTextColor(Color.parseColor("#ffff4444"));
         rbOption3.setTextColor(Color.parseColor("#ffff4444"));
@@ -173,7 +175,10 @@ public class MCStudyActivity extends AppCompatActivity {
         rbOption2.setEnabled(false);
         rbOption3.setEnabled(false);
         rbOption4.setEnabled(false);
+    }
 
+    private void showSolution() {
+        setInitStudyFields();
         if(currentMCCard.getAnswer().equals(currentMCCard.getOption1())) {
             rbOption1.setTextColor(Color.parseColor("#ff00e676"));
             textViewMessage.setText("Answer 1 is correct");
