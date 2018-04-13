@@ -266,7 +266,7 @@
     <string name="center_text">Center</string>
     <string name="right_text">Right</string>
     <string name="recent_tab_text">Recent</string>
-    <string name="history_text">Quiz History</string>
+    <string name="history_text">Quiz history</string>
     <string name="open_tab_text">Open</string>
     <string name="download_tab_text">Download</string>
     <string name="favourite_tab_text">Favourites</string>
@@ -496,6 +496,7 @@
     <string name="title_activity_card_mc">Edit Card</string>
     <string name="title_activity_card_mc_list">Multiple Choice Cards</string>
     <string name="title_activity_mc_study_activity">Multiple Choice Study</string>
+    <string name="title_activity_quiz_history_activity">Quiz History</string>
     <string-array name="optionsMC">
 
     </string-array>

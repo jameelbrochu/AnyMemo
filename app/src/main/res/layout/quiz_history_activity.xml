@@ -9,38 +9,26 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         tools:context="org.liberty.android.fantastischmemo.ui.quiz.QuizHistoryActivity">
-
-        <TextView
-            android:id="@+id/quiz_history_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
-            android:paddingLeft="135dp"
-            android:paddingRight="30dp"
-            android:paddingTop="15dp"
-            android:text="Quiz History"
-            android:textSize="26sp" />
 
         <TextView
             android:id="@+id/quiz_history_average"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical|center"
             android:paddingBottom="10dp"
-            android:paddingLeft="140dp"
-            android:paddingRight="30dp"
             android:paddingTop="15dp"
+            android:textColor="#ff33b5e5"
             android:textSize="18sp" />
 
         <TextView
             android:id="@+id/quiz_history_attempt"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical|center"
             android:paddingBottom="15dp"
-            android:paddingLeft="95dp"
-            android:paddingRight="30dp"
             android:paddingTop="15dp"
             android:textSize="14sp" />
 

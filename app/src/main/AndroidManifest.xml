@@ -206,7 +206,14 @@
         <activity
             android:name=".ui.multipleChoice.CardMCEditor"
             android:label="@string/title_activity_card_mc" />
-        <activity android:name=".ui.quiz.QuizHistoryActivity"></activity>
+        <activity
+            android:name=".ui.quiz.QuizHistoryActivity"
+            android:label="@string/title_activity_quiz_history_activity"
+            android:parentActivityName=".ui.AnyMemo">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.AnyMemo" />
+        </activity>
     </application>
 
 </manifest>

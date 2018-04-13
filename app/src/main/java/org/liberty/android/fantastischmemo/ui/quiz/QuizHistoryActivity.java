@@ -33,7 +33,7 @@ public class QuizHistoryActivity extends AppCompatActivity {
         if (histories.size() > 0) {
             Double average = HistoryHelper.computeAverage(histories);
 
-            averageTextView.setText("Average: " + average + "\n\n");
+            averageTextView.setText("\nAverage: " + average + "%\n");
 
             int attempt = 1;
             for (History history : histories) {
