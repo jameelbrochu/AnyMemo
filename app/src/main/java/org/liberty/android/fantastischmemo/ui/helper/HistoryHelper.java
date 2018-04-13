@@ -39,10 +39,9 @@ public class HistoryHelper {
         historyDao.insertHistory(result);
 
         return result;
-
     }
 
-    public static Double computeAverage (ArrayList<History> histories){
+    public static Double computeAverage (ArrayList<History> histories) {
         double total = 0;
         for (History history : histories) {
             total += history.getMark();

@@ -21,7 +21,7 @@ public class SettingHelper {
 
     public SettingHelper(){}
 
-    public static List setColors(Setting setting){
+    public static List setColors(Setting setting) {
         List<Integer> colors = new ArrayList<Integer>(5);
         colors.add(setting.getQuestionTextColor());
         colors.add(setting.getHintTextColor());
@@ -34,7 +34,7 @@ public class SettingHelper {
         return colors;
     }
 
-    public static Setting setValues(Setting setting, List<Integer> colors){
+    public static Setting setValues(Setting setting, List<Integer> colors) {
         setting.setQuestionTextColor(colors.get(0));
         setting.setHintTextColor(colors.get(1));
         setting.setAnswerTextColor(colors.get(2));
@@ -46,7 +46,7 @@ public class SettingHelper {
         return setting;
     }
 
-    public static Bundle setQuestionBundle(Bundle b){
+    public static Bundle setQuestionBundle(Bundle b) {
         b.putString(FileBrowserFragment.EXTRA_FILE_EXTENSIONS, ".ttf");
         b.putString(FileBrowserFragment.EXTRA_DEFAULT_ROOT, AMEnv.DEFAULT_ROOT_PATH);
         b.putBoolean(FileBrowserFragment.EXTRA_DISMISS_ON_SELECT, true);
@@ -54,7 +54,7 @@ public class SettingHelper {
         return b;
     }
 
-    public static Bundle setAnswerBundle(Bundle b){
+    public static Bundle setAnswerBundle(Bundle b) {
         b.putString(FileBrowserFragment.EXTRA_FILE_EXTENSIONS, ".ttf");
         b.putString(FileBrowserFragment.EXTRA_DEFAULT_ROOT, AMEnv.DEFAULT_ROOT_PATH);
         b.putBoolean(FileBrowserFragment.EXTRA_DISMISS_ON_SELECT, true);
@@ -62,7 +62,7 @@ public class SettingHelper {
         return b;
     }
 
-    public static ProgressDialog setProgressDialog(ProgressDialog progressDialog, String title, String message){
+    public static ProgressDialog setProgressDialog(ProgressDialog progressDialog, String title, String message) {
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setTitle(title);
         progressDialog.setMessage(message);

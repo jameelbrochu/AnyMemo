@@ -105,7 +105,7 @@ public class testHistoryFunctions extends AbstractExistingDBTest {
 
     @SmallTest
     @Test
-    public void testAverage(){
+    public void testAverage() {
         List<History> hist = newDbHelper.getHistoryForDB("/test");
         ArrayList<History> histories = new ArrayList<>();
         for (History history: hist){
@@ -117,14 +117,11 @@ public class testHistoryFunctions extends AbstractExistingDBTest {
 
     @SmallTest
     @Test
-    public void testDate(){
+    public void testDate() {
         History history1 = new History("/test", 100, 15346);
         String expected = "12/31/69 8:00 PM";
         String est = HistoryHelper.estDate(history1.getTimeStamp());
         assertEquals(expected, est);
-
-
-
     }
 }
 

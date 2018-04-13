@@ -460,7 +460,7 @@ public class RecentListFragment extends BaseFragment {
                 myIntent.putExtra(SHUFFLE_CARDS, shuffle);
                 recentListUtil.addToRecentList(dbPath);
                 context.startActivity(myIntent);
-            } else if (getSelectedItemCount() == 0 && nameWithoutDB.endsWith("_MC"))  {
+            } else if (getSelectedItemCount() == 0 && nameWithoutDB.endsWith("_MC")) {
                 Intent myIntent = new Intent();
                 myIntent.setClass(context, MCStudyActivity.class);
                 String dbPath = currentItem.dbPath;
@@ -478,7 +478,7 @@ public class RecentListFragment extends BaseFragment {
             String[] split = s.split(".db");
             String nameWithoutDB = split[0];
 
-            if(nameWithoutDB.endsWith("_MC")) {
+            if (nameWithoutDB.endsWith("_MC")) {
                 String dbPath = currentItem.dbPath;
                 DialogFragment df = new OpenActionsMCFragment();
                 Bundle b = new Bundle();

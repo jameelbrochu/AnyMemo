@@ -485,8 +485,8 @@ public class QuizActivity extends QACardActivity {
 
     /* Called when all new cards are completed. */
     private void showCompleteNewDialog(int correct) {
-        if(mediaPlayer !=null){
-            if(mediaPlayer.isPlaying()){
+        if (mediaPlayer !=null) {
+            if (mediaPlayer.isPlaying()) {
                 mediaPlayer.stop();
             }
         }
